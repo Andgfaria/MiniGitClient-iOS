@@ -18,6 +18,8 @@ struct Repository  {
     
     var forksCount = 0
     
+    var owner : RepositoryOwner?
+    
     init() { }
     
     init(json : [String : Any]) {
@@ -25,13 +27,17 @@ struct Repository  {
         self.info = json["description"] as? String ?? ""
         self.starsCount = json["stargazers_count"] as? Int ?? 0
         self.forksCount = json["forks_count"] as? Int ?? 0
+        if let owner = json["owner"] as? [String : Any] {
+            self.owner = RepositoryOwner(json: owner)
+        }
     }
     
     fileprivate var textRepresentation : String {
         return "Name: \(name)\n" +
                "Description: \(info)\n" +
                "Stars Count: \(starsCount)\n"  +
-               "Forks Count: \(forksCount)\n"
+               "Forks Count: \(forksCount)\n"  +
+               "Owner : \(String(describing: owner))"
     }
     
 }
@@ -42,7 +48,8 @@ extension Repository : Equatable {
         return lhs.name == rhs.name &&
                lhs.info == rhs.info &&
                lhs.starsCount == rhs.starsCount &&
-               lhs.forksCount == rhs.forksCount
+               lhs.forksCount == rhs.forksCount &&
+               lhs.owner == rhs.owner
     }
     
 }

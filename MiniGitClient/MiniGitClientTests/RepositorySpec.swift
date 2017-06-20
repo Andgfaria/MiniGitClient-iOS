@@ -48,11 +48,25 @@ class RepositorySpec: QuickSpec {
                     expect(repo?.forksCount) == 13
                 }
                 
+                it("a owner property") {
+                    repo = Repository()
+                    let owner = RepositoryOwner()
+                    repo?.owner = owner
+                    expect(repo?.owner) == owner
+                }
+                
             })
             
             context("can", closure: {
                 
-                let validJson : [String : Any] = ["name" : "Name", "description" : "Description", "stargazers_count" : 13, "forks_count" : 13]
+                let validJson : [String : Any] = ["name" : "Name",
+                                                  "description" : "Description",
+                                                  "stargazers_count" : 13,
+                                                  "forks_count" : 13,
+                                                  "owner" : [
+                                                    "name" : "André",
+                                                    "avatar_url" : nil
+                                                  ]]
                 
                 let emptyJson = [String : Any]()
                 
@@ -62,6 +76,7 @@ class RepositorySpec: QuickSpec {
                     expect(repo?.info) == validJson["description"] as? String
                     expect(repo?.starsCount) == validJson["stargazers_count"] as? Int
                     expect(repo?.forksCount) == validJson["forks_count"] as? Int
+                    expect(repo?.owner).toNot(beNil())
                 }
                 
                 it("be created from an invalid JSON dictionary and hold the default values") {
