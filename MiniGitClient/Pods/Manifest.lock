@@ -1,0 +1,21 @@
+PODS:
+  - Kingfisher (3.10.2)
+  - Nimble (7.0.1)
+  - Quick (1.1.0)
+  - RxSwift (3.5.0)
+
+DEPENDENCIES:
+  - Kingfisher (~> 3.10)
+  - Nimble (~> 7.0)
+  - Quick (~> 1.1)
+  - RxSwift (~> 3.5)
+
+SPEC CHECKSUMS:
+  Kingfisher: 7297492bf8cec9b2e2dee3519f2219948580d98e
+  Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
+  Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
+  RxSwift: 18ee9d78b45edb3b0b7e79916b47a116e6dbc842
+
+PODFILE CHECKSUM: 92553ca93cf1f51983056ae45efdce020d67f2b6
+
+COCOAPODS: 1.2.1
