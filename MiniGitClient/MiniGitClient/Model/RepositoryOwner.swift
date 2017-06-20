@@ -29,6 +29,14 @@ struct RepositoryOwner {
     
 }
 
+extension RepositoryOwner : Equatable {
+    
+    static func == (lhs: RepositoryOwner, rhs: RepositoryOwner) -> Bool {
+        return lhs.name == rhs.name && lhs.avatarURL == rhs.avatarURL
+    }
+    
+}
+
 extension RepositoryOwner : CustomStringConvertible {
     
     var description : String {

@@ -74,7 +74,13 @@ class RepositorySpec: QuickSpec {
                 
             })
             
-            context("is", { 
+            context("is", {
+                
+                it("equatable") {
+                   repo =  Repository()
+                   let secondRepo = Repository()
+                   expect(repo) == secondRepo
+                }
                 
                 it("printable") {
                     repo = Repository()

@@ -36,6 +36,17 @@ struct Repository  {
     
 }
 
+extension Repository : Equatable {
+    
+    static func == (lhs : Repository, rhs : Repository) -> Bool {
+        return lhs.name == rhs.name &&
+               lhs.info == rhs.info &&
+               lhs.starsCount == rhs.starsCount &&
+               lhs.forksCount == rhs.forksCount
+    }
+    
+}
+
 extension Repository : CustomStringConvertible {
 
     var description : String {

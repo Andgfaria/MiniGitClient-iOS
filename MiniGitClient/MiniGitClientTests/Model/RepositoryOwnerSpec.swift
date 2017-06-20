@@ -61,7 +61,13 @@ class RepositoryOwnerSpec: QuickSpec {
                 
             })
             
-            context("is", { 
+            context("is", {
+                
+                it("equatable") {
+                    repoOwner = RepositoryOwner()
+                    let secondRepoOwner = RepositoryOwner()
+                    expect(repoOwner) == secondRepoOwner
+                }
                 
                 it("printable") {
                     repoOwner = RepositoryOwner()
