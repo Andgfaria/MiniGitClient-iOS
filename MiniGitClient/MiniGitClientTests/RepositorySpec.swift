@@ -66,11 +66,10 @@ class RepositorySpec: QuickSpec {
                 
                 it("be created from an invalid JSON dictionary and hold the default values") {
                     repo = Repository(json: emptyJson)
-                    let secondRepo =  Repository()
-                    expect(repo?.name) == secondRepo.name
-                    expect(repo?.info) == secondRepo.info
-                    expect(repo?.starsCount) == secondRepo.starsCount
-                    expect(repo?.forksCount) == secondRepo.forksCount
+                    expect(repo?.name).to(beEmpty())
+                    expect(repo?.info).to(beEmpty())
+                    expect(repo?.starsCount) == 0
+                    expect(repo?.forksCount) == 0
                 }
                 
             })
