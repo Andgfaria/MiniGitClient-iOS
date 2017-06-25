@@ -25,10 +25,10 @@ struct MainRepositoriesStore : RepositoriesStore {
     
     func swiftRepositories(forPage page: Int) -> Observable<[Repository]> {
         if let searchEndpoint = config.urlString(with: .search) {
-            let parameters : [String : Any] = ["q" : "language:Swift", "sort" : "stars", "page" : page]
+            let parameters : DataDict = ["q" : "language:Swift", "sort" : "stars", "page" : page]
             return json(.get, searchEndpoint, parameters: parameters, encoding: URLEncoding.queryString)
                    .map { json in
-                        if let jsonData = json as? [String : Any], let repositoriesList = jsonData["items"] as? [[String : Any]] {
+                        if let jsonData = json as? DataDict, let repositoriesList = jsonData["items"] as? [DataDict] {
                             return repositoriesList.flatMap { Repository.init(json: $0) }
                         }
                         else {

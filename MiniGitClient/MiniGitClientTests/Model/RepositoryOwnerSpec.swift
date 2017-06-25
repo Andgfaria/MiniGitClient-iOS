@@ -42,9 +42,9 @@ class RepositoryOwnerSpec: QuickSpec {
             
             context("can", { 
                 
-                let validJson : [String : Any] = ["login" : "André", "avatar_url" : "https://avatars0.githubusercontent.com/u/7774181?v=3"]
+                let validJson : DataDict = ["login" : "André", "avatar_url" : "https://avatars0.githubusercontent.com/u/7774181?v=3"]
                 
-                let emptyJson = [String : Any]()
+                let emptyJson = DataDict()
                 
                 it("be created from a valid JSON dictionary") {
                     repoOwner = RepositoryOwner(json: validJson)

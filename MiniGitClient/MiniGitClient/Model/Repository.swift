@@ -22,12 +22,12 @@ struct Repository  {
     
     init() { }
     
-    init(json : [String : Any]) {
+    init(json : DataDict) {
         self.name = json["name"] as? String ?? ""
         self.info = json["description"] as? String ?? ""
         self.starsCount = json["stargazers_count"] as? Int ?? 0
         self.forksCount = json["forks_count"] as? Int ?? 0
-        if let owner = json["owner"] as? [String : Any] {
+        if let owner = json["owner"] as? DataDict {
             self.owner = RepositoryOwner(json: owner)
         }
     }

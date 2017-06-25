@@ -16,7 +16,7 @@ struct RepositoryOwner {
     
     init() { }
     
-    init(json : [String : Any]) {
+    init(json : DataDict) {
         self.name = json["login"] as? String ?? ""
         if let urlString = json["avatar_url"] as? String {
             self.avatarURL = URL(string: urlString)

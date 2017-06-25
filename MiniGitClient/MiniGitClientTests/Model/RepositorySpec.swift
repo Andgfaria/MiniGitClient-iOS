@@ -59,7 +59,7 @@ class RepositorySpec: QuickSpec {
             
             context("can", closure: {
                 
-                let validJson : [String : Any] = ["name" : "Name",
+                let validJson : DataDict = ["name" : "Name",
                                                   "description" : "Description",
                                                   "stargazers_count" : 13,
                                                   "forks_count" : 13,
@@ -68,7 +68,7 @@ class RepositorySpec: QuickSpec {
                                                     "avatar_url" : nil
                                                   ]]
                 
-                let emptyJson = [String : Any]()
+                let emptyJson = DataDict()
                 
                 it("be created from a JSON dictionary") {
                     repo = Repository(json: validJson)
