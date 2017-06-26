@@ -79,9 +79,9 @@ class EmptyView: UIView, ViewCodable {
     }
     
     func setupStyles() {
-        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
         
-        messageLabel.font = UIFont.systemFont(ofSize: 18)
+        messageLabel.font = UIFont.systemFont(ofSize: 24)
         messageLabel.textAlignment = .center
         messageLabel.textColor = .lightGray
         
@@ -97,7 +97,14 @@ class EmptyView: UIView, ViewCodable {
                             self?.actionBlock?()
                        })
                        .addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 != .loading }.bind(to: activityIndicator.rx.isHidden).addDisposableTo(disposeBag)
+        
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .subscribe(onNext: { [weak self] in
+                        $0 ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+                    })
+                    .addDisposableTo(disposeBag)
+        
         currentState.asObservable().map { $0 == .loading }.bind(to: messageLabel.rx.isHidden).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
     }
