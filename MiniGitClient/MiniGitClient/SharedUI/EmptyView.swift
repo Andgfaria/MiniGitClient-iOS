@@ -7,14 +7,38 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+
+enum EmptyViewState {
+    case loading, showingError
+}
 
 class EmptyView: UIView, ViewCodable {
+    
+    var currentState = Variable(EmptyViewState.loading)
+    
+    var message = "" {
+        didSet {
+            messageLabel.text = message
+        }
+    }
+    
+    var actionTitle = "" {
+        didSet {
+            actionButton.setTitle(actionTitle, for: .normal)
+        }
+    }
 
+    var actionBlock : ((Void) -> (Void))?
+    
     private var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     private var messageLabel = UILabel(frame: CGRect.zero)
     
     private var actionButton = UIButton(frame: CGRect.zero)
+    
+    private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,6 +59,7 @@ class EmptyView: UIView, ViewCodable {
         addViewsToHierarchy([activityIndicator,messageLabel,actionButton])
         setupConstraints()
         setupStyles()
+        bindComponents()
     }
     
     func setupConstraints() {
@@ -63,6 +88,18 @@ class EmptyView: UIView, ViewCodable {
         actionButton.backgroundColor = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
         actionButton.layer.cornerRadius = 10.0
         actionButton.setTitleColor(.white, for: .normal)
+    }
+    
+    func bindComponents() {
+        actionButton.rx.tap
+                       .subscribe(onNext: { [weak self] in
+                            self?.currentState.value = .loading
+                            self?.actionBlock?()
+                       })
+                       .addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 != .loading }.bind(to: activityIndicator.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .loading }.bind(to: messageLabel.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
     }
     
 }

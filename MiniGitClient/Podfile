@@ -8,6 +8,7 @@ target 'MiniGitClient' do
   pod 'Kingfisher'
   pod 'RxAlamofire'
   pod 'RxSwift'
+  pod 'RxCocoa'
   # Pods for MiniGitClient
 
   target 'MiniGitClientTests' do
