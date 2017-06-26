@@ -17,7 +17,7 @@ protocol ViewCodable {
 }
 
 extension ViewCodable {
-    func setupContrainsts() { }
+    func setupConstraints() { }
     func setupStyles()      { }
     func bindComponents()   { }
 }
