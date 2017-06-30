@@ -22,7 +22,7 @@ protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
 
 class RepositoryListViewController: UIViewController {
     
-    weak var presenter : RepositoryListPresenterProtocol?
+    weak var presenter : RepositoryListPresenterProtocol? = RepositoryListPresenter()
 
     var currentState = Variable(RepositoryListState.loading)
     
@@ -80,6 +80,9 @@ extension RepositoryListViewController : ViewCodable {
         currentState.asObservable().subscribe(onNext: { [weak self] in
             if $0 == .loading {
                 self?.presenter?.loadRepositories()
+            }
+            else if $0 == .showingRepositories {
+                self?.tableView.reloadData()
             }
         }).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 == .notShowingRepositories ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
