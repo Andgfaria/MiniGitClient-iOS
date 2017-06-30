@@ -7,16 +7,36 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+
+enum RepositoryListState {
+    case loading, showingRepositories, notShowingRepositories
+}
+
+protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
+    weak var viewController : RepositoryListViewController? { get set }
+    func loadRepositories()
+    func registerTableView(_ tableView : UITableView)
+}
 
 class RepositoryListViewController: UIViewController {
+    
+    weak var presenter : RepositoryListPresenterProtocol?
+
+    var currentState = Variable(RepositoryListState.loading)
     
     fileprivate var emptyView = EmptyView()
     
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .plain)
     
+    fileprivate var disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        presenter?.registerTableView(tableView)
+        presenter?.loadRepositories()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +52,7 @@ extension RepositoryListViewController : ViewCodable {
         addViewsToHierarchy([emptyView,tableView])
         setupConstraints()
         setupStyles()
+        bindComponents()
     }
     
 
@@ -50,29 +71,21 @@ extension RepositoryListViewController : ViewCodable {
     func setupStyles() {
         self.view.backgroundColor = .white
         emptyView.isHidden = true
-        
-        tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: "test")
-        tableView.dataSource = self
         tableView.estimatedRowHeight = 108
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
     }
     
+    func bindComponents() {
+        currentState.asObservable().subscribe(onNext: { [weak self] in
+            if $0 == .loading {
+                self?.presenter?.loadRepositories()
+            }
+        }).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .notShowingRepositories ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .showingRepositories }.bind(to: emptyView.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 != .showingRepositories }.bind(to: tableView.rx.isHidden).addDisposableTo(disposeBag)
+    }
+    
 }
 
-extension RepositoryListViewController : UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "test", for: indexPath)
-        return cell
-    }
-    
-}
