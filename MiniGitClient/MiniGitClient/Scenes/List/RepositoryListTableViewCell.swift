@@ -26,6 +26,12 @@ class RepositoryListTableViewCell: UITableViewCell {
     
     var repositoryOwnerLabel = UILabel(frame: CGRect.zero)
     
+    init() {
+        super.init(style: .default, reuseIdentifier: nil)
+        setup()
+    }
+    
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
