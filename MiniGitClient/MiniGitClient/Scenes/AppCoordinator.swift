@@ -14,7 +14,7 @@ class AppCoordinator : Coordinator, UISplitViewControllerDelegate {
     private var splitViewController = UISplitViewController()
     
     func start() {
-        let master = UIViewController()
+        let master = RepositoryListViewController()
         let detail = UIViewController()
         let masterNavigationController = UINavigationController(rootViewController: master)
         let detailNavigationController = UINavigationController(rootViewController: detail)
