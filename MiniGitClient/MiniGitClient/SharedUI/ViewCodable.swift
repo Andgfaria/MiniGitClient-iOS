@@ -43,3 +43,14 @@ extension ViewCodable where Self : UIViewController {
     }
     
 }
+
+extension ViewCodable where Self : UITableViewCell {
+    
+    func addViewsToHierarchy(_ views : [UIView]) {
+        views.forEach {
+            self.contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
+}

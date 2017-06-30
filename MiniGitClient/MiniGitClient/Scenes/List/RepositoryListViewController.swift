@@ -12,6 +12,8 @@ class RepositoryListViewController: UIViewController {
     
     fileprivate var emptyView = EmptyView()
     
+    fileprivate var tableView = UITableView(frame: CGRect.zero, style: .plain)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -27,7 +29,7 @@ class RepositoryListViewController: UIViewController {
 extension RepositoryListViewController : ViewCodable {
     
     fileprivate func setup() {
-        addViewsToHierarchy([emptyView])
+        addViewsToHierarchy([emptyView,tableView])
         setupConstraints()
         setupStyles()
     }
@@ -38,10 +40,39 @@ extension RepositoryListViewController : ViewCodable {
         emptyView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         emptyView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         emptyView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
     func setupStyles() {
         self.view.backgroundColor = .white
+        emptyView.isHidden = true
+        
+        tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: "test")
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 108
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
+    }
+    
+}
+
+extension RepositoryListViewController : UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "test", for: indexPath)
+        return cell
     }
     
 }
