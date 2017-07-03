@@ -7,5 +7,5 @@
 */
 
 "title" = "Repositórios";
-"errorMesage" = "Os repositórios não puderam ser baixados.";
+"errorMesage" = "Os repositórios não puderam\nser baixados";
 "actionTitle" = "Tentar Novamente";

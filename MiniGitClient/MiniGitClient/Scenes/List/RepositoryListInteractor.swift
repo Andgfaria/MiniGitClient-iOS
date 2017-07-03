@@ -12,6 +12,7 @@ import RxSwift
 protocol RepositoryListInteractorProtocol : class {
     var repositoriesStore : RepositoriesStore { get set }
     var repositories : Variable<[Repository]> { get set }
+    var validationState : Variable<Error?> { get set }
     func loadRepositories()
 }
 
@@ -20,6 +21,8 @@ class RepositoryListInteractor : RepositoryListInteractorProtocol {
     var repositoriesStore: RepositoriesStore = MainRepositoriesStore.shared
     
     var repositories: Variable<[Repository]> = Variable([])
+    
+    var validationState : Variable<Error?> = Variable(nil)
     
     private var currentPage = 1
     
@@ -31,8 +34,12 @@ class RepositoryListInteractor : RepositoryListInteractorProtocol {
                             let newRepositories = $0
                             if newRepositories.count > 0 {
                                 self?.currentPage += 1
+                                self?.validationState.value = nil
                                 self?.repositories.value += newRepositories
                             }
+                         },
+                        onError : { [weak self] in
+                                self?.validationState.value = $0
                          })
                          .addDisposableTo(disposeBag)
     }

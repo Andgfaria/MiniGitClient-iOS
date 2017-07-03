@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 enum RepositoryListState {
-    case loading, showingRepositories, notShowingRepositories
+    case loadingFirst, showingRepositories, loadingMore, showingError
 }
 
 protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
@@ -24,7 +24,7 @@ class RepositoryListViewController: UIViewController {
     
     weak var presenter : RepositoryListPresenterProtocol?
 
-    var currentState = Variable(RepositoryListState.loading)
+    var currentState = Variable(RepositoryListState.loadingFirst)
     
     fileprivate var emptyView = EmptyView()
     
@@ -86,14 +86,14 @@ extension RepositoryListViewController : ViewCodable {
             self?.presenter?.loadRepositories()
         }
         currentState.asObservable().subscribe(onNext: { [weak self] in
-            if $0 == .loading {
+            if $0 == .loadingFirst || $0 == .loadingMore {
                 self?.presenter?.loadRepositories()
             }
             else if $0 == .showingRepositories {
                 self?.tableView.reloadData()
             }
         }).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .notShowingRepositories ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 == .showingRepositories }.bind(to: emptyView.rx.isHidden).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 != .showingRepositories }.bind(to: tableView.rx.isHidden).addDisposableTo(disposeBag)
     }

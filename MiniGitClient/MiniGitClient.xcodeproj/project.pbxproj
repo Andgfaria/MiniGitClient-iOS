@@ -406,7 +406,6 @@
 				TargetAttributes = {
 					651FC9FA1EF987A000E1F8FF = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = YDNLNKB75L;
 						ProvisioningStyle = Automatic;
 					};
 					651FCA101EF987A000E1F8FF = {
@@ -811,7 +810,7 @@
 			baseConfigurationReference = DD2CA5AB15CB92927EF9F8A1 /* Pods-MiniGitClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YDNLNKB75L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MiniGitClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AGF.MiniGitClient;
@@ -825,7 +824,7 @@
 			baseConfigurationReference = 86C76F165B82345E75BCED01 /* Pods-MiniGitClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YDNLNKB75L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MiniGitClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AGF.MiniGitClient;

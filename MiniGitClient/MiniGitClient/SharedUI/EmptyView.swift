@@ -71,8 +71,8 @@ extension EmptyView : ViewCodable {
         activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
-        messageLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: -36)
-        messageLabel.heightAnchor.constraint(equalToConstant: 36)
+        messageLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75).isActive = true
+        messageLabel.heightAnchor.constraint(equalToConstant: 48).isActive = true
         messageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
@@ -80,15 +80,16 @@ extension EmptyView : ViewCodable {
         actionButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         actionButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -44).isActive = true
-        actionButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 12).isActive = true
     }
     
     func setupStyles() {
         activityIndicator.hidesWhenStopped = true
         
-        messageLabel.font = UIFont.systemFont(ofSize: 24)
+        messageLabel.font = UIFont.systemFont(ofSize: 20)
+        messageLabel.minimumScaleFactor = CGFloat(0.5)
         messageLabel.textAlignment = .center
         messageLabel.textColor = .lightGray
+        messageLabel.numberOfLines = 2
         
         actionButton.backgroundColor = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
         actionButton.layer.cornerRadius = 10.0

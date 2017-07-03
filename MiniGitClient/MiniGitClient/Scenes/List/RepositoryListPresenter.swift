@@ -12,11 +12,15 @@ import RxSwift
 
 class RepositoryListPresenter : NSObject {
     
-    weak var viewController : RepositoryListViewController?
+    weak var viewController : RepositoryListViewController? {
+        didSet {
+            bind()
+        }
+    }
 
     var interactor : RepositoryListInteractorProtocol? {
         didSet {
-            bindInteractor()
+            bind()
         }
     }
     
@@ -27,19 +31,15 @@ class RepositoryListPresenter : NSObject {
 
 extension RepositoryListPresenter {
     
-    fileprivate func bindInteractor() {
-        interactor?.repositories.asObservable().skip(1)
-            .subscribe(onNext: { [weak self]  in
-                if $0.count > 0 {
-                    self?.viewController?.currentState.value = .showingRepositories
+    fileprivate func bind() {
+        if let interactor = interactor, let viewController = viewController {
+            Observable.combineLatest(interactor.validationState.asObservable(), interactor.repositories.asObservable(), resultSelector: { (error, repositories) -> RepositoryListState in
+                if let _ = error {
+                    return .showingError
                 }
-                else {
-                    self?.viewController?.currentState.value = .notShowingRepositories
-                }
-            },
-            onError : { [weak self] _ in
-                self?.viewController?.currentState.value = .notShowingRepositories
-        }).addDisposableTo(disposeBag)
+                return repositories.count > 0 ? .showingRepositories : .showingError
+            }).asObservable().skip(1).bind(to: viewController.currentState).addDisposableTo(disposeBag)
+        }
     }
     
 }
