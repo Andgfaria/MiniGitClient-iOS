@@ -92,7 +92,6 @@ extension RepositoryListTableViewCell : ViewCodable {
         repositoryOwnerLabel.widthAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
         repositoryOwnerLabel.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor).isActive = true
         repositoryOwnerLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
-        repositoryOwnerLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -6).isActive = true
     }
     
     func setupStyles() {

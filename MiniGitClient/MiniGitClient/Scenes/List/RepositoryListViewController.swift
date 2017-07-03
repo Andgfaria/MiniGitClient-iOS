@@ -22,7 +22,7 @@ protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
 
 class RepositoryListViewController: UIViewController {
     
-    weak var presenter : RepositoryListPresenterProtocol? = RepositoryListPresenter()
+    weak var presenter : RepositoryListPresenterProtocol?
 
     var currentState = Variable(RepositoryListState.loading)
     

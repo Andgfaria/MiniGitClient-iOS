@@ -13,8 +13,13 @@ class AppCoordinator : Coordinator, UISplitViewControllerDelegate {
     
     private var splitViewController = UISplitViewController()
     
+    private var master = RepositoryListViewController()
+    
+    private var masterPresenter = RepositoryListPresenter()
+    
     func start() {
-        let master = RepositoryListViewController()
+        masterPresenter.viewController = master
+        master.presenter = masterPresenter
         let detail = UIViewController()
         let masterNavigationController = UINavigationController(rootViewController: master)
         let detailNavigationController = UINavigationController(rootViewController: detail)
