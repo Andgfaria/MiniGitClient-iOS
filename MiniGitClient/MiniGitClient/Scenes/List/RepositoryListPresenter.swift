@@ -14,13 +14,13 @@ class RepositoryListPresenter : NSObject {
     
     weak var viewController : RepositoryListViewController?
 
-    var interactor : RepositoryListInteractorProtocol = RepositoryListInteractor()
+    var interactor : RepositoryListInteractorProtocol?
     
     fileprivate var disposeBag = DisposeBag()
     
     override init() {
         super.init()
-        interactor.repositories.asObservable().skip(1).subscribe(onNext: { [weak self]  in
+        interactor?.repositories.asObservable().skip(1).subscribe(onNext: { [weak self]  in
             if $0.count > 0 {
                 self?.viewController?.currentState.value = .showingRepositories
             }
@@ -39,7 +39,7 @@ class RepositoryListPresenter : NSObject {
 extension RepositoryListPresenter : RepositoryListPresenterProtocol {
     
     func loadRepositories() {
-        interactor.loadRepositories()
+        interactor?.loadRepositories()
     }
     
     func registerTableView(_ tableView: UITableView) {
@@ -53,13 +53,13 @@ extension RepositoryListPresenter : RepositoryListPresenterProtocol {
 extension RepositoryListPresenter : UITableViewDataSource  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return interactor.repositories.value.count
+        return interactor?.repositories.value.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let repositoryCell = cell as? RepositoryListTableViewCell {
-            RepositoryListCellViewModel.configure(repositoryCell, with: interactor.repositories.value[indexPath.row])
+        if let repositoryCell = cell as? RepositoryListTableViewCell, let repository = interactor?.repositories.value[indexPath.row] {
+            RepositoryListCellViewModel.configure(repositoryCell, with: repository)
         }
         return cell
     }
