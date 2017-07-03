@@ -1,0 +1,11 @@
+/* 
+  List.strings
+  MiniGitClient
+
+  Created by André Gimenez Faria on 03/07/17.
+  Copyright © 2017 AGF. All rights reserved.
+*/
+
+"title" = "Repositórios";
+"errorMesage" = "Os repositórios não puderam ser baixados.";
+"actionTitle" = "Tentar Novamente";

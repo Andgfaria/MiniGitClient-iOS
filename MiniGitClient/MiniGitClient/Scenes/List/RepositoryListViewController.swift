@@ -34,6 +34,8 @@ class RepositoryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = R.string.list.title()
+        navigationItem.title = title
         setup()
         presenter?.registerTableView(tableView)
         presenter?.loadRepositories()
@@ -70,13 +72,19 @@ extension RepositoryListViewController : ViewCodable {
     
     func setupStyles() {
         self.view.backgroundColor = .white
-        emptyView.isHidden = true
+
+        emptyView.message = R.string.list.errorMesage()
+        emptyView.actionTitle = R.string.list.actionTitle()
+        
         tableView.estimatedRowHeight = 108
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
     }
     
     func bindComponents() {
+        emptyView.actionBlock = { [weak self] in
+            self?.presenter?.loadRepositories()
+        }
         currentState.asObservable().subscribe(onNext: { [weak self] in
             if $0 == .loading {
                 self?.presenter?.loadRepositories()

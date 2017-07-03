@@ -16,6 +16,7 @@
 		651FCA0B1EF987A000E1F8FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 651FCA091EF987A000E1F8FF /* LaunchScreen.storyboard */; };
 		651FCA211EF987A000E1F8FF /* MiniGitClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */; };
 		656417751F0A97D9009277CB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656417741F0A97D9009277CB /* R.generated.swift */; };
+		656417801F0AAFFC009277CB /* List.strings in Resources */ = {isa = PBXBuildFile; fileRef = 656417821F0AAFFC009277CB /* List.strings */; };
 		6570A90E1EF99AC500B4ED7B /* RepositoryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A90D1EF99AC500B4ED7B /* RepositoryOwner.swift */; };
 		6570A9111EF99B6100B4ED7B /* RepositoryOwnerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A9101EF99B6100B4ED7B /* RepositoryOwnerSpec.swift */; };
 		6570A9131EF9B4D200B4ED7B /* RepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A9121EF9B4D200B4ED7B /* RepositorySpec.swift */; };
@@ -78,6 +79,10 @@
 		651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGitClientUITests.swift; sourceTree = "<group>"; };
 		651FCA221EF987A000E1F8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		656417741F0A97D9009277CB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		656417761F0AAF7E009277CB /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		656417811F0AAFFC009277CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/List.strings; sourceTree = "<group>"; };
+		656417831F0AAFFD009277CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/List.strings; sourceTree = "<group>"; };
+		656417841F0AAFFE009277CB /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/List.strings"; sourceTree = "<group>"; };
 		6570A90D1EF99AC500B4ED7B /* RepositoryOwner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryOwner.swift; sourceTree = "<group>"; };
 		6570A9101EF99B6100B4ED7B /* RepositoryOwnerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryOwnerSpec.swift; sourceTree = "<group>"; };
 		6570A9121EF9B4D200B4ED7B /* RepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositorySpec.swift; sourceTree = "<group>"; };
@@ -195,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				6570A9141EF9B52200B4ED7B /* API */,
+				656417771F0AAF89009277CB /* Localization */,
 				65DBFA4A1EF98D7E0021DA3C /* Model */,
 				65801B581EFF3EA2001DEB7F /* Scenes */,
 				6512F1F61F00A32C00707391 /* SharedUI */,
@@ -225,6 +231,14 @@
 				651FCA221EF987A000E1F8FF /* Info.plist */,
 			);
 			path = MiniGitClientUITests;
+			sourceTree = "<group>";
+		};
+		656417771F0AAF89009277CB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				656417821F0AAFFC009277CB /* List.strings */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		6570A90F1EF99B3600B4ED7B /* Model */ = {
@@ -414,6 +428,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 651FC9F21EF987A000E1F8FF;
 			productRefGroup = 651FC9FC1EF987A000E1F8FF /* Products */;
@@ -432,6 +447,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				656417801F0AAFFC009277CB /* List.strings in Resources */,
 				651FCA0B1EF987A000E1F8FF /* LaunchScreen.storyboard in Resources */,
 				651FCA081EF987A000E1F8FF /* Assets.xcassets in Resources */,
 				6570A9161EF9B5B800B4ED7B /* APIEndpoints.plist in Resources */,
@@ -675,8 +691,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				651FCA0A1EF987A000E1F8FF /* Base */,
+				656417761F0AAF7E009277CB /* pt-BR */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		656417821F0AAFFC009277CB /* List.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				656417811F0AAFFC009277CB /* Base */,
+				656417831F0AAFFD009277CB /* en */,
+				656417841F0AAFFE009277CB /* pt-BR */,
+			);
+			name = List.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -686,6 +713,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -737,6 +765,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
