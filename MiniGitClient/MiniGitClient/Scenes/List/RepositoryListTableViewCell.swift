@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Rswift
 
 class RepositoryListTableViewCell: UITableViewCell {
     
@@ -78,7 +79,7 @@ extension RepositoryListTableViewCell : ViewCodable {
         forkImageView.widthAnchor.constraint(equalTo: starImageView.widthAnchor).isActive = true
         forkImageView.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor).isActive = true
         
-        forksCountLabel.leadingAnchor.constraint(equalTo: forkImageView.trailingAnchor, constant: 3).isActive = true
+        forksCountLabel.leadingAnchor.constraint(equalTo: forkImageView.trailingAnchor, constant: 0).isActive = true
         forksCountLabel.widthAnchor.constraint(equalTo: starsCountLabel.widthAnchor).isActive = true
         forksCountLabel.heightAnchor.constraint(equalTo: forkImageView.heightAnchor).isActive = true
         forksCountLabel.centerYAnchor.constraint(equalTo: forkImageView.centerYAnchor).isActive = true
@@ -102,9 +103,15 @@ extension RepositoryListTableViewCell : ViewCodable {
         
         infoLabel.font = UIFont.systemFont(ofSize: 17)
         infoLabel.numberOfLines = 0
-                
+        
+        starImageView.image = R.image.star()
+        starImageView.tintColor = .lightGray
+        
         starsCountLabel.font = UIFont.systemFont(ofSize: 15)
         starsCountLabel.textColor = .lightGray
+        
+        forkImageView.image = R.image.fork()
+        forkImageView.tintColor = .lightGray
         
         forksCountLabel.font = starsCountLabel.font
         forksCountLabel.textColor = starsCountLabel.textColor

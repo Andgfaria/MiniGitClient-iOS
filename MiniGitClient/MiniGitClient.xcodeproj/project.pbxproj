@@ -15,6 +15,7 @@
 		651FCA081EF987A000E1F8FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651FCA071EF987A000E1F8FF /* Assets.xcassets */; };
 		651FCA0B1EF987A000E1F8FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 651FCA091EF987A000E1F8FF /* LaunchScreen.storyboard */; };
 		651FCA211EF987A000E1F8FF /* MiniGitClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */; };
+		656417751F0A97D9009277CB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656417741F0A97D9009277CB /* R.generated.swift */; };
 		6570A90E1EF99AC500B4ED7B /* RepositoryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A90D1EF99AC500B4ED7B /* RepositoryOwner.swift */; };
 		6570A9111EF99B6100B4ED7B /* RepositoryOwnerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A9101EF99B6100B4ED7B /* RepositoryOwnerSpec.swift */; };
 		6570A9131EF9B4D200B4ED7B /* RepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570A9121EF9B4D200B4ED7B /* RepositorySpec.swift */; };
@@ -76,6 +77,7 @@
 		651FCA1C1EF987A000E1F8FF /* MiniGitClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniGitClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGitClientUITests.swift; sourceTree = "<group>"; };
 		651FCA221EF987A000E1F8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		656417741F0A97D9009277CB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		6570A90D1EF99AC500B4ED7B /* RepositoryOwner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryOwner.swift; sourceTree = "<group>"; };
 		6570A9101EF99B6100B4ED7B /* RepositoryOwnerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryOwnerSpec.swift; sourceTree = "<group>"; };
 		6570A9121EF9B4D200B4ED7B /* RepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositorySpec.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		651FC9F21EF987A000E1F8FF = {
 			isa = PBXGroup;
 			children = (
+				656417741F0A97D9009277CB /* R.generated.swift */,
 				651FC9FD1EF987A000E1F8FF /* MiniGitClient */,
 				651FCA141EF987A000E1F8FF /* MiniGitClientTests */,
 				651FCA1F1EF987A000E1F8FF /* MiniGitClientUITests */,
@@ -389,6 +392,7 @@
 				TargetAttributes = {
 					651FC9FA1EF987A000E1F8FF = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = YDNLNKB75L;
 						ProvisioningStyle = Automatic;
 					};
 					651FCA101EF987A000E1F8FF = {
@@ -618,6 +622,7 @@
 				65801B551EFF36CE001DEB7F /* APIUtils.swift in Sources */,
 				65D7C1E61F06869800D3F3E9 /* Coordinator.swift in Sources */,
 				65D7C1EC1F0693D900D3F3E9 /* RepositoryListViewController.swift in Sources */,
+				656417751F0A97D9009277CB /* R.generated.swift in Sources */,
 				651FC9FF1EF987A000E1F8FF /* AppDelegate.swift in Sources */,
 				65DBFA4C1EF98D9F0021DA3C /* Repository.swift in Sources */,
 				6570A90E1EF99AC500B4ED7B /* RepositoryOwner.swift in Sources */,
@@ -777,7 +782,7 @@
 			baseConfigurationReference = DD2CA5AB15CB92927EF9F8A1 /* Pods-MiniGitClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = YDNLNKB75L;
 				INFOPLIST_FILE = MiniGitClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AGF.MiniGitClient;
@@ -791,7 +796,7 @@
 			baseConfigurationReference = 86C76F165B82345E75BCED01 /* Pods-MiniGitClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = YDNLNKB75L;
 				INFOPLIST_FILE = MiniGitClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AGF.MiniGitClient;
