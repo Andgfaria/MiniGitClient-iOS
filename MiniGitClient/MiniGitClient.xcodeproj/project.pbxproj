@@ -319,6 +319,7 @@
 			buildConfigurationList = 651FCA251EF987A000E1F8FF /* Build configuration list for PBXNativeTarget "MiniGitClient" */;
 			buildPhases = (
 				546ABB5DE4156D2F8EB6D24B /* [CP] Check Pods Manifest.lock */,
+				656417731F0A95C9009277CB /* R_Swift */,
 				651FC9F71EF987A000E1F8FF /* Sources */,
 				651FC9F81EF987A000E1F8FF /* Frameworks */,
 				651FC9F91EF987A000E1F8FF /* Resources */,
@@ -524,6 +525,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		656417731F0A95C9009277CB /* R_Swift */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = R_Swift;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" \"$SRCROOT\"";
 		};
 		C6E66E8FD23F7886CC92B58F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
