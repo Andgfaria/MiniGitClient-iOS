@@ -14,27 +14,35 @@ class RepositoryListPresenter : NSObject {
     
     weak var viewController : RepositoryListViewController?
 
-    var interactor : RepositoryListInteractorProtocol?
+    var interactor : RepositoryListInteractorProtocol? {
+        didSet {
+            bindInteractor()
+        }
+    }
     
     fileprivate var disposeBag = DisposeBag()
     
-    override init() {
-        super.init()
-        interactor?.repositories.asObservable().skip(1).subscribe(onNext: { [weak self]  in
-            if $0.count > 0 {
-                self?.viewController?.currentState.value = .showingRepositories
-            }
-            else {
+}
+
+
+extension RepositoryListPresenter {
+    
+    fileprivate func bindInteractor() {
+        interactor?.repositories.asObservable().skip(1)
+            .subscribe(onNext: { [weak self]  in
+                if $0.count > 0 {
+                    self?.viewController?.currentState.value = .showingRepositories
+                }
+                else {
+                    self?.viewController?.currentState.value = .notShowingRepositories
+                }
+            },
+            onError : { [weak self] _ in
                 self?.viewController?.currentState.value = .notShowingRepositories
-            }
-        },
-        onError : { [weak self] _ in
-            self?.viewController?.currentState.value = .notShowingRepositories
         }).addDisposableTo(disposeBag)
     }
     
 }
-
 
 extension RepositoryListPresenter : RepositoryListPresenterProtocol {
     
