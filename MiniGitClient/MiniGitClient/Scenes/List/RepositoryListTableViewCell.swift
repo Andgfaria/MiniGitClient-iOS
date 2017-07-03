@@ -56,7 +56,7 @@ extension RepositoryListTableViewCell : ViewCodable {
     
     func setupConstraints() {
         titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: -9).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: avatarImageView.leadingAnchor, constant: -12).isActive = true
         titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 6).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -3).isActive = true
         
