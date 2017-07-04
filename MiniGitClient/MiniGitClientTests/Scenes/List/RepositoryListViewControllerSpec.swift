@@ -123,6 +123,12 @@ class RepositoryListViewControllerSpec: QuickSpec {
                     expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
                 }
                 
+                it("loads repositories when the empty view action block is executed") {
+                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
+                    emptyView?.actionBlock?()
+                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
+                }
+                
             })
             
         }
