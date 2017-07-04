@@ -21,6 +21,14 @@ class AppCoordinatorSpec: QuickSpec {
                 expect(UIApplication.shared.delegate?.window??.rootViewController is UISplitViewController).to(beTrue())
             }
             
+            it("presents the master screen as a navigation controller with a RepositoryListViewController") {
+                AppCoordinator().start()
+                let splitViewController = UIApplication.shared.delegate?.window??.rootViewController as? UISplitViewController
+                let navigationController = splitViewController?.viewControllers[0] as? UINavigationController
+                let master = navigationController?.viewControllers[0] as? RepositoryListViewController
+                expect(master).toNot(beNil())
+            }
+            
         }
         
     }
