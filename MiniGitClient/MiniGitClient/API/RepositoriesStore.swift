@@ -12,7 +12,7 @@ import Alamofire
 import RxAlamofire
 
 protocol RepositoriesStore {
-    func swiftRepositories(forPage page : Int) -> Observable<[Repository]>
+    func swiftRepositories(forPage page : Int) -> Observable<(APIRequestResult,[Repository])>
 }
 
 struct MainRepositoriesStore : RepositoriesStore {
@@ -23,20 +23,20 @@ struct MainRepositoriesStore : RepositoriesStore {
     
     private init() { }
     
-    func swiftRepositories(forPage page: Int) -> Observable<[Repository]> {
+    func swiftRepositories(forPage page: Int) -> Observable<(APIRequestResult,[Repository])> {
         if let searchEndpoint = config.urlString(with: .search) {
             let parameters : DataDict = ["q" : "language:Swift", "sort" : "stars", "page" : page]
             return json(.get, searchEndpoint, parameters: parameters, encoding: URLEncoding.queryString)
                    .map { json in
                         if let jsonData = json as? DataDict, let repositoriesList = jsonData["items"] as? [DataDict] {
-                            return repositoriesList.flatMap { Repository.init(json: $0) }
+                            return (APIRequestResult.success,repositoriesList.flatMap { Repository.init(json: $0) })
                         }
                         else {
-                            return [Repository]()
+                            return (APIRequestResult.invalidJson,[Repository]())
                         }
                    }
         }
-        return Observable.just([])
+        return Observable.just((APIRequestResult.invalidEndpoint,[Repository]()))
     }
     
 }

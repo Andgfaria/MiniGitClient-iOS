@@ -32,8 +32,13 @@ class MainRepositoriesStoreSpec: QuickSpec {
                     
                     MainRepositoriesStore.shared.swiftRepositories(forPage: 1)
                         .subscribe(
-                            onNext: { [weak self] in
-                                self?.repositories = $0
+                            onNext: { [weak self] requestResult, repositories in
+                                if requestResult != .success {
+                                    fail()
+                                }
+                                else {
+                                    self?.repositories = repositories
+                                }
                             },
                             onError: { _ in
                                 fail()

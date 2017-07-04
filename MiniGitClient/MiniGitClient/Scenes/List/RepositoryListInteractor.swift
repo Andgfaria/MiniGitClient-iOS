@@ -11,37 +11,43 @@ import RxSwift
 
 protocol RepositoryListInteractorProtocol : class {
     var repositoriesStore : RepositoriesStore { get set }
-    var repositories : Variable<[Repository]> { get set }
-    var validationState : Variable<Error?> { get set }
+    var fetchResults : Variable<(APIRequestResult,[Repository])> { get set }
     func loadRepositories()
 }
 
-class RepositoryListInteractor : RepositoryListInteractorProtocol {
+class RepositoryListInteractor {
     
     var repositoriesStore: RepositoriesStore = MainRepositoriesStore.shared
     
-    var repositories: Variable<[Repository]> = Variable([])
+    var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     
-    var validationState : Variable<Error?> = Variable(nil)
+    fileprivate var currentPage = 1
     
-    private var currentPage = 1
+    fileprivate let disposeBag = DisposeBag()
     
-    private let disposeBag = DisposeBag()
+}
+
+
+extension RepositoryListInteractor : RepositoryListInteractorProtocol {
     
     func loadRepositories() {
         repositoriesStore.swiftRepositories(forPage: currentPage)
-                         .subscribe(onNext: { [weak self] in
-                            let newRepositories = $0
-                            if newRepositories.count > 0 {
-                                self?.currentPage += 1
-                                self?.validationState.value = nil
-                                self?.repositories.value += newRepositories
-                            }
-                         },
-                        onError : { [weak self] in
-                                self?.validationState.value = $0
-                         })
-                         .addDisposableTo(disposeBag)
+            .subscribe(onNext: { [weak self] requestResult, repositories in
+                if requestResult != .success {
+                    self?.fetchResults.value.0 = requestResult
+                }
+                else {
+                    let newRepositories = repositories
+                    if newRepositories.count > 0, let currentRepositories = self?.fetchResults.value.1 {
+                        self?.currentPage += 1
+                        self?.fetchResults.value = (APIRequestResult.success, currentRepositories + newRepositories)
+                    }
+                }
+            },
+            onError : { [weak self] _ in
+                self?.fetchResults.value = (APIRequestResult.networkError,self?.fetchResults.value.1 ?? [Repository]())
+            })
+            .addDisposableTo(disposeBag)
     }
     
 }

@@ -13,11 +13,11 @@ import RxSwift
 
 struct MockRepositoriesStore : RepositoriesStore {
     
-    func swiftRepositories(forPage page: Int) -> Observable<[Repository]> {
+    func swiftRepositories(forPage page: Int) -> Observable<(APIRequestResult,[Repository])> {
         var testRepository = Repository()
         testRepository.name = "Test"
         testRepository.info = "Description"
-        return Observable.just([testRepository])
+        return Observable.just((APIRequestResult.success,[testRepository]))
     }
     
 }
@@ -38,7 +38,7 @@ class RepositoryListInteractorSpec: QuickSpec {
                 
                 it("a repositories variable") {
                     repositoryListInteractor = RepositoryListInteractor()
-                    expect(repositoryListInteractor?.repositories.value).toNot(beNil())
+                    expect(repositoryListInteractor?.fetchResults.value.1).toNot(beNil())
                 }
                 
             })
@@ -50,10 +50,10 @@ class RepositoryListInteractorSpec: QuickSpec {
                     repositoryListInteractor?.repositoriesStore = MockRepositoriesStore()
                     
                     repositoryListInteractor?.loadRepositories()
-                    expect(repositoryListInteractor?.repositories.value.count) == 1
+                    expect(repositoryListInteractor?.fetchResults.value.1.count) == 1
                     
                     repositoryListInteractor?.loadRepositories()
-                    expect(repositoryListInteractor?.repositories.value.count) == 2
+                    expect(repositoryListInteractor?.fetchResults.value.1.count) == 2
                 }
                 
             })

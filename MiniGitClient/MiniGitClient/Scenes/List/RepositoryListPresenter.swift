@@ -33,12 +33,15 @@ extension RepositoryListPresenter {
     
     fileprivate func bind() {
         if let interactor = interactor, let viewController = viewController {
-            Observable.combineLatest(interactor.validationState.asObservable(), interactor.repositories.asObservable(), resultSelector: { (error, repositories) -> RepositoryListState in
-                if let _ = error {
-                    return .showingError
-                }
-                return repositories.count > 0 ? .showingRepositories : .showingError
-            }).asObservable().skip(1).bind(to: viewController.currentState).addDisposableTo(disposeBag)
+            interactor.fetchResults.asObservable().skip(1)
+                       .map { requestResult, repositories in
+                            if requestResult != .success {
+                                return RepositoryListState.showingError
+                            }
+                            return repositories.count > 0 ? RepositoryListState.showingRepositories : RepositoryListState.showingError
+                        }
+                        .bind(to: viewController.currentState)
+                        .addDisposableTo(disposeBag)
         }
     }
     
@@ -61,12 +64,12 @@ extension RepositoryListPresenter : RepositoryListPresenterProtocol {
 extension RepositoryListPresenter : UITableViewDataSource  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return interactor?.repositories.value.count ?? 0
+        return interactor?.fetchResults.value.1.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let repositoryCell = cell as? RepositoryListTableViewCell, let repository = interactor?.repositories.value[indexPath.row] {
+        if let repositoryCell = cell as? RepositoryListTableViewCell, let repository = interactor?.fetchResults.value.1[indexPath.row] {
             RepositoryListCellViewModel.configure(repositoryCell, with: repository)
         }
         return cell
