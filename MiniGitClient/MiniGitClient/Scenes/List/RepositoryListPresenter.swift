@@ -54,7 +54,7 @@ extension RepositoryListPresenter : RepositoryListPresenterProtocol {
     }
     
     func registerTableView(_ tableView: UITableView) {
-        tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(RepositoryListTableViewCell.self))
         tableView.dataSource = self
     }
     
@@ -68,7 +68,7 @@ extension RepositoryListPresenter : UITableViewDataSource  {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(RepositoryListTableViewCell.self), for: indexPath)
         if let repositoryCell = cell as? RepositoryListTableViewCell, let repository = interactor?.fetchResults.value.1[indexPath.row] {
             RepositoryListCellViewModel.configure(repositoryCell, with: repository)
         }

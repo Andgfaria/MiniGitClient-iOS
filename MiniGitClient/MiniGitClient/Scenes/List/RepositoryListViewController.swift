@@ -36,13 +36,8 @@ class RepositoryListViewController: UIViewController {
         super.viewDidLoad()
         title = R.string.list.title()
         navigationItem.title = title
-        setup()
         presenter?.registerTableView(tableView)
-        presenter?.loadRepositories()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        setup()
     }
 
 }
@@ -94,8 +89,8 @@ extension RepositoryListViewController : ViewCodable {
             }
         }).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .showingRepositories }.bind(to: emptyView.rx.isHidden).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 != .showingRepositories }.bind(to: tableView.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .showingRepositories || $0 == .loadingMore }.bind(to: emptyView.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable().map { $0 == .loadingFirst || $0 == .showingError }.bind(to: tableView.rx.isHidden).addDisposableTo(disposeBag)
     }
     
 }
