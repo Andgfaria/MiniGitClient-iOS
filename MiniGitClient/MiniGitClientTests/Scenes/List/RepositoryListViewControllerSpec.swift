@@ -10,7 +10,7 @@ import Quick
 import Nimble
 @testable import MiniGitClient
 
-class MockPresenter : NSObject, RepositoryListPresenterProtocol {
+fileprivate class MockPresenter : NSObject, RepositoryListPresenterProtocol {
     
     var loadRepositoriesCount = 0
     
