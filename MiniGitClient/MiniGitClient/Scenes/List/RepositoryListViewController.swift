@@ -30,6 +30,8 @@ class RepositoryListViewController: UIViewController {
     
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .plain)
     
+    fileprivate var loadMoreview = LoadMoreView()
+    
     fileprivate var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -63,6 +65,9 @@ extension RepositoryListViewController : ViewCodable {
         tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        loadMoreview.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 84)
+        tableView.tableFooterView = loadMoreview
     }
     
     func setupStyles() {
