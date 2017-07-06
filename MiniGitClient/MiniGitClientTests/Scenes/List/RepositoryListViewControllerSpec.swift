@@ -49,6 +49,8 @@ class RepositoryListViewControllerSpec: QuickSpec {
             
             var tableView : UITableView?
             
+            var loadMoreView : LoadMoreView?
+            
             var mockPresenter = MockPresenter()
             
             beforeEach {
@@ -58,6 +60,7 @@ class RepositoryListViewControllerSpec: QuickSpec {
                 _ = controller.view
                 emptyView = controller.view.subviews.flatMap { $0 as? EmptyView }.first
                 tableView = controller.view.subviews.flatMap { $0 as? UITableView }.first
+                loadMoreView = tableView?.tableFooterView as? LoadMoreView
             }
             
             context("has", { 
@@ -72,6 +75,10 @@ class RepositoryListViewControllerSpec: QuickSpec {
                 
                 it("a table view") {
                     expect(tableView).toNot(beNil())
+                }
+                
+                it("a load more view as the table view footer") {
+                    expect(loadMoreView).toNot(beNil())
                 }
                 
             })
@@ -130,6 +137,20 @@ class RepositoryListViewControllerSpec: QuickSpec {
                 }
                 
             })
+            
+            context("loadMoreView") {
+                
+                it("triggers the loadingMore state") {
+                    loadMoreView?.loadingBlock?()
+                    expect(controller.currentState.value) == RepositoryListState.loadingMore
+                }
+                
+                it("has a normal value when showing repositories") {
+                    controller.currentState.value = .showingRepositories
+                    expect(loadMoreView?.currentState.value) == LoadMoreViewState.normal
+                }
+                
+            }
             
         }
         
