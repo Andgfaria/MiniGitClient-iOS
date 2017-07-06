@@ -1,0 +1,12 @@
+/* 
+  List.strings
+  MiniGitClient
+
+  Created by André Gimenez Faria on 03/07/17.
+  Copyright © 2017 AGF. All rights reserved.
+*/
+
+"title" = "Repositories";
+"errorMesage" = "The repositories could not\nbe retrieved";
+"actionTitle" = "Try Again";
+"loadMoreTitle" = "More Repositories";
