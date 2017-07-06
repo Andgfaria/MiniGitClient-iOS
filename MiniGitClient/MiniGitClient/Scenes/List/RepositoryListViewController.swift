@@ -76,7 +76,7 @@ extension RepositoryListViewController : ViewCodable {
         emptyView.message = R.string.list.errorMesage()
         emptyView.actionTitle = R.string.list.actionTitle()
         
-        loadMoreview.actionTitle = R.string.list.loadMoreTitle()
+        loadMoreview.loadTitle = R.string.list.loadMoreTitle()
         
         tableView.estimatedRowHeight = 108
         tableView.rowHeight = UITableViewAutomaticDimension

@@ -32,6 +32,7 @@
 		65801B571EFF380D001DEB7F /* APIUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65801B561EFF380D001DEB7F /* APIUtilsSpec.swift */; };
 		65801B5B1EFF3EE3001DEB7F /* RepositoryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65801B5A1EFF3EE3001DEB7F /* RepositoryListInteractor.swift */; };
 		65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65801B5E1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift */; };
+		65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE80731F0DC1C200138F31 /* LoadMoreViewSpec.swift */; };
 		65CBFACB1F0154F6000773A2 /* ViewCodableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CBFACA1F0154F6000773A2 /* ViewCodableSpec.swift */; };
 		65D7C1E61F06869800D3F3E9 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C1E51F06869800D3F3E9 /* Coordinator.swift */; };
 		65D7C1E81F06873A00D3F3E9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C1E71F06873A00D3F3E9 /* AppCoordinator.swift */; };
@@ -102,6 +103,7 @@
 		65801B561EFF380D001DEB7F /* APIUtilsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIUtilsSpec.swift; sourceTree = "<group>"; };
 		65801B5A1EFF3EE3001DEB7F /* RepositoryListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListInteractor.swift; sourceTree = "<group>"; };
 		65801B5E1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListInteractorSpec.swift; sourceTree = "<group>"; };
+		65AE80731F0DC1C200138F31 /* LoadMoreViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreViewSpec.swift; sourceTree = "<group>"; };
 		65CBFACA1F0154F6000773A2 /* ViewCodableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCodableSpec.swift; sourceTree = "<group>"; };
 		65D7C1E51F06869800D3F3E9 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		65D7C1E71F06873A00D3F3E9 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 			children = (
 				65CBFACA1F0154F6000773A2 /* ViewCodableSpec.swift */,
 				650AF91B1F048B19001761FD /* EmptyViewSpec.swift */,
+				65AE80731F0DC1C200138F31 /* LoadMoreViewSpec.swift */,
 			);
 			path = SharedUI;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				65CBFACB1F0154F6000773A2 /* ViewCodableSpec.swift in Sources */,
 				65D7C1EA1F068F9000D3F3E9 /* AppCoordinatorSpec.swift in Sources */,
 				65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */,
+				65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */,
 				654C9CFA1F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

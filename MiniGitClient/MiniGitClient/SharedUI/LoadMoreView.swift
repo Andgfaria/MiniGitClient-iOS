@@ -18,9 +18,9 @@ class LoadMoreView: UIView {
 
     var currentState = Variable(LoadMoreViewState.normal)
     
-    var actionTitle = "" {
+    var loadTitle = "" {
         didSet {
-            actionButton.setTitle(actionTitle, for: .normal)
+            actionButton.setTitle(loadTitle, for: .normal)
         }
     }
     
