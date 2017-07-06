@@ -66,7 +66,7 @@ extension RepositoryListViewController : ViewCodable {
         tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        loadMoreview.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 84)
+        loadMoreview.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 72)
         tableView.tableFooterView = loadMoreview
     }
     
@@ -76,6 +76,8 @@ extension RepositoryListViewController : ViewCodable {
         emptyView.message = R.string.list.errorMesage()
         emptyView.actionTitle = R.string.list.actionTitle()
         
+        loadMoreview.actionTitle = R.string.list.loadMoreTitle()
+        
         tableView.estimatedRowHeight = 108
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
@@ -83,7 +85,10 @@ extension RepositoryListViewController : ViewCodable {
     
     func bindComponents() {
         emptyView.actionBlock = { [weak self] in
-            self?.presenter?.loadRepositories()
+            self?.currentState.value = .loadingFirst
+        }
+        loadMoreview.loadingBlock = { [weak self] in
+            self?.currentState.value = .loadingMore
         }
         currentState.asObservable().subscribe(onNext: { [weak self] in
             if $0 == .loadingFirst || $0 == .loadingMore {
@@ -91,11 +96,21 @@ extension RepositoryListViewController : ViewCodable {
             }
             else if $0 == .showingRepositories {
                 self?.tableView.reloadData()
+                self?.loadMoreview.currentState.value = .normal
             }
         }).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }.bind(to: emptyView.currentState).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .showingRepositories || $0 == .loadingMore }.bind(to: emptyView.rx.isHidden).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .loadingFirst || $0 == .showingError }.bind(to: tableView.rx.isHidden).addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }
+                    .bind(to: emptyView.currentState)
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .showingRepositories || $0 == .loadingMore }
+                    .bind(to: emptyView.rx.isHidden)
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loadingFirst || $0 == .showingError }
+                    .bind(to: tableView.rx.isHidden)
+                    .addDisposableTo(disposeBag)
     }
     
 }

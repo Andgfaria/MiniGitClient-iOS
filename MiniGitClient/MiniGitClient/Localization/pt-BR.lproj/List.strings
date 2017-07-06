@@ -9,3 +9,4 @@
 "title" = "Repositórios";
 "errorMesage" = "Os repositórios não puderam\nser baixados";
 "actionTitle" = "Tentar Novamente";
+"loadMoreTitle" = "Mais Repositórios";

@@ -9,3 +9,4 @@
 "title" = "Repositories";
 "errorMesage" = "The repositories could not\nbe retrieved";
 "actionTitle" = "Try Again";
+"loadMoreTitle" = "More Repositories";
