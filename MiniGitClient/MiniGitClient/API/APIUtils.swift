@@ -13,3 +13,5 @@ typealias DataDict = [String : Any]
 enum APIRequestResult {
     case success, networkError, invalidJson, invalidEndpoint
 }
+
+
