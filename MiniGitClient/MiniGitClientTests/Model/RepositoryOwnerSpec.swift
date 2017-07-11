@@ -16,26 +16,24 @@ class RepositoryOwnerSpec: QuickSpec {
         
         describe("The Repository Owner") {
             
-            var repoOwner : RepositoryOwner?
+            var repoOwner = RepositoryOwner()
             
             let url = URL(string: "https://avatars0.githubusercontent.com/u/7774181?v=3")
             
             beforeEach {
-                repoOwner = nil
+                repoOwner = RepositoryOwner()
             }
             
             context("has", { 
                 
                 it("a name property") {
-                    repoOwner = RepositoryOwner()
-                    repoOwner?.name = "André"
-                    expect(repoOwner?.name) == "André"
+                    repoOwner.name = "André"
+                    expect(repoOwner.name) == "André"
                 }
                 
                 it("an avatar url property") {
-                    repoOwner = RepositoryOwner()
-                    repoOwner?.avatarURL = url
-                    expect(repoOwner?.avatarURL) == url
+                    repoOwner.avatarURL = url
+                    expect(repoOwner.avatarURL) == url
                 }
                 
             })
@@ -48,14 +46,14 @@ class RepositoryOwnerSpec: QuickSpec {
                 
                 it("be created from a valid JSON dictionary") {
                     repoOwner = RepositoryOwner(json: validJson)
-                    expect(repoOwner?.name) == validJson["login"] as? String
-                    expect(repoOwner?.avatarURL) == url
+                    expect(repoOwner.name) == validJson["login"] as? String
+                    expect(repoOwner.avatarURL) == url
                 }
                 
                 it("be created from an invalid JSON holding the default values") {
                     repoOwner = RepositoryOwner(json: emptyJson)
-                    expect(repoOwner?.name).to(beEmpty())
-                    expect(repoOwner?.avatarURL).to(beNil())
+                    expect(repoOwner.name).to(beEmpty())
+                    expect(repoOwner.avatarURL).to(beNil())
                 }
                 
                 
@@ -64,19 +62,16 @@ class RepositoryOwnerSpec: QuickSpec {
             context("is", {
                 
                 it("equatable") {
-                    repoOwner = RepositoryOwner()
                     let secondRepoOwner = RepositoryOwner()
                     expect(repoOwner) == secondRepoOwner
                 }
                 
                 it("printable") {
-                    repoOwner = RepositoryOwner()
-                    expect(repoOwner?.description).toNot(beEmpty())
+                    expect(repoOwner.description).toNot(beEmpty())
                 }
                 
                 it("debug printable") {
-                    repoOwner = RepositoryOwner()
-                    expect(repoOwner?.debugDescription).toNot(beEmpty())
+                    expect(repoOwner.debugDescription).toNot(beEmpty())
                 }
                 
             })
