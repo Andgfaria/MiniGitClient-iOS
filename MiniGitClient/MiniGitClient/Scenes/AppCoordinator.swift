@@ -29,15 +29,24 @@ class AppCoordinator {
 extension AppCoordinator : Coordinator {
     
     func start() {
-        let detail = UIViewController()
+        listScene.presenter.router = self
+        splitViewController.view.backgroundColor = .white
         let masterNavigationController = UINavigationController(rootViewController: listScene.viewController)
-        let detailNavigationController = UINavigationController(rootViewController: detail)
-        splitViewController.viewControllers = [masterNavigationController,detailNavigationController]
+        splitViewController.viewControllers = [masterNavigationController]
         splitViewController.delegate = self
         if let window = UIApplication.shared.delegate?.window {
             window?.rootViewController = splitViewController
             window?.makeKeyAndVisible()
         }
+    }
+    
+}
+
+extension AppCoordinator : RepositoryListRouter {
+    
+    func presenter(_ presenter: RepositoryListPresenterProtocol, didSelectRepository repository: Repository) {
+        let navController = UINavigationController(rootViewController: UIViewController(nibName: nil, bundle: nil))
+        splitViewController.showDetailViewController(navController, sender: self)
     }
     
 }

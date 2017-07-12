@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import RxSwift
 
+protocol RepositoryListRouter : class {
+    func presenter(_ presenter : RepositoryListPresenterProtocol, didSelectRepository repository : Repository)
+}
+
 class RepositoryListPresenter : NSObject {
     
     weak var viewController : RepositoryListViewController? {
@@ -23,6 +27,8 @@ class RepositoryListPresenter : NSObject {
             bind()
         }
     }
+    
+    weak var router : RepositoryListRouter?
     
     fileprivate var disposeBag = DisposeBag()
     
@@ -56,6 +62,7 @@ extension RepositoryListPresenter : RepositoryListPresenterProtocol {
     func registerTableView(_ tableView: UITableView) {
         tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(RepositoryListTableViewCell.self))
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     
@@ -73,6 +80,16 @@ extension RepositoryListPresenter : UITableViewDataSource  {
             RepositoryListCellViewModel.configure(repositoryCell, with: repository)
         }
         return cell
+    }
+    
+}
+
+extension RepositoryListPresenter : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let repositories = interactor?.fetchResults.value.1 {
+            router?.presenter(self, didSelectRepository: repositories[indexPath.row])
+        }
     }
     
 }
