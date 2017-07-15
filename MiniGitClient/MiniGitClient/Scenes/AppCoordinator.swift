@@ -9,45 +9,24 @@
 import Foundation
 import UIKit
 
-fileprivate struct ListScene {
-    let viewController = RepositoryListViewController()
-    let presenter = RepositoryListPresenter()
-    let interactor = RepositoryListInteractor()
-    
-    init() {
-        presenter.interactor = interactor
-        presenter.viewController = viewController
-        viewController.presenter = presenter
-    }
-}
-
 class AppCoordinator {
+    
     fileprivate var splitViewController = UISplitViewController()
-    fileprivate let listScene = ListScene()
-    var repositoryDetailCoordinator : RepositoryDetailCoordinator?
+    
+    fileprivate var repositoryListCoordinator : RepositoryListCoordinator?
+
 }
 
 extension AppCoordinator : Coordinator {
     
     func start() {
-        listScene.presenter.router = self
-        splitViewController.view.backgroundColor = .white
-        let masterNavigationController = UINavigationController(rootViewController: listScene.viewController)
-        splitViewController.viewControllers = [masterNavigationController]
         splitViewController.delegate = self
+        repositoryListCoordinator = RepositoryListCoordinator(splitViewController: splitViewController)
+        repositoryListCoordinator?.start()
         if let window = UIApplication.shared.delegate?.window {
             window?.rootViewController = splitViewController
             window?.makeKeyAndVisible()
         }
-    }
-    
-}
-
-extension AppCoordinator : RepositoryListRouter {
-    
-    func presenter(_ presenter: RepositoryListPresenterProtocol, didSelectRepository repository: Repository) {
-        repositoryDetailCoordinator = RepositoryDetailCoordinator(repository : repository, splitViewController: splitViewController)
-        repositoryDetailCoordinator?.start()
     }
     
 }
