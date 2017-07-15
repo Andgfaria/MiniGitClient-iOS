@@ -24,6 +24,7 @@ fileprivate struct ListScene {
 class AppCoordinator {
     fileprivate var splitViewController = UISplitViewController()
     fileprivate let listScene = ListScene()
+    var repositoryDetailCoordinator : RepositoryDetailCoordinator?
 }
 
 extension AppCoordinator : Coordinator {
@@ -45,8 +46,8 @@ extension AppCoordinator : Coordinator {
 extension AppCoordinator : RepositoryListRouter {
     
     func presenter(_ presenter: RepositoryListPresenterProtocol, didSelectRepository repository: Repository) {
-        let navController = UINavigationController(rootViewController: RepositoryDetailViewController())
-        splitViewController.showDetailViewController(navController, sender: self)
+        repositoryDetailCoordinator = RepositoryDetailCoordinator(repository : repository, splitViewController: splitViewController)
+        repositoryDetailCoordinator?.start()
     }
     
 }

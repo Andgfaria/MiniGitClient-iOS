@@ -12,10 +12,10 @@ class RepositoryDetailHeaderView: UIView {
     
     fileprivate let stackView = UIStackView()
 
-    let titleLabel = UILabel(frame: CGRect.zero)
+    let nameLabel = UILabel(frame: CGRect.zero)
     
-    let bodyLabel = UILabel(frame: CGRect.zero)
-    
+    let infoLabel = UILabel(frame: CGRect.zero)
+
     init() {
         super.init(frame: CGRect.zero)
         setup()
@@ -30,9 +30,18 @@ class RepositoryDetailHeaderView: UIView {
         super.init(coder: aDecoder)
         setup()
     }
+    
+}
 
+extension RepositoryDetailHeaderView {
+    
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: bounds.size.width, height: titleLabel.intrinsicContentSize.height + bodyLabel.intrinsicContentSize.height + 24)
+        return CGSize(width: bounds.size.width, height: nameLabel.intrinsicContentSize.height + infoLabel.intrinsicContentSize.height + stackView.spacing + 24)
+    }
+    
+    func adjustLayout(withWidth width : CGFloat) {
+        nameLabel.preferredMaxLayoutWidth = width - 32
+        infoLabel.preferredMaxLayoutWidth = nameLabel.preferredMaxLayoutWidth
     }
     
 }
@@ -47,17 +56,16 @@ extension RepositoryDetailHeaderView : ViewCodable {
     
     func setupConstraints() {
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 12).isActive = true
         
-        stackView.addArrangedSubview(titleLabel)
-        titleLabel.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
+        stackView.addArrangedSubview(nameLabel)
+        nameLabel.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
 
-        stackView.addArrangedSubview(bodyLabel)
-        bodyLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
-        bodyLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
-        bodyLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+        stackView.addArrangedSubview(infoLabel)
+        infoLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
+        infoLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
+        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
     }
     
     func setupStyles() {
@@ -66,11 +74,11 @@ extension RepositoryDetailHeaderView : ViewCodable {
         stackView.distribution = .equalSpacing
         stackView.spacing = 18.0
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 28)
-        titleLabel.numberOfLines = 0
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 28)
+        nameLabel.numberOfLines = 0
         
-        bodyLabel.font = UIFont.systemFont(ofSize: 18)
-        bodyLabel.numberOfLines = 0
+        infoLabel.font = UIFont.systemFont(ofSize: 18)
+        infoLabel.numberOfLines = 0
     }
     
 }

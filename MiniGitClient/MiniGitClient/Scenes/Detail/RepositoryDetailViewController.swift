@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol RepositoryDetailPresenterProtocol : class {
+    func configureHeader(_ header : RepositoryDetailHeaderView)
+}
+
 class RepositoryDetailViewController: UIViewController {
 
+    weak var presenter : RepositoryDetailPresenterProtocol?
+    
     fileprivate let tableView = UITableView(frame: CGRect.zero, style: .plain)
     
     fileprivate let headerView = RepositoryDetailHeaderView()
@@ -19,14 +25,21 @@ class RepositoryDetailViewController: UIViewController {
         setup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupHeader()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
 
+}
+
+extension RepositoryDetailViewController {
+    
+    fileprivate func setupHeader() {
+        presenter?.configureHeader(headerView)
+        headerView.adjustLayout(withWidth: tableView.bounds.size.width)
+        view.layoutIfNeeded()
+        headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerView.intrinsicContentSize.height)
+        tableView.tableHeaderView = headerView
     }
     
 }
@@ -36,8 +49,6 @@ extension RepositoryDetailViewController : ViewCodable {
     fileprivate func setup() {
         addViewsToHierarchy([tableView])
         setupConstraints()
-        headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerView.intrinsicContentSize.height)
-        tableView.tableHeaderView = headerView
     }
     
     func setupConstraints() {
