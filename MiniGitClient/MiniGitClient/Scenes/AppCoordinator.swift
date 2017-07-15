@@ -45,7 +45,7 @@ extension AppCoordinator : Coordinator {
 extension AppCoordinator : RepositoryListRouter {
     
     func presenter(_ presenter: RepositoryListPresenterProtocol, didSelectRepository repository: Repository) {
-        let navController = UINavigationController(rootViewController: UIViewController(nibName: nil, bundle: nil))
+        let navController = UINavigationController(rootViewController: RepositoryDetailViewController())
         splitViewController.showDetailViewController(navController, sender: self)
     }
     
