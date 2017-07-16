@@ -49,6 +49,7 @@ extension RepositoryDetailViewController : ViewCodable {
     fileprivate func setup() {
         addViewsToHierarchy([tableView])
         setupConstraints()
+        setupStyles()
     }
     
     func setupConstraints() {
@@ -56,6 +57,11 @@ extension RepositoryDetailViewController : ViewCodable {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func setupStyles() {
+        tableView.estimatedRowHeight = 56
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
 }
