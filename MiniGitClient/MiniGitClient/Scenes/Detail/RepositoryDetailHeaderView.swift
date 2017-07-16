@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import RxSwift
+
+enum RepositoryDetailHeaderState {
+    case loading, loaded, showingRetryOption
+}
 
 class RepositoryDetailHeaderView: UIView {
     
@@ -16,6 +21,18 @@ class RepositoryDetailHeaderView: UIView {
     
     let infoLabel = UILabel(frame: CGRect.zero)
 
+    fileprivate let loadView = LoadMoreView()
+    
+    var currentState = Variable(RepositoryDetailHeaderState.loaded)
+    
+    var retryLoadBlock : ((Void) -> Void)? {
+        didSet {
+            loadView.loadingBlock = retryLoadBlock
+        }
+    }
+    
+    fileprivate let disposeBag = DisposeBag()
+    
     init() {
         super.init(frame: CGRect.zero)
         setup()
@@ -36,12 +53,32 @@ class RepositoryDetailHeaderView: UIView {
 extension RepositoryDetailHeaderView {
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: bounds.size.width, height: nameLabel.intrinsicContentSize.height + infoLabel.intrinsicContentSize.height + stackView.spacing + 24)
+        let offSet : CGFloat = currentState.value == .loaded ? 24 : 96
+        return CGSize(width: bounds.size.width, height: nameLabel.intrinsicContentSize.height + infoLabel.intrinsicContentSize.height + stackView.spacing + offSet)
     }
     
     func adjustLayout(withWidth width : CGFloat) {
         nameLabel.preferredMaxLayoutWidth = width - 32
         infoLabel.preferredMaxLayoutWidth = nameLabel.preferredMaxLayoutWidth
+    }
+    
+}
+
+extension RepositoryDetailHeaderView {
+    
+    fileprivate func addLoadView() {
+        stackView.addArrangedSubview(loadView)
+        loadView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor).isActive = true
+        loadView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor).isActive = true
+        loadView.heightAnchor.constraint(equalToConstant: 72).isActive = true
+        loadView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+    }
+    
+    fileprivate func removeLoadView() {
+        loadView.isHidden = true
+        loadView.removeConstraints(loadView.constraints)
+        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+        layoutIfNeeded()
     }
     
 }
@@ -52,6 +89,7 @@ extension RepositoryDetailHeaderView : ViewCodable {
         addViewsToHierarchy([stackView])
         setupConstraints()
         setupStyles()
+        bindComponents()
     }
     
     func setupConstraints() {
@@ -65,7 +103,8 @@ extension RepositoryDetailHeaderView : ViewCodable {
         stackView.addArrangedSubview(infoLabel)
         infoLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
         infoLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
-        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+        
+        addLoadView()
     }
     
     func setupStyles() {
@@ -79,6 +118,26 @@ extension RepositoryDetailHeaderView : ViewCodable {
         
         infoLabel.font = UIFont.systemFont(ofSize: 18)
         infoLabel.numberOfLines = 0
+        
+        loadView.loadTitle = R.string.detail.retryTitle()
+    }
+    
+    func bindComponents() {
+        loadView.loadingBlock = retryLoadBlock
+        currentState.asObservable()
+                    .map { $0 == .loading ? LoadMoreViewState.loading : LoadMoreViewState.normal }
+                    .bind(to: loadView.currentState)
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .subscribe(onNext: { [weak self] in
+                        if $0 == .loaded {
+                            self?.removeLoadView()
+                        }
+                        else {
+                            self?.addLoadView()
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
     }
     
 }
