@@ -7,10 +7,19 @@
 //
 
 import UIKit
+import RxSwift
+
+protocol RepositoryDetailInteractorProtocol : class {
+    var pullRequestsStore : PullRequestsStore { get set }
+    var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> { get set }
+    func loadPullRequests(ofRepository repository : Repository)
+}
 
 class RepositoryDetailPresenter : NSObject {
     
     fileprivate let repository : Repository
+    
+    weak var interactor : RepositoryDetailInteractorProtocol?
     
     required init(repository : Repository) {
         self.repository = repository
