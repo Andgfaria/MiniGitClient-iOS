@@ -10,6 +10,8 @@ import UIKit
 
 class PullRequestTableViewCell: UITableViewCell {
     
+    fileprivate let wrapperView = UIView(frame: CGRect.zero)
+    
     let titleLabel = UILabel(frame: CGRect.zero)
     
     let bodyLabel = UILabel(frame: CGRect.zero)
@@ -33,23 +35,39 @@ class PullRequestTableViewCell: UITableViewCell {
 extension PullRequestTableViewCell : ViewCodable {
     
     fileprivate func setup() {
-        addViewsToHierarchy([titleLabel,bodyLabel,avatarImageView,authorLabel])
+        addViewsToHierarchy([wrapperView])
         setupConstraints()
         setupStyles()
     }
     
     func setupConstraints() {
-        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        
+        wrapperView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        wrapperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        wrapperView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        wrapperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
+        let heightConstraint = wrapperView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72)
+        heightConstraint.priority = 500
+        heightConstraint.isActive = true
+        
+        let subviews = [titleLabel,bodyLabel,avatarImageView,authorLabel]
+        for view in subviews {
+            wrapperView.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        titleLabel.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 6).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 16).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: avatarImageView.leadingAnchor, constant: -16).isActive = true
         
         bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6).isActive = true
         bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         bodyLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
-        bodyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        bodyLabel.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor).isActive = true
         
-        avatarImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 6).isActive = true
-        avatarImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -18).isActive = true
+        avatarImageView.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 6).isActive = true
+        avatarImageView.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -18).isActive = true
         avatarImageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
@@ -57,7 +75,7 @@ extension PullRequestTableViewCell : ViewCodable {
         authorLabel.widthAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
         authorLabel.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor).isActive = true
         authorLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
-
+        
     }
     
     func setupStyles() {
