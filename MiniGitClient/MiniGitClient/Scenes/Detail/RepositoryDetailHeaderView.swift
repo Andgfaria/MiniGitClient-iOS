@@ -23,13 +23,7 @@ class RepositoryDetailHeaderView: UIView {
 
     fileprivate let loadView = LoadMoreView()
     
-    var currentState = Variable(RepositoryDetailHeaderState.loaded)
-    
-    var retryLoadBlock : ((Void) -> Void)? {
-        didSet {
-            loadView.loadingBlock = retryLoadBlock
-        }
-    }
+    var currentState = Variable(RepositoryDetailHeaderState.loading)
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -77,7 +71,7 @@ extension RepositoryDetailHeaderView {
     fileprivate func removeLoadView() {
         loadView.isHidden = true
         loadView.removeConstraints(loadView.constraints)
-        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+//        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
         layoutIfNeeded()
     }
     
@@ -123,7 +117,6 @@ extension RepositoryDetailHeaderView : ViewCodable {
     }
     
     func bindComponents() {
-        loadView.loadingBlock = retryLoadBlock
         currentState.asObservable()
                     .map { $0 == .loading ? LoadMoreViewState.loading : LoadMoreViewState.normal }
                     .bind(to: loadView.currentState)

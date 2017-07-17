@@ -57,6 +57,7 @@ extension PullRequestTableViewCell : ViewCodable {
         authorLabel.widthAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
         authorLabel.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor).isActive = true
         authorLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+
     }
     
     func setupStyles() {

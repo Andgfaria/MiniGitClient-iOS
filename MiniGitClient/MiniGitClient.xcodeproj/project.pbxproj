@@ -325,8 +325,8 @@
 				6573EF141F1C235E00EC7239 /* PullRequestCellViewModel.swift */,
 				6573EEFF1F1AA82E00EC7239 /* RepositoryDetailViewController.swift */,
 				6573EF011F1AB18400EC7239 /* RepositoryDetailPresenter.swift */,
-				6573EF031F1AB33500EC7239 /* RepositoryDetailCoordinator.swift */,
 				6573EF161F1C430000EC7239 /* RepositoryDetailInteractor.swift */,
+				6573EF031F1AB33500EC7239 /* RepositoryDetailCoordinator.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";

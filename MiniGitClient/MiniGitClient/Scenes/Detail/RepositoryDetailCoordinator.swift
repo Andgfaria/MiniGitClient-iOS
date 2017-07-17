@@ -12,13 +12,17 @@ fileprivate struct RepositoryDetailScene {
     
     let repository : Repository
     let viewController = RepositoryDetailViewController()
-    let repositoryPresenter : RepositoryDetailPresenter
+    let presenter : RepositoryDetailPresenter
+    let interactor = RepositoryDetailInteractor()
     
     init(repository : Repository) {
         self.repository = repository
-        repositoryPresenter = RepositoryDetailPresenter(repository: self.repository)
-        viewController.presenter = repositoryPresenter
+        presenter = RepositoryDetailPresenter(repository: self.repository)
+        presenter.viewController = viewController
+        presenter.interactor = interactor
+        viewController.presenter = presenter
     }
+    
 }
 
 struct RepositoryDetailCoordinator {

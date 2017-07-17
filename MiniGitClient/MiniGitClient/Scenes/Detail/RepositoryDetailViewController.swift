@@ -7,21 +7,28 @@
 //
 
 import UIKit
+import RxSwift
 
-protocol RepositoryDetailPresenterProtocol : class {
+protocol RepositoryDetailPresenterProtocol : class, UITableViewDataSource {
+    weak var viewController : RepositoryDetailViewController? { get set }
     func configureHeader(_ header : RepositoryDetailHeaderView)
+    func registerTableView(_ tableView : UITableView)
+    func loadPullRequests()
 }
 
 class RepositoryDetailViewController: UIViewController {
 
     weak var presenter : RepositoryDetailPresenterProtocol?
     
-    fileprivate let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    let tableView = UITableView(frame: CGRect.zero, style: .plain)
     
-    fileprivate let headerView = RepositoryDetailHeaderView()
+    let headerView = RepositoryDetailHeaderView()
+    
+    fileprivate let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.registerTableView(tableView)
         setup()
     }
     
@@ -50,6 +57,7 @@ extension RepositoryDetailViewController : ViewCodable {
         addViewsToHierarchy([tableView])
         setupConstraints()
         setupStyles()
+        bindComponents()
     }
     
     func setupConstraints() {
@@ -62,6 +70,19 @@ extension RepositoryDetailViewController : ViewCodable {
     func setupStyles() {
         tableView.estimatedRowHeight = 56
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+    
+    func bindComponents() {
+        headerView.currentState
+                  .asObservable()
+                  .subscribe(onNext: { [weak self] state in
+                    if state == .loading {
+                        self?.presenter?.loadPullRequests()
+                    }
+                  })
+                  .addDisposableTo(disposeBag)
+        
     }
     
 }
