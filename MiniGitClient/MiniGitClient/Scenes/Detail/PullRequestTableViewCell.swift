@@ -14,7 +14,7 @@ class PullRequestTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel(frame: CGRect.zero)
     
-    let bodyLabel = UILabel(frame: CGRect.zero)
+    let bodyTextView = UITextView(frame: CGRect.zero)
     
     let avatarImageView = UIImageView(frame: CGRect.zero)
     
@@ -45,13 +45,13 @@ extension PullRequestTableViewCell : ViewCodable {
         wrapperView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         wrapperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         wrapperView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        wrapperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        wrapperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12).isActive = true
         
         let heightConstraint = wrapperView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72)
         heightConstraint.priority = 500
         heightConstraint.isActive = true
         
-        let subviews = [titleLabel,bodyLabel,avatarImageView,authorLabel]
+        let subviews = [titleLabel,bodyTextView,avatarImageView,authorLabel]
         for view in subviews {
             wrapperView.addSubview(view)
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -61,10 +61,10 @@ extension PullRequestTableViewCell : ViewCodable {
         titleLabel.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 16).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: avatarImageView.leadingAnchor, constant: -16).isActive = true
         
-        bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6).isActive = true
-        bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
-        bodyLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
-        bodyLabel.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor).isActive = true
+        bodyTextView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6).isActive = true
+        bodyTextView.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 11).isActive = true
+        bodyTextView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
+        bodyTextView.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor).isActive = true
         
         avatarImageView.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 6).isActive = true
         avatarImageView.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -18).isActive = true
@@ -82,8 +82,10 @@ extension PullRequestTableViewCell : ViewCodable {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         titleLabel.numberOfLines = 0
         
-        bodyLabel.font = UIFont.systemFont(ofSize: 14)
-        bodyLabel.numberOfLines = 0
+        bodyTextView.font = UIFont.systemFont(ofSize: 14)
+        bodyTextView.isUserInteractionEnabled = false
+        bodyTextView.isScrollEnabled = false
+        bodyTextView.textContainerInset = UIEdgeInsets.zero
         
         avatarImageView.layer.cornerRadius = 22
         avatarImageView.layer.masksToBounds = true
