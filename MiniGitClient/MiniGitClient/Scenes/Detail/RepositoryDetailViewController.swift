@@ -80,6 +80,10 @@ extension RepositoryDetailViewController : ViewCodable {
                     if state == .loading {
                         self?.presenter?.loadPullRequests()
                     }
+                    else if state == .loaded {
+                        self?.tableView.reloadData()
+                        self?.setupHeader()
+                    }
                   })
                   .addDisposableTo(disposeBag)
         

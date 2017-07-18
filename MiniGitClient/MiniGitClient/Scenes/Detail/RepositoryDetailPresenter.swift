@@ -48,7 +48,6 @@ extension RepositoryDetailPresenter {
                       .skip(1)
                       .subscribe(onNext: { _, pullRequests in
                             if pullRequests.count > 0 {
-                                viewController.tableView.reloadData()
                                 viewController.headerView.currentState.value = .loaded
                             }
                             else {
