@@ -11,7 +11,7 @@ import UIKit
 
 class AppCoordinator {
     
-    fileprivate var splitViewController = UISplitViewController()
+    fileprivate var splitViewController = MainSplitViewController()
     
     fileprivate var repositoryListCoordinator : RepositoryListCoordinator?
 
@@ -34,7 +34,7 @@ extension AppCoordinator : Coordinator {
 extension AppCoordinator : UISplitViewControllerDelegate {
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return true
+        return false
     }
     
 }
