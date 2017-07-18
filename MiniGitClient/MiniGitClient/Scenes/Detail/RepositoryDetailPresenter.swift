@@ -15,6 +15,11 @@ protocol RepositoryDetailInteractorProtocol : class {
     func loadPullRequests(ofRepository repository : Repository)
 }
 
+protocol RepositoryDetailRouterType : class {
+    func openPullRequest(_ sender : RepositoryDetailPresenter, _ pullRequest : PullRequest)
+}
+
+
 class RepositoryDetailPresenter : NSObject {
     
     weak var viewController: RepositoryDetailViewController? {
@@ -30,6 +35,8 @@ class RepositoryDetailPresenter : NSObject {
             bind()
         }
     }
+    
+    weak var router : RepositoryDetailRouterType?
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -69,6 +76,7 @@ extension RepositoryDetailPresenter : RepositoryDetailPresenterProtocol {
     func registerTableView(_ tableView: UITableView) {
         tableView.register(PullRequestTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(PullRequestTableViewCell.self))
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func loadPullRequests() {
@@ -91,6 +99,17 @@ extension RepositoryDetailPresenter : UITableViewDataSource {
             PullRequestCellViewModel.configure(cell, withPullRequest: pullRequests[indexPath.row])
         }
         return cell
+    }
+    
+}
+
+extension RepositoryDetailPresenter : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if let pullRequests = interactor?.fetchedPullRequests.value.1 {
+            router?.openPullRequest(self, pullRequests[indexPath.row])
+        }
     }
     
 }

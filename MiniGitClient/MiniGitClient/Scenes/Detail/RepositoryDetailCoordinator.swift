@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 fileprivate struct RepositoryDetailScene {
     
@@ -25,13 +26,13 @@ fileprivate struct RepositoryDetailScene {
     
 }
 
-struct RepositoryDetailCoordinator {
+class RepositoryDetailCoordinator {
     
     fileprivate let scene : RepositoryDetailScene
     
     fileprivate weak var splitViewController : UISplitViewController?
     
-    init(repository: Repository, splitViewController : UISplitViewController) {
+    required init(repository: Repository, splitViewController : UISplitViewController) {
         self.splitViewController = splitViewController
         self.scene = RepositoryDetailScene(repository: repository)
     }
@@ -44,6 +45,20 @@ extension RepositoryDetailCoordinator : Coordinator {
         guard let splitViewController = splitViewController else { return }
         let navController = UINavigationController(rootViewController: scene.viewController)
         splitViewController.showDetailViewController(navController, sender: self)
+        scene.presenter.router = self
+    }
+    
+}
+
+
+extension RepositoryDetailCoordinator : RepositoryDetailRouterType {
+    
+    func openPullRequest(_ sender: RepositoryDetailPresenter, _ pullRequest: PullRequest) {
+        if let url = pullRequest.url, let splitViewController = splitViewController ,UIApplication.shared.canOpenURL(url) {
+            let safariViewController = SFSafariViewController(url: url)
+            safariViewController.modalPresentationStyle = .pageSheet
+            splitViewController.present(safariViewController, animated: true, completion: nil)
+        }
     }
     
 }
