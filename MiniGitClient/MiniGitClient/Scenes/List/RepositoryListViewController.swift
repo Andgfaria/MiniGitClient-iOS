@@ -42,6 +42,24 @@ class RepositoryListViewController: UIViewController {
         setup()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clearSelectionIfNeeded()
+    }
+    
+}
+
+
+extension RepositoryListViewController {
+    
+    fileprivate func clearSelectionIfNeeded() {
+        if view.traitCollection.horizontalSizeClass == .compact && view.traitCollection.verticalSizeClass == .regular {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                tableView.deselectRow(at: selectedIndexPath, animated: false)
+            }
+        }
+    }
+    
 }
 
 

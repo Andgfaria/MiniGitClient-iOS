@@ -95,9 +95,7 @@ extension RepositoryListTableViewCell : ViewCodable {
         repositoryOwnerLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
     }
     
-    func setupStyles() {
-        self.selectionStyle = .none
-        
+    func setupStyles() {        
         titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
         titleLabel.numberOfLines = 0
         

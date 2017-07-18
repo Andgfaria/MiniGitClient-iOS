@@ -208,8 +208,8 @@
 		6504E8B41F1D8FCD00124B54 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				6504E8B51F1D901300124B54 /* RepositoryListCellViewModel.swift */,
 				6504E8B61F1D901300124B54 /* RepositoryListTableViewCell.swift */,
+				6504E8B51F1D901300124B54 /* RepositoryListCellViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
