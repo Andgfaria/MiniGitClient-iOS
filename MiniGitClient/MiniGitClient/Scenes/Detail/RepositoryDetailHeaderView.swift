@@ -47,7 +47,7 @@ class RepositoryDetailHeaderView: UIView {
 extension RepositoryDetailHeaderView {
     
     override var intrinsicContentSize: CGSize {
-        let offSet : CGFloat = currentState.value == .loaded ? 24 : 96
+        let offSet : CGFloat = currentState.value == .loaded ? 48 : 96
         return CGSize(width: bounds.size.width, height: nameLabel.intrinsicContentSize.height + infoLabel.intrinsicContentSize.height + stackView.spacing + offSet)
     }
     
@@ -69,9 +69,9 @@ extension RepositoryDetailHeaderView {
     }
     
     fileprivate func removeLoadView() {
-        loadView.isHidden = true
+        stackView.removeArrangedSubview(loadView)
         loadView.removeConstraints(loadView.constraints)
-//        infoLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
+        loadView.removeFromSuperview()
         layoutIfNeeded()
     }
     
