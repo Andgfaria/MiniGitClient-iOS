@@ -14,6 +14,7 @@ protocol RepositoryDetailPresenterProtocol : class, UITableViewDataSource {
     func configureHeader(_ header : RepositoryDetailHeaderView)
     func registerTableView(_ tableView : UITableView)
     func loadPullRequests()
+    var shareItems : [Any] { get }
 }
 
 class RepositoryDetailViewController: UIViewController {
@@ -51,6 +52,21 @@ extension RepositoryDetailViewController {
     
 }
 
+extension RepositoryDetailViewController {
+    
+    fileprivate func addShareButton() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.share(sender:)))
+    }
+    
+    func share(sender : UIBarButtonItem) {
+        if let shareItems = presenter?.shareItems {
+            let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.barButtonItem = sender
+            present(activityViewController, animated: true, completion: nil)
+        }
+    }
+}
+
 extension RepositoryDetailViewController : ViewCodable {
     
     fileprivate func setup() {
@@ -58,6 +74,7 @@ extension RepositoryDetailViewController : ViewCodable {
         setupConstraints()
         setupStyles()
         bindComponents()
+        addShareButton()
     }
     
     func setupConstraints() {

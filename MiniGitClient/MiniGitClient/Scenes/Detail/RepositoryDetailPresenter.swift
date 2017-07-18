@@ -38,6 +38,11 @@ class RepositoryDetailPresenter : NSObject {
     
     weak var router : RepositoryDetailRouterType?
     
+    var shareItems : [Any] {
+        guard let url = repository.url else { return [repository.name] }
+        return [repository.name,url]
+    }
+    
     fileprivate let disposeBag = DisposeBag()
     
     required init(repository : Repository) {
