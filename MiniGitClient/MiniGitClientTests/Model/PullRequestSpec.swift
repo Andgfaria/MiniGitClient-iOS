@@ -40,6 +40,12 @@ class PullRequestSpec: QuickSpec {
                     expect(pullRequest.date) == now
                 }
                 
+                it("an url property") {
+                    let url = URL(string: "http://www.pudim.com.br")
+                    pullRequest.url = url
+                    expect(url) == url
+                }
+                
                 it("an user property") {
                     let user = RepositoryOwner()
                     pullRequest.user  = user
@@ -53,6 +59,7 @@ class PullRequestSpec: QuickSpec {
                 let validJson : DataDict = ["title" : "Title",
                                             "body" : "Body",
                                             "created_at" : "2017-07-11T01:01:34+00:00",
+                                            "url" : "http://www.pudim.com.br",
                                             "user" : ["login" : "André", "avatar_url" : "https://avatars0.githubusercontent.com/u/7774181?v=3"]]
                 
                 let emptyJson = DataDict()
@@ -65,6 +72,7 @@ class PullRequestSpec: QuickSpec {
                         let dateFormatter = ISO8601DateFormatter()
                         expect(pullRequest.date) == dateFormatter.date(from: isoDate)
                     }
+                    expect(pullRequest.url) == URL(string: validJson["url"] as? String ?? "")
                     expect(pullRequest.user).toNot(beNil())
                 }
                 
@@ -73,6 +81,7 @@ class PullRequestSpec: QuickSpec {
                     expect(pullRequest.title).to(beEmpty())
                     expect(pullRequest.body).to(beEmpty())
                     expect(pullRequest.date).to(beNil())
+                    expect(pullRequest.url).to(beNil())
                     expect(pullRequest.user).to(beNil())
                 }
                 

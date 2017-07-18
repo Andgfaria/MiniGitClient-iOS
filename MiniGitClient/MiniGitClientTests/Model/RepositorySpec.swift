@@ -44,6 +44,12 @@ class RepositorySpec: QuickSpec {
                     expect(repo.forksCount) == 13
                 }
                 
+                it("an url property") {
+                    let url = URL(string: "http://www.pudim.com.br")
+                    repo.url = url
+                    expect(repo.url) == url
+                }
+                
                 it("a owner property") {
                     let owner = RepositoryOwner()
                     repo.owner = owner
@@ -55,13 +61,14 @@ class RepositorySpec: QuickSpec {
             context("can", closure: {
                 
                 let validJson : DataDict = ["name" : "Name",
-                                                  "description" : "Description",
-                                                  "stargazers_count" : 13,
-                                                  "forks_count" : 13,
-                                                  "owner" : [
-                                                    "name" : "André",
-                                                    "avatar_url" : nil
-                                                  ]]
+                                            "description" : "Description",
+                                            "stargazers_count" : 13,
+                                            "forks_count" : 13,
+                                            "url" : "http://www.pudim.com.br",
+                                            "owner" : [
+                                                "name" : "André",
+                                                "avatar_url" : nil
+                                            ]]
                 
                 let emptyJson = DataDict()
                 
@@ -71,6 +78,7 @@ class RepositorySpec: QuickSpec {
                     expect(repo.info) == validJson["description"] as? String
                     expect(repo.starsCount) == validJson["stargazers_count"] as? Int
                     expect(repo.forksCount) == validJson["forks_count"] as? Int
+                    expect(repo.url) == URL(string: validJson["url"] as? String ?? "")
                     expect(repo.owner).toNot(beNil())
                 }
                 
@@ -80,6 +88,8 @@ class RepositorySpec: QuickSpec {
                     expect(repo.info).to(beEmpty())
                     expect(repo.starsCount) == 0
                     expect(repo.forksCount) == 0
+                    expect(repo.url).to(beNil())
+                    expect(repo.owner).to(beNil())
                 }
                 
             })
