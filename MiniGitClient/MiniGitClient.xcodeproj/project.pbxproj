@@ -57,6 +57,7 @@
 		65DBFA4C1EF98D9F0021DA3C /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DBFA4B1EF98D9F0021DA3C /* Repository.swift */; };
 		6F5950171F1EA46600FCEF2A /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5950161F1EA46600FCEF2A /* MainSplitViewController.swift */; };
 		6F6DD2F21F1FD04100E7AD1B /* PullRequestCellViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DD2F11F1FD04100E7AD1B /* PullRequestCellViewModelSpec.swift */; };
+		6F6DD2F41F1FDA3F00E7AD1B /* RepositoryDetailHeaderViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6DD2F31F1FDA3F00E7AD1B /* RepositoryDetailHeaderViewSpec.swift */; };
 		6F859B471F13D901005C02F5 /* PullRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F859B461F13D901005C02F5 /* PullRequest.swift */; };
 		6FB8D72A1F15328100095769 /* PullRequestsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D7291F15328100095769 /* PullRequestsStore.swift */; };
 		6FB8D72C1F15383300095769 /* PullRequestsStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */; };
@@ -148,6 +149,7 @@
 		6B0F94A08F7247ED84E86943 /* Pods-MiniGitClientUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiniGitClientUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MiniGitClientUITests/Pods-MiniGitClientUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F5950161F1EA46600FCEF2A /* MainSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		6F6DD2F11F1FD04100E7AD1B /* PullRequestCellViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestCellViewModelSpec.swift; sourceTree = "<group>"; };
+		6F6DD2F31F1FDA3F00E7AD1B /* RepositoryDetailHeaderViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailHeaderViewSpec.swift; sourceTree = "<group>"; };
 		6F859B461F13D901005C02F5 /* PullRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequest.swift; sourceTree = "<group>"; };
 		6FB8D7291F15328100095769 /* PullRequestsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStore.swift; sourceTree = "<group>"; };
 		6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStoreSpec.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 			children = (
 				6FE74E6B1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift */,
 				6F6DD2F11F1FD04100E7AD1B /* PullRequestCellViewModelSpec.swift */,
+				6F6DD2F31F1FDA3F00E7AD1B /* RepositoryDetailHeaderViewSpec.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				652D7F4F1F0BDBFA00430F51 /* RepositoryListCellViewModelSpec.swift in Sources */,
 				6570A9111EF99B6100B4ED7B /* RepositoryOwnerSpec.swift in Sources */,
 				6570A91F1EFCADD300B4ED7B /* RepositoriesStoreSpec.swift in Sources */,
+				6F6DD2F41F1FDA3F00E7AD1B /* RepositoryDetailHeaderViewSpec.swift in Sources */,
 				654C9CF81F0BFB88009DA045 /* RepositoryListViewControllerSpec.swift in Sources */,
 				6F6DD2F21F1FD04100E7AD1B /* PullRequestCellViewModelSpec.swift in Sources */,
 				65D7C1FA1F06D6B700D3F3E9 /* RepositoryListTableViewCellSpec.swift in Sources */,
