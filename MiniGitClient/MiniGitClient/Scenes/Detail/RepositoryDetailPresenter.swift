@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-protocol RepositoryDetailInteractorProtocol : class {
+protocol RepositoryDetailInteractorType : class {
     var PullRequestsStoreType : PullRequestsStoreType { get set }
     var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> { get set }
     func loadPullRequests(ofRepository repository : Repository)
@@ -30,7 +30,7 @@ class RepositoryDetailPresenter : NSObject {
     
     fileprivate let repository : Repository
     
-    weak var interactor : RepositoryDetailInteractorProtocol? {
+    weak var interactor : RepositoryDetailInteractorType? {
         didSet {
             bind()
         }
@@ -72,7 +72,7 @@ extension RepositoryDetailPresenter {
     
 }
 
-extension RepositoryDetailPresenter : RepositoryDetailPresenterProtocol {
+extension RepositoryDetailPresenter : RepositoryDetailPresenterType {
     
     func configureHeader(_ header: RepositoryDetailHeaderView) {
         RepositoryDetailHeaderViewModel.configureHeader(header, withRepository: repository)

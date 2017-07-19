@@ -19,7 +19,7 @@ class RepositoryDetailInteractor {
     
 }
 
-extension RepositoryDetailInteractor : RepositoryDetailInteractorProtocol {
+extension RepositoryDetailInteractor : RepositoryDetailInteractorType {
   
     func loadPullRequests(ofRepository repository : Repository) {
         PullRequestsStoreType.pullRequests(from: repository)

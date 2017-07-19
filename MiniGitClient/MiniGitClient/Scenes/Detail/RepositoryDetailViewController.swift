@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-protocol RepositoryDetailPresenterProtocol : class, UITableViewDataSource {
+protocol RepositoryDetailPresenterType : class, UITableViewDataSource {
     weak var viewController : RepositoryDetailViewController? { get set }
     func configureHeader(_ header : RepositoryDetailHeaderView)
     func registerTableView(_ tableView : UITableView)
@@ -19,7 +19,7 @@ protocol RepositoryDetailPresenterProtocol : class, UITableViewDataSource {
 
 class RepositoryDetailViewController: UIViewController {
 
-    weak var presenter : RepositoryDetailPresenterProtocol?
+    weak var presenter : RepositoryDetailPresenterType?
     
     let tableView = UITableView(frame: CGRect.zero, style: .plain)
     

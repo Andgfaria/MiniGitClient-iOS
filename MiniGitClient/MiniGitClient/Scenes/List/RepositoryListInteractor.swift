@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol RepositoryListInteractorProtocol : class {
+protocol RepositoryListInteractorType : class {
     var repositoriesStore : RepositoriesStoreType { get set }
     var fetchResults : Variable<(APIRequestResult,[Repository])> { get set }
     func loadRepositories()
@@ -28,7 +28,7 @@ class RepositoryListInteractor {
 }
 
 
-extension RepositoryListInteractor : RepositoryListInteractorProtocol {
+extension RepositoryListInteractor : RepositoryListInteractorType {
     
     func loadRepositories() {
         repositoriesStore.swiftRepositories(forPage: currentPage)

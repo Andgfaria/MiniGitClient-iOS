@@ -45,9 +45,9 @@ extension RepositoryListCoordinator : Coordinator {
     
 }
 
-extension RepositoryListCoordinator : RepositoryListRouter {
+extension RepositoryListCoordinator : RepositoryListRouterType {
     
-    func presenter(_ presenter : RepositoryListPresenterProtocol, didSelectRepository repository : Repository) {
+    func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository) {
         guard let splitViewController = splitViewController else { return }
         repositoryDetailCoordinator = RepositoryDetailCoordinator(repository : repository, splitViewController: splitViewController)
         repositoryDetailCoordinator?.start()

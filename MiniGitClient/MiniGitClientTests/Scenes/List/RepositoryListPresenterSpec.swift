@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockInteractor : RepositoryListInteractorProtocol {
+fileprivate class MockInteractor : RepositoryListInteractorType {
     
     var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
 

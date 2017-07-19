@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import RxSwift
 
-protocol RepositoryListRouter : class {
-    func presenter(_ presenter : RepositoryListPresenterProtocol, didSelectRepository repository : Repository)
+protocol RepositoryListRouterType : class {
+    func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository)
 }
 
 class RepositoryListPresenter : NSObject {
@@ -22,13 +22,13 @@ class RepositoryListPresenter : NSObject {
         }
     }
 
-    var interactor : RepositoryListInteractorProtocol? {
+    var interactor : RepositoryListInteractorType? {
         didSet {
             bind()
         }
     }
     
-    weak var router : RepositoryListRouter?
+    weak var router : RepositoryListRouterType?
     
     fileprivate var disposeBag = DisposeBag()
     
@@ -53,7 +53,7 @@ extension RepositoryListPresenter {
     
 }
 
-extension RepositoryListPresenter : RepositoryListPresenterProtocol {
+extension RepositoryListPresenter : RepositoryListPresenterType {
     
     func loadRepositories() {
         interactor?.loadRepositories()
