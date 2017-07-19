@@ -10,11 +10,11 @@ import Quick
 import Nimble
 @testable import MiniGitClient
 
-class MainAPIConfigSpec: QuickSpec {
+class APIConfigSpec: QuickSpec {
     
     override func spec() {
         
-        describe("The Main API Config") { 
+        describe("The API Config") {
             
             context("knows", { 
                 

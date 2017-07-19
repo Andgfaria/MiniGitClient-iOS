@@ -19,7 +19,7 @@ struct RepositoriesStore : RepositoriesStoreType {
 
     static let shared = RepositoriesStore()
     
-    private var config : APIConfig = MainAPIConfig.shared
+    private var config : APIConfigType = APIConfig.shared
     
     private init() { }
     

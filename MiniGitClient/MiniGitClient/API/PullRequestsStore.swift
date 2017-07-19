@@ -19,7 +19,7 @@ struct PullRequestsStore {
     
     static let shared = PullRequestsStore()
     
-    fileprivate let config = MainAPIConfig.shared
+    fileprivate let config = APIConfig.shared
     
     private init() { }
     
