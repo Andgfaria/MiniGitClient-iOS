@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol RepositoryDetailInteractorProtocol : class {
-    var pullRequestsStore : PullRequestsStore { get set }
+    var PullRequestsStoreType : PullRequestsStoreType { get set }
     var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> { get set }
     func loadPullRequests(ofRepository repository : Repository)
 }

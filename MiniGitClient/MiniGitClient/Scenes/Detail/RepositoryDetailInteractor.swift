@@ -11,7 +11,7 @@ import RxSwift
 
 class RepositoryDetailInteractor {
     
-    var pullRequestsStore : PullRequestsStore = MainPullRequestsStore.shared
+    var PullRequestsStoreType : PullRequestsStoreType = PullRequestsStore.shared
     
     var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> = Variable((APIRequestResult.success,[PullRequest]()))
     
@@ -22,7 +22,7 @@ class RepositoryDetailInteractor {
 extension RepositoryDetailInteractor : RepositoryDetailInteractorProtocol {
   
     func loadPullRequests(ofRepository repository : Repository) {
-        pullRequestsStore.pullRequests(from: repository)
+        PullRequestsStoreType.pullRequests(from: repository)
                          .subscribe(
                             onNext: { [weak self] in
                                 self?.fetchedPullRequests.value = $0

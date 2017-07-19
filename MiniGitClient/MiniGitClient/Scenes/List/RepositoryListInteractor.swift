@@ -10,14 +10,14 @@ import Foundation
 import RxSwift
 
 protocol RepositoryListInteractorProtocol : class {
-    var repositoriesStore : RepositoriesStore { get set }
+    var repositoriesStore : RepositoriesStoreType { get set }
     var fetchResults : Variable<(APIRequestResult,[Repository])> { get set }
     func loadRepositories()
 }
 
 class RepositoryListInteractor {
     
-    var repositoriesStore: RepositoriesStore = MainRepositoriesStore.shared
+    var repositoriesStore: RepositoriesStoreType = RepositoriesStore.shared
     
     var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     

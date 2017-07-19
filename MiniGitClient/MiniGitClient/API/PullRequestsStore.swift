@@ -1,5 +1,5 @@
 //
-//  PullRequestsStore.swift
+//  PullRequestsStoreType.swift
 //  MiniGitClient
 //
 //  Created by Andre Faria on 11/07/17.
@@ -11,13 +11,13 @@ import RxSwift
 import Alamofire
 import RxAlamofire
 
-protocol PullRequestsStore {
+protocol PullRequestsStoreType {
     func pullRequests(from repository : Repository) -> Observable<(APIRequestResult,[PullRequest])>
 }
 
-struct MainPullRequestsStore {
+struct PullRequestsStore {
     
-    static let shared = MainPullRequestsStore()
+    static let shared = PullRequestsStore()
     
     fileprivate let config = MainAPIConfig.shared
     
@@ -25,7 +25,7 @@ struct MainPullRequestsStore {
     
 }
 
-extension MainPullRequestsStore : PullRequestsStore {
+extension PullRequestsStore : PullRequestsStoreType {
     
     func pullRequests(from repository : Repository) -> Observable<(APIRequestResult,[PullRequest])> {
         if let rawPullRequestsEndpoints = config.urlString(with: .pullRequests), let owner = repository.owner {

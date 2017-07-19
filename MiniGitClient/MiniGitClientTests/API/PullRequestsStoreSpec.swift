@@ -1,5 +1,5 @@
 //
-//  MainPullRequestsStoreSpec.swift
+//  PullRequestsStoreSpec.swift
 //  MiniGitClient
 //
 //  Created by Andre Faria on 11/07/17.
@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-class MainPullRequestsStoreSpec: QuickSpec {
+class PullRequestsStoreSpec: QuickSpec {
     
     private let disposeBag = DisposeBag()
     
@@ -19,7 +19,7 @@ class MainPullRequestsStoreSpec: QuickSpec {
     
     override func spec() {
         
-        describe("The MainPullRequestsStore") { 
+        describe("The PullRequestsStore") { 
             
             context("calls the GitHub API", { 
                 
@@ -33,7 +33,7 @@ class MainPullRequestsStoreSpec: QuickSpec {
                     testRepository.owner = RepositoryOwner()
                     testRepository.owner?.name = "Alamofire"
                     
-                    MainPullRequestsStore.shared.pullRequests(from: testRepository)
+                    PullRequestsStore.shared.pullRequests(from: testRepository)
                                                 .subscribe(onNext: { [weak self] result, fetchedPullRequests in
                                                     if result != .success {
                                                         fail()

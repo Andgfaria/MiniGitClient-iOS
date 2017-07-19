@@ -13,7 +13,7 @@ import RxSwift
 
 fileprivate class MockInteractor : RepositoryListInteractorProtocol {
     
-    var repositoriesStore : RepositoriesStore = MainRepositoriesStore.shared
+    var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
 
     var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     

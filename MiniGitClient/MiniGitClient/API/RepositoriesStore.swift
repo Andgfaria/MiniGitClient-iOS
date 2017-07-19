@@ -11,13 +11,13 @@ import RxSwift
 import Alamofire
 import RxAlamofire
 
-protocol RepositoriesStore {
+protocol RepositoriesStoreType {
     func swiftRepositories(forPage page : Int) -> Observable<(APIRequestResult,[Repository])>
 }
 
-struct MainRepositoriesStore : RepositoriesStore {
+struct RepositoriesStore : RepositoriesStoreType {
 
-    static let shared = MainRepositoriesStore()
+    static let shared = RepositoriesStore()
     
     private var config : APIConfig = MainAPIConfig.shared
     
