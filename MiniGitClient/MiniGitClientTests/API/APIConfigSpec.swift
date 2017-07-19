@@ -19,7 +19,7 @@ class APIConfigSpec: QuickSpec {
             context("knows", { 
                 
                 it("the search URL path") {
-                    guard let path = MainAPIConfig.shared.urlString(with: .search) else { fail(); return }
+                    guard let path = APIConfig.shared.urlString(with: .search) else { fail(); return }
                     expect(URL(string: path)).toNot(beNil())
                 }
                 

@@ -59,6 +59,7 @@
 		6F859B471F13D901005C02F5 /* PullRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F859B461F13D901005C02F5 /* PullRequest.swift */; };
 		6FB8D72A1F15328100095769 /* PullRequestsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D7291F15328100095769 /* PullRequestsStore.swift */; };
 		6FB8D72C1F15383300095769 /* PullRequestsStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */; };
+		6FE74E6C1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE74E6B1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift */; };
 		ECBB5E125DC647B60EDBD5B8 /* Pods_MiniGitClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6721831E1A0CDACAA69E9B /* Pods_MiniGitClientTests.framework */; };
 		F27FBF46D1B977C37B74B96A /* Pods_MiniGitClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F45E15CED1F366FB427A67D /* Pods_MiniGitClientUITests.framework */; };
 /* End PBXBuildFile section */
@@ -148,6 +149,7 @@
 		6F859B461F13D901005C02F5 /* PullRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequest.swift; sourceTree = "<group>"; };
 		6FB8D7291F15328100095769 /* PullRequestsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStore.swift; sourceTree = "<group>"; };
 		6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStoreSpec.swift; sourceTree = "<group>"; };
+		6FE74E6B1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestTableViewCellSpec.swift; sourceTree = "<group>"; };
 		703A934383412C400666EC32 /* Pods-MiniGitClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiniGitClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiniGitClientTests/Pods-MiniGitClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		86C76F165B82345E75BCED01 /* Pods-MiniGitClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiniGitClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiniGitClient/Pods-MiniGitClient.release.xcconfig"; sourceTree = "<group>"; };
 		CC3DC4D0463755DA17B8AA77 /* Pods_MiniGitClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MiniGitClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,8 +428,9 @@
 		6FE74E6A1F1FC10A0064D204 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				6FE74E6B1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift */,
 			);
-			name = Detail;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -778,6 +781,7 @@
 				65D7C1FA1F06D6B700D3F3E9 /* RepositoryListTableViewCellSpec.swift in Sources */,
 				65CBFACB1F0154F6000773A2 /* ViewCodableSpec.swift in Sources */,
 				65D7C1EA1F068F9000D3F3E9 /* AppCoordinatorSpec.swift in Sources */,
+				6FE74E6C1F1FC2C50064D204 /* PullRequestTableViewCellSpec.swift in Sources */,
 				65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */,
 				65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */,
 				654C9CFA1F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift in Sources */,
