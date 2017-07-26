@@ -34,6 +34,10 @@ fileprivate class MockPresenter : NSObject, RepositoryListPresenterType {
         return UITableViewCell()
     }
     
+    func handleInfoButtonTap(barButtonItem: UIBarButtonItem) {
+        
+    }
+    
 }
 
 
