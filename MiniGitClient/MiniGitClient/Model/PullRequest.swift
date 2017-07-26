@@ -15,8 +15,6 @@ struct PullRequest {
     
     var body = ""
     
-    var date : Date?
-    
     var user : RepositoryOwner?
     
     var url : URL?
@@ -26,10 +24,6 @@ struct PullRequest {
     init(json : DataDict) {
         self.title = json["title"] as? String ?? ""
         self.body = json["body"] as? String ?? ""
-        if let date = json["created_at"] as? String {
-            let dateFormatter = ISO8601DateFormatter()
-            self.date = dateFormatter.date(from: date)
-        }
         if let user = json["user"] as? DataDict {
             self.user = RepositoryOwner(json: user)
         }
@@ -41,7 +35,6 @@ struct PullRequest {
     fileprivate var textRepresentation : String {
         return "Title: \(title)\n" +
                "Body: \(body)\n" +
-               "Date: \(String(describing: date))\n" +
                "URL: \(String(describing: url))\n" +
                "User: \(String(describing: user))\n"
     }
@@ -53,7 +46,6 @@ extension PullRequest : Equatable {
     static func == (lhs : PullRequest, rhs : PullRequest) -> Bool {
         return lhs.title == rhs.title &&
                lhs.body == rhs.body &&
-               lhs.date == rhs.date &&
                lhs.url == rhs.url &&
                lhs.user == rhs.user
     }
