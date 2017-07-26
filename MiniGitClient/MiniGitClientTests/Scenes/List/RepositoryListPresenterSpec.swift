@@ -11,9 +11,9 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockInteractor : RepositoryListInteractorProtocol {
+fileprivate class MockInteractor : RepositoryListInteractorType {
     
-    var repositoriesStore : RepositoriesStore = MainRepositoriesStore.shared
+    var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
 
     var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     

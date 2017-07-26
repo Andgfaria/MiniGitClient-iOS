@@ -8,6 +8,8 @@
 	<dict>
 		<key>SEARCH</key>
 		<string>search/repositories</string>
+		<key>PULLREQUESTS</key>
+		<string>repos/%@/%@/pulls</string>
 	</dict>
 </dict>
 </plist>

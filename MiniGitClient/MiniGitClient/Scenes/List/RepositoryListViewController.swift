@@ -14,7 +14,7 @@ enum RepositoryListState {
     case loadingFirst, showingRepositories, loadingMore, showingError
 }
 
-protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
+protocol RepositoryListPresenterType : class, UITableViewDataSource {
     weak var viewController : RepositoryListViewController? { get set }
     func loadRepositories()
     func registerTableView(_ tableView : UITableView)
@@ -22,7 +22,7 @@ protocol RepositoryListPresenterProtocol : class, UITableViewDataSource {
 
 class RepositoryListViewController: UIViewController {
     
-    weak var presenter : RepositoryListPresenterProtocol?
+    weak var presenter : RepositoryListPresenterType?
 
     var currentState = Variable(RepositoryListState.loadingFirst)
     
@@ -42,6 +42,24 @@ class RepositoryListViewController: UIViewController {
         setup()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clearSelectionIfNeeded()
+    }
+    
+}
+
+
+extension RepositoryListViewController {
+    
+    fileprivate func clearSelectionIfNeeded() {
+        if view.traitCollection.horizontalSizeClass == .compact && view.traitCollection.verticalSizeClass == .regular {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                tableView.deselectRow(at: selectedIndexPath, animated: false)
+            }
+        }
+    }
+    
 }
 
 

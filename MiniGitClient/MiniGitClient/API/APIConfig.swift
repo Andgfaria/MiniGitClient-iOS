@@ -10,15 +10,16 @@ import Foundation
 
 enum Endpoint : String {
     case search = "SEARCH"
+    case pullRequests = "PULLREQUESTS"
 }
 
-protocol APIConfig {
+protocol APIConfigType {
     func urlString(with endPoint : Endpoint) -> String?
 }
 
-struct MainAPIConfig : APIConfig {
+struct APIConfig : APIConfigType {
     
-    static let shared = MainAPIConfig()
+    static let shared = APIConfig()
     
     private var baseURL : String?
     

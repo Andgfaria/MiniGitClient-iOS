@@ -20,6 +20,8 @@ struct Repository  {
     
     var owner : RepositoryOwner?
     
+    var url : URL?
+    
     init() { }
     
     init(json : DataDict) {
@@ -30,6 +32,9 @@ struct Repository  {
         if let owner = json["owner"] as? DataDict {
             self.owner = RepositoryOwner(json: owner)
         }
+        if let url = json["url"] as? String {
+            self.url = URL(string: url)
+        }
     }
     
     fileprivate var textRepresentation : String {
@@ -37,6 +42,7 @@ struct Repository  {
                "Description: \(info)\n" +
                "Stars Count: \(starsCount)\n"  +
                "Forks Count: \(forksCount)\n"  +
+               "URL: \(String(describing: url))\n" +
                "Owner : \(String(describing: owner))"
     }
     
@@ -49,6 +55,7 @@ extension Repository : Equatable {
                lhs.info == rhs.info &&
                lhs.starsCount == rhs.starsCount &&
                lhs.forksCount == rhs.forksCount &&
+               lhs.url == rhs.url &&
                lhs.owner == rhs.owner
     }
     

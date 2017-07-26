@@ -16,43 +16,44 @@ class RepositorySpec: QuickSpec {
     
         describe("The Repository") { 
             
-            var repo : Repository?
+            var repo = Repository()
             
             beforeEach {
-                repo = nil
+                repo = Repository()
             }
             
             context("has", closure: { 
                 
                 it("a name property") {
-                    repo = Repository()
-                    repo?.name = "Name"
-                    expect(repo?.name) == "Name"
+                    repo.name = "Name"
+                    expect(repo.name) == "Name"
                 }
                 
                 it("a info property") {
-                    var repo = Repository()
                     repo.info = "Description"
                     expect(repo.info) == "Description"
                 }
                 
                 it("a stars count property") {
-                    repo = Repository()
-                    repo?.starsCount = 13
-                    expect(repo?.starsCount) == 13
+                    repo.starsCount = 13
+                    expect(repo.starsCount) == 13
                 }
                 
                 it("a forks count property") {
-                    repo = Repository()
-                    repo?.forksCount = 13
-                    expect(repo?.forksCount) == 13
+                    repo.forksCount = 13
+                    expect(repo.forksCount) == 13
+                }
+                
+                it("an url property") {
+                    let url = URL(string: "http://www.pudim.com.br")
+                    repo.url = url
+                    expect(repo.url) == url
                 }
                 
                 it("a owner property") {
-                    repo = Repository()
                     let owner = RepositoryOwner()
-                    repo?.owner = owner
-                    expect(repo?.owner) == owner
+                    repo.owner = owner
+                    expect(repo.owner) == owner
                 }
                 
             })
@@ -60,31 +61,35 @@ class RepositorySpec: QuickSpec {
             context("can", closure: {
                 
                 let validJson : DataDict = ["name" : "Name",
-                                                  "description" : "Description",
-                                                  "stargazers_count" : 13,
-                                                  "forks_count" : 13,
-                                                  "owner" : [
-                                                    "name" : "André",
-                                                    "avatar_url" : nil
-                                                  ]]
+                                            "description" : "Description",
+                                            "stargazers_count" : 13,
+                                            "forks_count" : 13,
+                                            "url" : "http://www.pudim.com.br",
+                                            "owner" : [
+                                                "name" : "André",
+                                                "avatar_url" : nil
+                                            ]]
                 
                 let emptyJson = DataDict()
                 
                 it("be created from a JSON dictionary") {
                     repo = Repository(json: validJson)
-                    expect(repo?.name) == validJson["name"] as? String
-                    expect(repo?.info) == validJson["description"] as? String
-                    expect(repo?.starsCount) == validJson["stargazers_count"] as? Int
-                    expect(repo?.forksCount) == validJson["forks_count"] as? Int
-                    expect(repo?.owner).toNot(beNil())
+                    expect(repo.name) == validJson["name"] as? String
+                    expect(repo.info) == validJson["description"] as? String
+                    expect(repo.starsCount) == validJson["stargazers_count"] as? Int
+                    expect(repo.forksCount) == validJson["forks_count"] as? Int
+                    expect(repo.url) == URL(string: validJson["url"] as? String ?? "")
+                    expect(repo.owner).toNot(beNil())
                 }
                 
                 it("be created from an invalid JSON dictionary and hold the default values") {
                     repo = Repository(json: emptyJson)
-                    expect(repo?.name).to(beEmpty())
-                    expect(repo?.info).to(beEmpty())
-                    expect(repo?.starsCount) == 0
-                    expect(repo?.forksCount) == 0
+                    expect(repo.name).to(beEmpty())
+                    expect(repo.info).to(beEmpty())
+                    expect(repo.starsCount) == 0
+                    expect(repo.forksCount) == 0
+                    expect(repo.url).to(beNil())
+                    expect(repo.owner).to(beNil())
                 }
                 
             })
@@ -92,19 +97,16 @@ class RepositorySpec: QuickSpec {
             context("is", {
                 
                 it("equatable") {
-                   repo =  Repository()
                    let secondRepo = Repository()
                    expect(repo) == secondRepo
                 }
                 
                 it("printable") {
-                    repo = Repository()
-                    expect(repo?.description).notTo(beEmpty())
+                    expect(repo.description).notTo(beEmpty())
                 }
                 
                 it("debug printable") {
-                    repo = Repository()
-                    expect(repo?.debugDescription).notTo(beEmpty())
+                    expect(repo.debugDescription).notTo(beEmpty())
                 }
                 
             })

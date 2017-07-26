@@ -12,7 +12,7 @@ import RxSwift
 
 @testable import MiniGitClient
 
-class MainRepositoriesStoreSpec: QuickSpec {
+class RepositoriesStoreSpec: QuickSpec {
     
     private var disposeBag = DisposeBag()
     
@@ -30,7 +30,7 @@ class MainRepositoriesStoreSpec: QuickSpec {
                 
                 it("and receives an Swift repositories list for a given page") {
                     
-                    MainRepositoriesStore.shared.swiftRepositories(forPage: 1)
+                    RepositoriesStore.shared.swiftRepositories(forPage: 1)
                         .subscribe(
                             onNext: { [weak self] requestResult, repositories in
                                 if requestResult != .success {
