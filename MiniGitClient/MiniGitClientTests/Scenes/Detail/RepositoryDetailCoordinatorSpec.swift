@@ -25,6 +25,7 @@ class RepositoryDetailCoordinatorSpec: QuickSpec {
                 splitViewController = UISplitViewController()
                 splitViewController.viewControllers = [UIViewController()]
                 coordinator = RepositoryDetailCoordinator(repository: Repository(), splitViewController: splitViewController)
+
             }
             
             context("shows", { 
@@ -34,14 +35,7 @@ class RepositoryDetailCoordinatorSpec: QuickSpec {
                     guard let navController = splitViewController.viewControllers[1] as? UINavigationController else { fail(); return }
                     expect(navController.viewControllers.first).to(beAKindOf(RepositoryDetailViewController.self))
                 }
-                
-                it("a SafariViewController when routing a pull request selection") {
-                    var testPullRequest = PullRequest()
-                    testPullRequest.url = URL(string: "http://www.pudim.com.br")
-                    coordinator?.start()
-                    coordinator?.openPullRequest(RepositoryDetailPresenter(repository: Repository()), testPullRequest)
-                }
-                
+            
             })
             
         }
