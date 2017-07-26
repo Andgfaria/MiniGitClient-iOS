@@ -53,4 +53,10 @@ extension RepositoryListCoordinator : RepositoryListRouterType {
         repositoryDetailCoordinator?.start()
     }
     
+    func presenter(_ presenter: RepositoryListPresenterType, didHandleInfoTapWithItem item: UIBarButtonItem) {
+        if let master = splitViewController?.viewControllers.first {
+            InfoCoordinator(viewController: master, senderItem: item).start()
+        }
+    }
+    
 }
