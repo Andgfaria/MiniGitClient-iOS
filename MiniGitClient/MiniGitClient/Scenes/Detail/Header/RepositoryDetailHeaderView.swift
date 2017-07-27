@@ -88,6 +88,8 @@ extension RepositoryDetailHeaderView : ViewCodable {
     
     func setupConstraints() {
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
         stackView.addArrangedSubview(nameLabel)
         nameLabel.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
