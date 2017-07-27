@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol InfoPresenterType : class, UITableViewDataSource {
+protocol InfoPresenterType : class, UITableViewDataSource, UITableViewDelegate {
     func registerTableView(_ tableView : UITableView)
     func onDismissButtonTapped(sender : InfoViewController)
 }

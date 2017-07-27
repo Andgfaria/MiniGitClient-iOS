@@ -10,6 +10,8 @@ import UIKit
 
 protocol InfoRouterType : class {
     func dismissController(_ controller : UIViewController)
+    func openGitHubPage()
+    func openMailCompose()
 }
 
 
@@ -71,6 +73,13 @@ extension InfoPresenter : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return section == 0 ? R.string.info.meDescription() : nil
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1 {
+            indexPath.row == 0 ? router?.openGitHubPage() : router?.openMailCompose()
+        }
     }
     
 }
