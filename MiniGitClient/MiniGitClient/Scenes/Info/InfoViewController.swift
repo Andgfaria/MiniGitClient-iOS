@@ -10,6 +10,7 @@ import UIKit
 
 protocol InfoPresenterType : class, UITableViewDataSource {
     func registerTableView(_ tableView : UITableView)
+    func onDismissButtonTapped(sender : InfoViewController)
 }
 
 class InfoViewController: UIViewController {
@@ -27,12 +28,28 @@ class InfoViewController: UIViewController {
 
 }
 
+extension InfoViewController {
+    
+    fileprivate func setupDoneButtonIfNeeded() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return
+        }
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTap))
+    }
+    
+    func handleDoneTap() {
+        presenter?.onDismissButtonTapped(sender: self)
+    }
+    
+}
+
 
 extension InfoViewController : ViewCodable {
     
     fileprivate func setup() {
         addViewsToHierarchy([tableView])
         setupConstraints()
+        setupDoneButtonIfNeeded()
     }
     
     func setupConstraints() {

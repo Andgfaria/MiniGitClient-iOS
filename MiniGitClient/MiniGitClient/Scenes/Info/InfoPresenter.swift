@@ -8,7 +8,18 @@
 
 import UIKit
 
-class InfoPresenter : NSObject, InfoPresenterType {
+protocol InfoRouterType : class {
+    func dismissController(_ controller : UIViewController)
+}
+
+
+class InfoPresenter : NSObject {
+    
+    weak var router : InfoRouterType?
+    
+}
+
+extension InfoPresenter : InfoPresenterType {
     
     func registerTableView(_ tableView: UITableView) {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: NSStringFromClass(UITableViewCell.self))
@@ -17,6 +28,9 @@ class InfoPresenter : NSObject, InfoPresenterType {
         tableView.reloadData()
     }
     
+    func onDismissButtonTapped(sender: InfoViewController) {
+        router?.dismissController(sender)
+    }
 }
 
 extension InfoPresenter : UITableViewDataSource {

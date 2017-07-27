@@ -31,6 +31,7 @@ class InfoCoordinator {
     required init(viewController : UIViewController, senderItem : UIBarButtonItem) {
         self.viewController = viewController
         self.senderItem = senderItem
+        self.scene.presenter.router = self
     }
     
 }
@@ -42,6 +43,14 @@ extension InfoCoordinator : Coordinator {
         navigationController.modalPresentationStyle = .popover
         navigationController.popoverPresentationController?.barButtonItem = senderItem
         viewController?.present(navigationController, animated: true)
+    }
+    
+}
+
+extension InfoCoordinator : InfoRouterType {
+    
+    func dismissController(_ controller: UIViewController) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 }
