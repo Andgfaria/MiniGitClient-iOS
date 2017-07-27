@@ -1,0 +1,16 @@
+/* 
+  Info.strings
+  MiniGitClient
+
+  Created by Andre Faria on 27/07/17.
+  Copyright © 2017 AGF. All rights reserved.
+*/
+
+"title" = "Sobre";
+
+"me" = "André Gimenez Faria";
+"meTitle" = "Quem sou eu?";
+"meDescription" = "Sou um jovem desenvolvedor iOS brasileiro fascinado por tecnologia que está sempre tentando fazer coisas legais";
+
+"repositoryLink" = "Ver Projeto no GitHub";
+"contactLink" = "Contato";

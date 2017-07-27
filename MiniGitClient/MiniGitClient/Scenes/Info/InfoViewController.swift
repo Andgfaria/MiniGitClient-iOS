@@ -8,13 +8,21 @@
 
 import UIKit
 
+protocol InfoPresenterType : class, UITableViewDataSource {
+    func registerTableView(_ tableView : UITableView)
+}
+
 class InfoViewController: UIViewController {
     
-    var tableView = UITableView(frame: CGRect.zero, style: .grouped)
+    fileprivate var tableView = UITableView(frame: CGRect.zero, style: .grouped)
+    
+    var presenter : InfoPresenterType?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = R.string.info.title()
         setup()
+        presenter?.registerTableView(tableView)
     }
 
 }

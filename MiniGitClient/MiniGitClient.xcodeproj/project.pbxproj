@@ -68,6 +68,10 @@
 		6F533C4B1F2688B70075E2DA /* RepositoryDetailViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F533C4A1F2688B70075E2DA /* RepositoryDetailViewControllerSpec.swift */; };
 		6F5950171F1EA46600FCEF2A /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5950161F1EA46600FCEF2A /* MainSplitViewController.swift */; };
 		6F859B471F13D901005C02F5 /* PullRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F859B461F13D901005C02F5 /* PullRequest.swift */; };
+		6F8653B91F2A440C00C7F408 /* InfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8653B81F2A440B00C7F408 /* InfoPresenter.swift */; };
+		6F8653BC1F2A4FA700C7F408 /* Info.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F8653BE1F2A4FA700C7F408 /* Info.strings */; };
+		6F8653C31F2A564200C7F408 /* InfoMeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8653C21F2A564200C7F408 /* InfoMeCellViewModel.swift */; };
+		6F8653C51F2A570500C7F408 /* InfoLinkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8653C41F2A570500C7F408 /* InfoLinkCellViewModel.swift */; };
 		6FB8D72A1F15328100095769 /* PullRequestsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D7291F15328100095769 /* PullRequestsStore.swift */; };
 		6FB8D72C1F15383300095769 /* PullRequestsStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */; };
 		ECBB5E125DC647B60EDBD5B8 /* Pods_MiniGitClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6721831E1A0CDACAA69E9B /* Pods_MiniGitClientTests.framework */; };
@@ -168,6 +172,12 @@
 		6F533C4A1F2688B70075E2DA /* RepositoryDetailViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailViewControllerSpec.swift; sourceTree = "<group>"; };
 		6F5950161F1EA46600FCEF2A /* MainSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		6F859B461F13D901005C02F5 /* PullRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequest.swift; sourceTree = "<group>"; };
+		6F8653B81F2A440B00C7F408 /* InfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPresenter.swift; sourceTree = "<group>"; };
+		6F8653BD1F2A4FA700C7F408 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Info.strings; sourceTree = "<group>"; };
+		6F8653BF1F2A4FA800C7F408 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Info.strings; sourceTree = "<group>"; };
+		6F8653C01F2A4FA900C7F408 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Info.strings"; sourceTree = "<group>"; };
+		6F8653C21F2A564200C7F408 /* InfoMeCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoMeCellViewModel.swift; sourceTree = "<group>"; };
+		6F8653C41F2A570500C7F408 /* InfoLinkCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLinkCellViewModel.swift; sourceTree = "<group>"; };
 		6FB8D7291F15328100095769 /* PullRequestsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStore.swift; sourceTree = "<group>"; };
 		6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStoreSpec.swift; sourceTree = "<group>"; };
 		703A934383412C400666EC32 /* Pods-MiniGitClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiniGitClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiniGitClientTests/Pods-MiniGitClientTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -330,6 +340,7 @@
 			children = (
 				656417821F0AAFFC009277CB /* List.strings */,
 				6573EF0F1F1C15B800EC7239 /* Detail.strings */,
+				6F8653BE1F2A4FA700C7F408 /* Info.strings */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -476,10 +487,21 @@
 		6F1432D61F28ED3300FDB096 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				6F8653C11F2A560E00C7F408 /* ViewModels */,
 				6F1432D71F28ED6100FDB096 /* InfoViewController.swift */,
+				6F8653B81F2A440B00C7F408 /* InfoPresenter.swift */,
 				6F1432D91F28EF5C00FDB096 /* InfoCoordinator.swift */,
 			);
 			path = Info;
+			sourceTree = "<group>";
+		};
+		6F8653C11F2A560E00C7F408 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6F8653C21F2A564200C7F408 /* InfoMeCellViewModel.swift */,
+				6F8653C41F2A570500C7F408 /* InfoLinkCellViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		6FE74E6A1F1FC10A0064D204 /* Detail */ = {
@@ -613,6 +635,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F8653BC1F2A4FA700C7F408 /* Info.strings in Resources */,
 				6573EF0D1F1C15B800EC7239 /* Detail.strings in Resources */,
 				656417801F0AAFFC009277CB /* List.strings in Resources */,
 				651FCA0B1EF987A000E1F8FF /* LaunchScreen.storyboard in Resources */,
@@ -803,15 +826,18 @@
 				6F1432DA1F28EF5C00FDB096 /* InfoCoordinator.swift in Sources */,
 				65801B5B1EFF3EE3001DEB7F /* RepositoryListInteractor.swift in Sources */,
 				6570A9181EF9B65F00B4ED7B /* APIConfig.swift in Sources */,
+				6F8653C31F2A564200C7F408 /* InfoMeCellViewModel.swift in Sources */,
 				65D9C3481F0D1389004DA101 /* LoadMoreView.swift in Sources */,
 				6F859B471F13D901005C02F5 /* PullRequest.swift in Sources */,
 				65D7C1FE1F06F15400D3F3E9 /* RepositoryListPresenter.swift in Sources */,
 				6570A91D1EF9BC7100B4ED7B /* RepositoriesStore.swift in Sources */,
+				6F8653C51F2A570500C7F408 /* InfoLinkCellViewModel.swift in Sources */,
 				6573EF041F1AB33500EC7239 /* RepositoryDetailCoordinator.swift in Sources */,
 				6512F1F81F00A34E00707391 /* ViewCodable.swift in Sources */,
 				65801B551EFF36CE001DEB7F /* APIUtils.swift in Sources */,
 				6504E8B71F1D901300124B54 /* RepositoryListCellViewModel.swift in Sources */,
 				65D7C1E61F06869800D3F3E9 /* Coordinator.swift in Sources */,
+				6F8653B91F2A440C00C7F408 /* InfoPresenter.swift in Sources */,
 				65D7C1EC1F0693D900D3F3E9 /* RepositoryListViewController.swift in Sources */,
 				6504E8BE1F1D90A300124B54 /* RepositoryDetailHeaderViewModel.swift in Sources */,
 				656417751F0A97D9009277CB /* R.generated.swift in Sources */,
@@ -911,6 +937,16 @@
 				6573EF111F1C15BA00EC7239 /* pt-BR */,
 			);
 			name = Detail.strings;
+			sourceTree = "<group>";
+		};
+		6F8653BE1F2A4FA700C7F408 /* Info.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F8653BD1F2A4FA700C7F408 /* Base */,
+				6F8653BF1F2A4FA800C7F408 /* en */,
+				6F8653C01F2A4FA900C7F408 /* pt-BR */,
+			);
+			name = Info.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

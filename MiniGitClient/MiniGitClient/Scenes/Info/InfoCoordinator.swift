@@ -8,8 +8,22 @@
 
 import UIKit
 
+fileprivate struct InfoScene {
+    
+    let viewController = InfoViewController(nibName: nil, bundle: nil)
+    
+    let presenter = InfoPresenter()
+    
+    init() {
+        viewController.presenter = presenter
+    }
+    
+}
+
 class InfoCoordinator {
 
+    fileprivate let scene = InfoScene()
+    
     weak var viewController : UIViewController?
     
     weak var senderItem : UIBarButtonItem?
@@ -24,8 +38,7 @@ class InfoCoordinator {
 extension InfoCoordinator : Coordinator {
     
     func start() {
-        let infoController = InfoViewController(nibName: nil, bundle: nil)
-        let navigationController = UINavigationController(rootViewController: infoController)
+        let navigationController = UINavigationController(rootViewController: scene.viewController)
         navigationController.modalPresentationStyle = .popover
         navigationController.popoverPresentationController?.barButtonItem = senderItem
         viewController?.present(navigationController, animated: true)
