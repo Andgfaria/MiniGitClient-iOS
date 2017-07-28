@@ -72,6 +72,8 @@
 		6F8653BC1F2A4FA700C7F408 /* Info.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F8653BE1F2A4FA700C7F408 /* Info.strings */; };
 		6F8653C31F2A564200C7F408 /* InfoMeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8653C21F2A564200C7F408 /* InfoMeCellViewModel.swift */; };
 		6F8653C51F2A570500C7F408 /* InfoLinkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8653C41F2A570500C7F408 /* InfoLinkCellViewModel.swift */; };
+		6FA0199E1F2BA102008310D1 /* InfoMeCellViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0199D1F2BA102008310D1 /* InfoMeCellViewModelSpec.swift */; };
+		6FA019A01F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0199F1F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift */; };
 		6FB8D72A1F15328100095769 /* PullRequestsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D7291F15328100095769 /* PullRequestsStore.swift */; };
 		6FB8D72C1F15383300095769 /* PullRequestsStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */; };
 		ECBB5E125DC647B60EDBD5B8 /* Pods_MiniGitClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6721831E1A0CDACAA69E9B /* Pods_MiniGitClientTests.framework */; };
@@ -178,6 +180,8 @@
 		6F8653C01F2A4FA900C7F408 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Info.strings"; sourceTree = "<group>"; };
 		6F8653C21F2A564200C7F408 /* InfoMeCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoMeCellViewModel.swift; sourceTree = "<group>"; };
 		6F8653C41F2A570500C7F408 /* InfoLinkCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLinkCellViewModel.swift; sourceTree = "<group>"; };
+		6FA0199D1F2BA102008310D1 /* InfoMeCellViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoMeCellViewModelSpec.swift; sourceTree = "<group>"; };
+		6FA0199F1F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLinkCellViewModelSpec.swift; sourceTree = "<group>"; };
 		6FB8D7291F15328100095769 /* PullRequestsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStore.swift; sourceTree = "<group>"; };
 		6FB8D72B1F15383300095769 /* PullRequestsStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsStoreSpec.swift; sourceTree = "<group>"; };
 		703A934383412C400666EC32 /* Pods-MiniGitClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiniGitClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiniGitClientTests/Pods-MiniGitClientTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 			children = (
 				65801B5D1EFF4395001DEB7F /* List */,
 				6FE74E6A1F1FC10A0064D204 /* Detail */,
+				6F41F80F1F2B78A200AC5C95 /* Info */,
 				65D7C1E91F068F9000D3F3E9 /* AppCoordinatorSpec.swift */,
 			);
 			path = Scenes;
@@ -493,6 +498,23 @@
 				6F1432D91F28EF5C00FDB096 /* InfoCoordinator.swift */,
 			);
 			path = Info;
+			sourceTree = "<group>";
+		};
+		6F41F80F1F2B78A200AC5C95 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				6F41F8101F2B78FE00AC5C95 /* ViewModels */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		6F41F8101F2B78FE00AC5C95 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6FA0199D1F2BA102008310D1 /* InfoMeCellViewModelSpec.swift */,
+				6FA0199F1F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		6F8653C11F2A560E00C7F408 /* ViewModels */ = {
@@ -867,6 +889,7 @@
 				6570A91B1EF9BA6600B4ED7B /* APIConfigSpec.swift in Sources */,
 				650AF91C1F048B19001761FD /* EmptyViewSpec.swift in Sources */,
 				6F533C4B1F2688B70075E2DA /* RepositoryDetailViewControllerSpec.swift in Sources */,
+				6FA0199E1F2BA102008310D1 /* InfoMeCellViewModelSpec.swift in Sources */,
 				6570A9111EF99B6100B4ED7B /* RepositoryOwnerSpec.swift in Sources */,
 				6570A91F1EFCADD300B4ED7B /* RepositoriesStoreSpec.swift in Sources */,
 				6F1432CB1F28C9A500FDB096 /* PullRequestCellViewModelSpec.swift in Sources */,
@@ -879,6 +902,7 @@
 				6F1432C51F28C88200FDB096 /* RepositoryListCellViewModelSpec.swift in Sources */,
 				65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */,
 				65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */,
+				6FA019A01F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift in Sources */,
 				6F533C491F265D170075E2DA /* RepositoryDetailPresenterSpec.swift in Sources */,
 				6F1432D01F28C9ED00FDB096 /* RepositoryDetailHeaderViewSpec.swift in Sources */,
 				654C9CFA1F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift in Sources */,
