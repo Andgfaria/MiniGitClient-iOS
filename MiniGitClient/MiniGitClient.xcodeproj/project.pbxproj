@@ -20,7 +20,7 @@
 		651FC9FF1EF987A000E1F8FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FC9FE1EF987A000E1F8FF /* AppDelegate.swift */; };
 		651FCA081EF987A000E1F8FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651FCA071EF987A000E1F8FF /* Assets.xcassets */; };
 		651FCA0B1EF987A000E1F8FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 651FCA091EF987A000E1F8FF /* LaunchScreen.storyboard */; };
-		651FCA211EF987A000E1F8FF /* MiniGitClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */; };
+		651FCA211EF987A000E1F8FF /* RepositoryListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651FCA201EF987A000E1F8FF /* RepositoryListTests.swift */; };
 		654C9CF81F0BFB88009DA045 /* RepositoryListViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C9CF71F0BFB88009DA045 /* RepositoryListViewControllerSpec.swift */; };
 		654C9CFA1F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C9CF91F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift */; };
 		656417751F0A97D9009277CB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656417741F0A97D9009277CB /* R.generated.swift */; };
@@ -121,7 +121,7 @@
 		651FCA111EF987A000E1F8FF /* MiniGitClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniGitClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		651FCA171EF987A000E1F8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		651FCA1C1EF987A000E1F8FF /* MiniGitClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniGitClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGitClientUITests.swift; sourceTree = "<group>"; };
+		651FCA201EF987A000E1F8FF /* RepositoryListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryListTests.swift; sourceTree = "<group>"; };
 		651FCA221EF987A000E1F8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		654C9CF71F0BFB88009DA045 /* RepositoryListViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewControllerSpec.swift; sourceTree = "<group>"; };
 		654C9CF91F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListPresenterSpec.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 		651FCA1F1EF987A000E1F8FF /* MiniGitClientUITests */ = {
 			isa = PBXGroup;
 			children = (
-				651FCA201EF987A000E1F8FF /* MiniGitClientUITests.swift */,
+				651FCA201EF987A000E1F8FF /* RepositoryListTests.swift */,
 				651FCA221EF987A000E1F8FF /* Info.plist */,
 			);
 			path = MiniGitClientUITests;
@@ -922,7 +922,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				651FCA211EF987A000E1F8FF /* MiniGitClientUITests.swift in Sources */,
+				651FCA211EF987A000E1F8FF /* RepositoryListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

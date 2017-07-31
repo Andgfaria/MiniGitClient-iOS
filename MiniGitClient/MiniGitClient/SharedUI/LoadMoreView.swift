@@ -56,6 +56,7 @@ extension LoadMoreView : ViewCodable {
         setupConstraints()
         setupStyles()
         bindComponents()
+        setupAccessibilityIdentifiers()
     }
     
     func setupConstraints() {
@@ -92,6 +93,11 @@ extension LoadMoreView : ViewCodable {
             }
         }).addDisposableTo(disposeBag)
         currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        activityIndicator.accessibilityIdentifier = "LoadMoreViewActivityIndicator"
+        actionButton.accessibilityIdentifier = "LoadMoreViewButton"
     }
     
 }
