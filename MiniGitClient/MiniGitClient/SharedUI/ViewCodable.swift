@@ -14,12 +14,14 @@ protocol ViewCodable {
     func setupConstraints()
     func setupStyles()
     func bindComponents()
+    func setupAccessibilityIdentifiers()
 }
 
 extension ViewCodable {
     func setupConstraints() { }
     func setupStyles()      { }
     func bindComponents()   { }
+    func setupAccessibilityIdentifiers() { }
 }
 
 extension ViewCodable where Self : UIView {

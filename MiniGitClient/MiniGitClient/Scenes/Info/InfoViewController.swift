@@ -50,6 +50,7 @@ extension InfoViewController : ViewCodable {
         addViewsToHierarchy([tableView])
         setupConstraints()
         setupDoneButtonIfNeeded()
+        setupAccessibilityIdentifiers()
     }
     
     func setupConstraints() {
@@ -57,6 +58,11 @@ extension InfoViewController : ViewCodable {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "InfoTableView"
+        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "InfoDoneButton"
     }
     
 }

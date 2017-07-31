@@ -73,6 +73,7 @@ extension RepositoryListViewController : ViewCodable {
         setupConstraints()
         setupStyles()
         bindComponents()
+        setupAccessibilityIdentifiers()
     }
     
 
@@ -139,6 +140,11 @@ extension RepositoryListViewController : ViewCodable {
                         }
                      })
                      .addDisposableTo(disposeBag)
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "RepositoriesListTableView"
+        self.navigationItem.leftBarButtonItem?.accessibilityIdentifier = "InfoButton"
     }
     
 }
