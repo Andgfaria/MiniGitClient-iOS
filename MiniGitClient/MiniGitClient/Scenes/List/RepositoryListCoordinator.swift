@@ -28,6 +28,8 @@ class RepositoryListCoordinator {
     
     weak var splitViewController : UISplitViewController?
     
+    var infoCoordinator : InfoCoordinator?
+    
     required init(splitViewController : UISplitViewController) {
         self.splitViewController = splitViewController
     }
@@ -51,6 +53,13 @@ extension RepositoryListCoordinator : RepositoryListRouterType {
         guard let splitViewController = splitViewController else { return }
         repositoryDetailCoordinator = RepositoryDetailCoordinator(repository : repository, splitViewController: splitViewController)
         repositoryDetailCoordinator?.start()
+    }
+    
+    func presenter(_ presenter: RepositoryListPresenterType, didHandleInfoTapWithItem item: UIBarButtonItem) {
+        if let master = splitViewController?.viewControllers.first {
+            infoCoordinator = InfoCoordinator(viewController: master, senderItem: item)
+            infoCoordinator?.start()
+        }
     }
     
 }

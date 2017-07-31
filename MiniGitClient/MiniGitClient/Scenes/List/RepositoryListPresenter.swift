@@ -12,6 +12,7 @@ import RxSwift
 
 protocol RepositoryListRouterType : class {
     func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository)
+    func presenter(_ presenter : RepositoryListPresenterType, didHandleInfoTapWithItem item : UIBarButtonItem)
 }
 
 class RepositoryListPresenter : NSObject {
@@ -65,6 +66,9 @@ extension RepositoryListPresenter : RepositoryListPresenterType {
         tableView.delegate = self
     }
     
+    func handleInfoButtonTap(barButtonItem: UIBarButtonItem) {
+        router?.presenter(self, didHandleInfoTapWithItem: barButtonItem)
+    }
     
 }
 

@@ -18,6 +18,7 @@ protocol RepositoryListPresenterType : class, UITableViewDataSource {
     weak var viewController : RepositoryListViewController? { get set }
     func loadRepositories()
     func registerTableView(_ tableView : UITableView)
+    func handleInfoButtonTap(barButtonItem : UIBarButtonItem)
 }
 
 class RepositoryListViewController: UIViewController {
@@ -31,6 +32,8 @@ class RepositoryListViewController: UIViewController {
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .plain)
     
     fileprivate var loadMoreview = LoadMoreView()
+    
+    fileprivate var infoButton = UIButton(type: .infoLight)
     
     fileprivate var disposeBag = DisposeBag()
     
@@ -62,11 +65,11 @@ extension RepositoryListViewController {
     
 }
 
-
 extension RepositoryListViewController : ViewCodable {
     
     fileprivate func setup() {
         addViewsToHierarchy([emptyView,tableView])
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
         setupConstraints()
         setupStyles()
         bindComponents()
@@ -129,6 +132,13 @@ extension RepositoryListViewController : ViewCodable {
                     .map { $0 == .loadingFirst || $0 == .showingError }
                     .bind(to: tableView.rx.isHidden)
                     .addDisposableTo(disposeBag)
+        infoButton.rx.tap
+                     .subscribe(onNext: { [weak self] in
+                        if let infoButtonItem = self?.navigationItem.leftBarButtonItem {
+                            self?.presenter?.handleInfoButtonTap(barButtonItem: infoButtonItem)
+                        }
+                     })
+                     .addDisposableTo(disposeBag)
     }
     
 }
