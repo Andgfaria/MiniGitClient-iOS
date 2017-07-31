@@ -75,6 +75,7 @@ extension RepositoryDetailViewController : ViewCodable {
         setupStyles()
         bindComponents()
         addShareButton()
+        setupAccessibilityIdentifiers()
     }
     
     func setupConstraints() {
@@ -104,6 +105,11 @@ extension RepositoryDetailViewController : ViewCodable {
                   })
                   .addDisposableTo(disposeBag)
         
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "PullRequestsTableView"
+        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "RepositoryDetailShareButton"
     }
     
 }
