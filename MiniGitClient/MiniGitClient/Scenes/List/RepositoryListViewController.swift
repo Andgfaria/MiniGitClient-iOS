@@ -144,6 +144,7 @@ extension RepositoryListViewController : ViewCodable {
     
     func setupAccessibilityIdentifiers() {
         tableView.accessibilityIdentifier = "RepositoriesListTableView"
+        self.navigationItem.leftBarButtonItem?.accessibilityIdentifier = "InfoButton"
     }
     
 }

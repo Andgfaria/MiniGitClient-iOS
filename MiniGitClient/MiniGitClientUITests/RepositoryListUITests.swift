@@ -8,7 +8,7 @@
 
 import XCTest
 
-class RepositoryListTests: XCTestCase {
+class RepositoryListUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
