@@ -22,26 +22,19 @@ class PullRequestTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        setup(withViews: [wrapperView])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [wrapperView])
     }
     
 }
 
 extension PullRequestTableViewCell : ViewCodable {
     
-    fileprivate func setup() {
-        addViewsToHierarchy([wrapperView])
-        setupConstraints()
-        setupStyles()
-    }
-    
     func setupConstraints() {
-        
         wrapperView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         wrapperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         wrapperView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true

@@ -34,30 +34,22 @@ class LoadMoreView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
     init() {
         super.init(frame: CGRect.zero)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
 }
 
 extension LoadMoreView : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([activityIndicator,actionButton])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         activityIndicator.widthAnchor.constraint(equalToConstant: 20).isActive = true

@@ -29,31 +29,23 @@ class RepositoryListTableViewCell: UITableViewCell {
     
     init() {
         super.init(style: .default, reuseIdentifier: nil)
-        setup()
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
     }
     
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
     }
 
 }
 
 extension RepositoryListTableViewCell : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([titleLabel,infoLabel])
-        addViewsToHierarchy([starImageView,starsCountLabel,forkImageView,forksCountLabel])
-        addViewsToHierarchy([avatarImageView,repositoryOwnerLabel])
-        setupConstraints()
-        setupStyles()
-    }
     
     func setupConstraints() {
         titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18).isActive = true

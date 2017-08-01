@@ -21,8 +21,9 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = R.string.info.title()
-        setup()
+        navigationItem.title = R.string.info.title()
+        setupDoneButtonIfNeeded()
+        setup(withViews: [tableView])
         presenter?.registerTableView(tableView)
     }
 
@@ -34,7 +35,7 @@ extension InfoViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return
         }
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTap))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTap))
     }
     
     func handleDoneTap() {
@@ -45,13 +46,6 @@ extension InfoViewController {
 
 
 extension InfoViewController : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([tableView])
-        setupConstraints()
-        setupDoneButtonIfNeeded()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

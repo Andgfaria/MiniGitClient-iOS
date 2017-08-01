@@ -41,8 +41,9 @@ class RepositoryListViewController: UIViewController {
         super.viewDidLoad()
         title = R.string.list.title()
         navigationItem.title = title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
         presenter?.registerTableView(tableView)
-        setup()
+        setup(withViews: [emptyView,tableView])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -67,16 +68,6 @@ extension RepositoryListViewController {
 
 extension RepositoryListViewController : ViewCodable {
     
-    fileprivate func setup() {
-        addViewsToHierarchy([emptyView,tableView])
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-        setupAccessibilityIdentifiers()
-    }
-    
-
     func setupConstraints() {
         emptyView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         emptyView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -144,7 +135,7 @@ extension RepositoryListViewController : ViewCodable {
     
     func setupAccessibilityIdentifiers() {
         tableView.accessibilityIdentifier = "RepositoriesListTableView"
-        self.navigationItem.leftBarButtonItem?.accessibilityIdentifier = "InfoButton"
+        navigationItem.leftBarButtonItem?.accessibilityIdentifier = "InfoButton"
     }
     
 }

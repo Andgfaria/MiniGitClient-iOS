@@ -30,7 +30,8 @@ class RepositoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.registerTableView(tableView)
-        setup()
+        addShareButton()
+        setup(withViews: [tableView])
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,7 +56,7 @@ extension RepositoryDetailViewController {
 extension RepositoryDetailViewController {
     
     fileprivate func addShareButton() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.share(sender:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(sender:)))
     }
     
     func share(sender : UIBarButtonItem) {
@@ -68,15 +69,6 @@ extension RepositoryDetailViewController {
 }
 
 extension RepositoryDetailViewController : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([tableView])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-        addShareButton()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -109,7 +101,7 @@ extension RepositoryDetailViewController : ViewCodable {
     
     func setupAccessibilityIdentifiers() {
         tableView.accessibilityIdentifier = "PullRequestsTableView"
-        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "RepositoryDetailShareButton"
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "RepositoryDetailShareButton"
     }
     
 }
