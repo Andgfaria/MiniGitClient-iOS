@@ -1,5 +1,5 @@
 //
-//  RepositoryOwner.swift
+//  User.swift
 //  MiniGitClient
 //
 //  Created by André Gimenez Faria on 20/06/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RepositoryOwner {
+struct User {
     
     var name = ""
     
@@ -29,15 +29,15 @@ struct RepositoryOwner {
     
 }
 
-extension RepositoryOwner : Equatable {
+extension User : Equatable {
     
-    static func == (lhs: RepositoryOwner, rhs: RepositoryOwner) -> Bool {
+    static func == (lhs: User, rhs: User) -> Bool {
         return lhs.name == rhs.name && lhs.avatarURL == rhs.avatarURL
     }
     
 }
 
-extension RepositoryOwner : CustomStringConvertible {
+extension User : CustomStringConvertible {
     
     var description : String {
         return textRepresentation
@@ -45,7 +45,7 @@ extension RepositoryOwner : CustomStringConvertible {
     
 }
 
-extension RepositoryOwner : CustomDebugStringConvertible {
+extension User : CustomDebugStringConvertible {
     
     var debugDescription : String {
         return textRepresentation

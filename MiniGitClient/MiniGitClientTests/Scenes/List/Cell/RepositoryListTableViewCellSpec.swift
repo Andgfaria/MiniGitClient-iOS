@@ -52,8 +52,8 @@ class RepositoryListTableViewCellSpec: QuickSpec {
                     expect(cell.avatarImageView).toNot(beNil())
                 }
                 
-                it("has a repository owner label") {
-                    expect(cell.repositoryOwnerLabel).toNot(beNil())
+                it("has a repository user label") {
+                    expect(cell.repositoryUserLabel).toNot(beNil())
                 }
                 
             })

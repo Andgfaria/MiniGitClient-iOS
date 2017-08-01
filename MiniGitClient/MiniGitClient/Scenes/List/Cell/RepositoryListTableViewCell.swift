@@ -25,22 +25,22 @@ class RepositoryListTableViewCell: UITableViewCell {
     
     var avatarImageView = UIImageView(frame: CGRect.zero)
     
-    var repositoryOwnerLabel = UILabel(frame: CGRect.zero)
+    var repositoryUserLabel = UILabel(frame: CGRect.zero)
     
     init() {
         super.init(style: .default, reuseIdentifier: nil)
-        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryUserLabel])
     }
     
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryUserLabel])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryOwnerLabel])
+        setup(withViews: [titleLabel,infoLabel,starImageView,starsCountLabel,forkImageView,forksCountLabel,avatarImageView,repositoryUserLabel])
     }
 
 }
@@ -81,10 +81,10 @@ extension RepositoryListTableViewCell : ViewCodable {
         avatarImageView.widthAnchor.constraint(equalToConstant: 56).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: 56).isActive = true
         
-        repositoryOwnerLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 3).isActive = true
-        repositoryOwnerLabel.widthAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
-        repositoryOwnerLabel.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor).isActive = true
-        repositoryOwnerLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        repositoryUserLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 3).isActive = true
+        repositoryUserLabel.widthAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
+        repositoryUserLabel.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor).isActive = true
+        repositoryUserLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
     }
     
     func setupStyles() {        
@@ -109,10 +109,10 @@ extension RepositoryListTableViewCell : ViewCodable {
         avatarImageView.layer.cornerRadius = 28
         avatarImageView.layer.masksToBounds = true
         
-        repositoryOwnerLabel.textAlignment = .center
-        repositoryOwnerLabel.font = UIFont.systemFont(ofSize: 9)
-        repositoryOwnerLabel.textColor = .lightGray
-        repositoryOwnerLabel.numberOfLines = 0
+        repositoryUserLabel.textAlignment = .center
+        repositoryUserLabel.font = UIFont.systemFont(ofSize: 9)
+        repositoryUserLabel.textColor = .lightGray
+        repositoryUserLabel.numberOfLines = 0
     }
     
 }

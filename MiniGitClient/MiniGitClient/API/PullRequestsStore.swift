@@ -28,8 +28,8 @@ struct PullRequestsStore {
 extension PullRequestsStore : PullRequestsStoreType {
     
     func pullRequests(from repository : Repository) -> Observable<(APIRequestResult,[PullRequest])> {
-        if let rawPullRequestsEndpoints = config.urlString(with: .pullRequests), let owner = repository.owner {
-            if let pullRequestEndpoint = String(format: rawPullRequestsEndpoints, owner.name, repository.name).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+        if let rawPullRequestsEndpoints = config.urlString(with: .pullRequests), let user = repository.user {
+            if let pullRequestEndpoint = String(format: rawPullRequestsEndpoints, user.name, repository.name).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                 return json(.get, pullRequestEndpoint)
                        .map { json in
                             guard let jsonData = json as? [DataDict] else { return (APIRequestResult.invalidJson,[PullRequest]()) }
