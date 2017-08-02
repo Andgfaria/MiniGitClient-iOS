@@ -16,8 +16,12 @@ fileprivate struct InfoScene {
     
     let presenter = InfoPresenter()
     
+    let tableViewModel = InfoTableViewModel()
+    
     init() {
+        tableViewModel.selectionHandler = presenter
         viewController.presenter = presenter
+        viewController.tableViewModel = tableViewModel
     }
     
 }

@@ -10,26 +10,18 @@ import Quick
 import Nimble
 @testable import MiniGitClient
 
-private class MockPresenter : NSObject, InfoPresenterType {
+private class MockPresenter : InfoPresenterType {
     
-    var didRegisterTableView = false
     
     var didHandleDismissEvent = false
+
     
-    func registerTableView(_ tableView: UITableView) {
-        didRegisterTableView = true
+    func onSelection(ofIndex index: Int, atSection section: Int) {
+        
     }
     
     func onDismissButtonTapped(sender: InfoViewController) {
         didHandleDismissEvent = true
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell(style: .default, reuseIdentifier: nil)
     }
 }
 
@@ -68,11 +60,7 @@ class InfoViewControllerSpec: QuickSpec {
             })
             
             
-            context("presenter", { 
-                
-                it("register the tableview") {
-                    expect(presenter.didRegisterTableView).to(beTrue())
-                }
+            context("presenter", {
                 
                 it("handles done button tap event") {
                     controller.handleDoneTap()

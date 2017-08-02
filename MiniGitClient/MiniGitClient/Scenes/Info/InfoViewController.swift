@@ -8,23 +8,30 @@
 
 import UIKit
 
-protocol InfoPresenterType : class, UITableViewDataSource, UITableViewDelegate {
-    func registerTableView(_ tableView : UITableView)
+protocol InfoPresenterType : class, TableViewSelectionHandler {
     func onDismissButtonTapped(sender : InfoViewController)
+}
+
+protocol InfoTableViewModelType : TableViewModel, UITableViewDelegate {
+    
+    weak var selectionHandler : TableViewSelectionHandler? { get set }
+    
 }
 
 class InfoViewController: UIViewController {
     
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
-    var presenter : InfoPresenterType?
+    weak var presenter : InfoPresenterType?
 
+    weak var tableViewModel : InfoTableViewModelType?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = R.string.info.title()
         setupDoneButtonIfNeeded()
         setup(withViews: [tableView])
-        presenter?.registerTableView(tableView)
+        tableViewModel?.register(tableView: tableView)
     }
 
 }
