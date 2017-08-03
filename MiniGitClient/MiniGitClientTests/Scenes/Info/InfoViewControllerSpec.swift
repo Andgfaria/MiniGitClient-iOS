@@ -48,26 +48,16 @@ class InfoViewControllerSpec: QuickSpec {
                     expect(controller.view.subviews.first).to(beAKindOf(UITableView.self))
                 }
                 
-                it("a done button according to the device idiom") {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        expect(controller.navigationItem.rightBarButtonItem).to(beNil())
-                    }
-                    else {
-                        expect(controller.navigationItem.rightBarButtonItem).toNot(beNil())
-                    }
+            })
+            
+            context("is", { 
+                
+                it("closable") {
+                    expect(controller).to(beAKindOf(Closable.self))
                 }
                 
             })
-            
-            
-            context("presenter", {
-                
-                it("handles done button tap event") {
-                    controller.handleDoneTap()
-                    expect(presenter.didHandleDismissEvent).to(beTrue())
-                }
-                
-            })
+
         }
         
         

@@ -7,10 +7,10 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-protocol InfoPresenterType : class, TableViewSelectionHandler {
-    func onDismissButtonTapped(sender : InfoViewController)
-}
+protocol InfoPresenterType : class, TableViewSelectionHandler { }
 
 protocol InfoTableViewModelType : TableViewModel, UITableViewDelegate {
     
@@ -26,31 +26,21 @@ class InfoViewController: UIViewController {
 
     weak var tableViewModel : InfoTableViewModelType?
     
+    var canClose = false
+    
+    var disposeBag: DisposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = R.string.info.title()
-        setupDoneButtonIfNeeded()
+        if canClose {
+            addCloseComponent(toThe: .right)
+        }
         setup(withViews: [tableView])
         tableViewModel?.register(tableView: tableView)
     }
 
 }
-
-extension InfoViewController {
-    
-    fileprivate func setupDoneButtonIfNeeded() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            return
-        }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTap))
-    }
-    
-    func handleDoneTap() {
-        presenter?.onDismissButtonTapped(sender: self)
-    }
-    
-}
-
 
 extension InfoViewController : ViewCodable {
     
@@ -67,3 +57,5 @@ extension InfoViewController : ViewCodable {
     }
     
 }
+
+extension InfoViewController : Closable { }

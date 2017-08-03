@@ -59,11 +59,6 @@ class InfoPresenterSpec: QuickSpec {
                     presenter.onSelection(ofIndex: 1, atSection: 1)
                     expect(router.didOpenMailCompose).to(beTrue())
                 }
-                
-                it("dismiss the controller") {
-                    presenter.onDismissButtonTapped(sender: InfoViewController())
-                    expect(router.didDismiss).to(beTrue())
-                }
             
             }
             

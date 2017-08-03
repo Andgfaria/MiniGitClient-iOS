@@ -9,7 +9,6 @@
 import UIKit
 
 protocol InfoRouterType : class {
-    func dismissController(_ controller : UIViewController)
     func openGitHubPage()
     func openMailCompose()
 }
@@ -27,10 +26,6 @@ extension InfoPresenter : InfoPresenterType {
         if section == 1 {
             index == 0 ? router?.openGitHubPage() : router?.openMailCompose()
         }
-    }
-    
-    func onDismissButtonTapped(sender: InfoViewController) {
-        router?.dismissController(sender)
     }
     
 }
