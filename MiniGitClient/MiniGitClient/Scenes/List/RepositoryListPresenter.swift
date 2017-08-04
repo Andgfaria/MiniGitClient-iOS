@@ -16,8 +16,8 @@ enum RepositoryListState {
 
 
 protocol RepositoryListRouterType : class {
-    func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository)
-    func presenter(_ presenter : RepositoryListPresenterType, didHandleInfoTapWithItem item : UIBarButtonItem)
+    func onRepositorySelection(_ repository : Repository)
+    func onInfoScreenRequest()
 }
 
 class RepositoryListPresenter : NSObject {
@@ -69,8 +69,8 @@ extension RepositoryListPresenter {
 
 extension RepositoryListPresenter : RepositoryListPresenterType {
     
-    func handleInfoButtonTap(barButtonItem: UIBarButtonItem) {
-        router?.presenter(self, didHandleInfoTapWithItem: barButtonItem)
+    func onInfoButtonTap() {
+        router?.onInfoScreenRequest()
     }
     
 }
@@ -79,7 +79,7 @@ extension RepositoryListPresenter : TableViewSelectionHandler {
     
     func onSelection(ofIndex index: Int, atSection section: Int, withModel model: Any?) {
         if let repository = model as? Repository {
-            router?.presenter(self, didSelectRepository: repository)
+            router?.onRepositorySelection(repository)
         }
     }
     

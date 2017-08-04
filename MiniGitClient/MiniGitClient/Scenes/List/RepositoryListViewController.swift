@@ -13,7 +13,7 @@ import RxCocoa
 protocol RepositoryListPresenterType : class {
     var currentState : Variable<RepositoryListState> { get set }
     weak var viewController : RepositoryListViewController? { get set }
-    func handleInfoButtonTap(barButtonItem : UIBarButtonItem)
+    func onInfoButtonTap()
 }
 
 protocol RepositoryListTableViewModelType : TableViewModel, UITableViewDelegate {
@@ -131,9 +131,7 @@ extension RepositoryListViewController : ViewCodable {
                 .addDisposableTo(disposeBag)
             infoButton.rx.tap
                 .subscribe(onNext: { [weak self] in
-                    if let infoButtonItem = self?.navigationItem.leftBarButtonItem {
-                        self?.presenter?.handleInfoButtonTap(barButtonItem: infoButtonItem)
-                    }
+                    self?.presenter?.onInfoButtonTap()
                 })
                 .addDisposableTo(disposeBag)
         }
