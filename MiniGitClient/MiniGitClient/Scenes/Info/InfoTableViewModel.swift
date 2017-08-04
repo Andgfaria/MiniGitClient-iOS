@@ -67,7 +67,7 @@ extension InfoTableViewModel : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        selectionHandler?.onSelection(ofIndex: indexPath.row, atSection: indexPath.section)
+        selectionHandler?.onSelection(ofIndex: indexPath.row, atSection: indexPath.section, withModel: nil)
     }
     
 }

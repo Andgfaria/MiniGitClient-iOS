@@ -22,7 +22,7 @@ class InfoPresenter : NSObject {
 
 extension InfoPresenter : InfoPresenterType {
     
-    func onSelection(ofIndex index: Int, atSection section: Int) {
+    func onSelection(ofIndex index: Int, atSection section: Int, withModel model : Any?) {
         if section == 1 {
             index == 0 ? router?.openGitHubPage() : router?.openMailCompose()
         }

@@ -12,11 +12,14 @@ fileprivate struct ListScene {
     let viewController = RepositoryListViewController()
     let presenter = RepositoryListPresenter()
     let interactor = RepositoryListInteractor()
+    let tableViewModel = RepositoryListTableViewModel()
     
     init() {
         presenter.interactor = interactor
         presenter.viewController = viewController
         viewController.presenter = presenter
+        viewController.tableViewModel = tableViewModel
+        tableViewModel.selectionHandler = presenter
     }
 }
 

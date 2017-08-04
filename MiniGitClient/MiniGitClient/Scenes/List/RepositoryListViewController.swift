@@ -10,16 +10,23 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol RepositoryListPresenterType : class, UITableViewDataSource {
+protocol RepositoryListPresenterType : class {
     var currentState : Variable<RepositoryListState> { get set }
     weak var viewController : RepositoryListViewController? { get set }
-    func registerTableView(_ tableView : UITableView)
     func handleInfoButtonTap(barButtonItem : UIBarButtonItem)
+}
+
+protocol RepositoryListTableViewModelType : TableViewModel, UITableViewDelegate {
+    weak var selectionHandler : TableViewSelectionHandler? { get set }
+    func updateWith(repositories : [Repository])
+    
 }
 
 class RepositoryListViewController: UIViewController {
     
     weak var presenter : RepositoryListPresenterType?
+    
+    weak var tableViewModel : RepositoryListTableViewModelType?
 
     var currentState = Variable(RepositoryListState.loadingFirst)
     
@@ -38,8 +45,8 @@ class RepositoryListViewController: UIViewController {
         title = R.string.list.title()
         navigationItem.title = title
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
-        presenter?.registerTableView(tableView)
         setup(withViews: [emptyView,tableView])
+        tableViewModel?.register(tableView: tableView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +58,11 @@ class RepositoryListViewController: UIViewController {
 
 
 extension RepositoryListViewController {
+    
+    func updateList(withRepositories repositories : [Repository]) {
+        tableViewModel?.updateWith(repositories: repositories)
+        tableView.reloadData()
+    }
     
     fileprivate func clearSelectionIfNeeded() {
         if view.traitCollection.horizontalSizeClass == .compact && view.traitCollection.verticalSizeClass == .regular {
@@ -95,14 +107,13 @@ extension RepositoryListViewController : ViewCodable {
     func bindComponents() {
         if let presenter = presenter {
             emptyView.actionBlock = {
-                presenter.currentState.value = .loadingFirst //self?.currentState.value = .loadingFirst
+                presenter.currentState.value = .loadingFirst
             }
             loadMoreview.loadingBlock = {
                 presenter.currentState.value = .loadingMore
             }
             presenter.currentState.asObservable().subscribe(onNext: { [weak self] in
                 if $0 == .showingRepositories {
-                    self?.tableView.reloadData()
                     self?.loadMoreview.currentState.value = .normal
                 }
             }).addDisposableTo(disposeBag)

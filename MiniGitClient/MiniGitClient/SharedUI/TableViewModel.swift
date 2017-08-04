@@ -14,5 +14,5 @@ protocol TableViewModel : class, UITableViewDataSource {
 
 
 protocol TableViewSelectionHandler : class {
-    func onSelection(ofIndex index : Int, atSection section : Int)
+    func onSelection(ofIndex index : Int, atSection section : Int, withModel model : Any?)
 }
