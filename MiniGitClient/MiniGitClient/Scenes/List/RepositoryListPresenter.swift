@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 import RxSwift
 
+enum RepositoryListState {
+    case loadingFirst, showingRepositories, loadingMore, showingError
+}
+
+
 protocol RepositoryListRouterType : class {
     func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository)
     func presenter(_ presenter : RepositoryListPresenterType, didHandleInfoTapWithItem item : UIBarButtonItem)
@@ -17,11 +22,9 @@ protocol RepositoryListRouterType : class {
 
 class RepositoryListPresenter : NSObject {
     
-    weak var viewController : RepositoryListViewController? {
-        didSet {
-            bind()
-        }
-    }
+    var currentState = Variable(RepositoryListState.loadingFirst)
+    
+    weak var viewController : RepositoryListViewController?
 
     var interactor : RepositoryListInteractorType? {
         didSet {
@@ -39,7 +42,7 @@ class RepositoryListPresenter : NSObject {
 extension RepositoryListPresenter {
     
     fileprivate func bind() {
-        if let interactor = interactor, let viewController = viewController {
+        if let interactor = interactor {
             interactor.fetchResults.asObservable().skip(1)
                        .map { requestResult, repositories in
                             if requestResult != .success {
@@ -47,7 +50,14 @@ extension RepositoryListPresenter {
                             }
                             return repositories.count > 0 ? RepositoryListState.showingRepositories : RepositoryListState.showingError
                         }
-                        .bind(to: viewController.currentState)
+                        .bind(to: currentState)
+                        .addDisposableTo(disposeBag)
+            currentState.asObservable()
+                        .subscribe(onNext: { [weak self] in
+                            if $0 == .loadingFirst || $0 == .loadingMore {
+                                self?.interactor?.loadRepositories()
+                            }
+                        })
                         .addDisposableTo(disposeBag)
         }
     }
@@ -55,10 +65,6 @@ extension RepositoryListPresenter {
 }
 
 extension RepositoryListPresenter : RepositoryListPresenterType {
-    
-    func loadRepositories() {
-        interactor?.loadRepositories()
-    }
     
     func registerTableView(_ tableView: UITableView) {
         tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(RepositoryListTableViewCell.self))

@@ -10,13 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum RepositoryListState {
-    case loadingFirst, showingRepositories, loadingMore, showingError
-}
-
 protocol RepositoryListPresenterType : class, UITableViewDataSource {
+    var currentState : Variable<RepositoryListState> { get set }
     weak var viewController : RepositoryListViewController? { get set }
-    func loadRepositories()
     func registerTableView(_ tableView : UITableView)
     func handleInfoButtonTap(barButtonItem : UIBarButtonItem)
 }
@@ -97,40 +93,40 @@ extension RepositoryListViewController : ViewCodable {
     }
     
     func bindComponents() {
-        emptyView.actionBlock = { [weak self] in
-            self?.currentState.value = .loadingFirst
-        }
-        loadMoreview.loadingBlock = { [weak self] in
-            self?.currentState.value = .loadingMore
-        }
-        currentState.asObservable().subscribe(onNext: { [weak self] in
-            if $0 == .loadingFirst || $0 == .loadingMore {
-                self?.presenter?.loadRepositories()
+        if let presenter = presenter {
+            emptyView.actionBlock = {
+                presenter.currentState.value = .loadingFirst //self?.currentState.value = .loadingFirst
             }
-            else if $0 == .showingRepositories {
-                self?.tableView.reloadData()
-                self?.loadMoreview.currentState.value = .normal
+            loadMoreview.loadingBlock = {
+                presenter.currentState.value = .loadingMore
             }
-        }).addDisposableTo(disposeBag)
-        currentState.asObservable()
-                    .map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }
-                    .bind(to: emptyView.currentState)
-                    .addDisposableTo(disposeBag)
-        currentState.asObservable()
-                    .map { $0 == .showingRepositories || $0 == .loadingMore }
-                    .bind(to: emptyView.rx.isHidden)
-                    .addDisposableTo(disposeBag)
-        currentState.asObservable()
-                    .map { $0 == .loadingFirst || $0 == .showingError }
-                    .bind(to: tableView.rx.isHidden)
-                    .addDisposableTo(disposeBag)
-        infoButton.rx.tap
-                     .subscribe(onNext: { [weak self] in
-                        if let infoButtonItem = self?.navigationItem.leftBarButtonItem {
-                            self?.presenter?.handleInfoButtonTap(barButtonItem: infoButtonItem)
-                        }
-                     })
-                     .addDisposableTo(disposeBag)
+            presenter.currentState.asObservable().subscribe(onNext: { [weak self] in
+                if $0 == .showingRepositories {
+                    self?.tableView.reloadData()
+                    self?.loadMoreview.currentState.value = .normal
+                }
+            }).addDisposableTo(disposeBag)
+            presenter.currentState.asObservable()
+                .map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }
+                .bind(to: emptyView.currentState)
+                .addDisposableTo(disposeBag)
+            presenter.currentState.asObservable()
+                .map { $0 == .showingRepositories || $0 == .loadingMore }
+                .bind(to: emptyView.rx.isHidden)
+                .addDisposableTo(disposeBag)
+            presenter.currentState.asObservable()
+                .map { $0 == .loadingFirst || $0 == .showingError }
+                .bind(to: tableView.rx.isHidden)
+                .addDisposableTo(disposeBag)
+            infoButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    if let infoButtonItem = self?.navigationItem.leftBarButtonItem {
+                        self?.presenter?.handleInfoButtonTap(barButtonItem: infoButtonItem)
+                    }
+                })
+                .addDisposableTo(disposeBag)
+        }
+
     }
     
     func setupAccessibilityIdentifiers() {
