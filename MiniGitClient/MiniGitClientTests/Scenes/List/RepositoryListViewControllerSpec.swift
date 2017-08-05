@@ -41,10 +41,14 @@ class RepositoryListViewControllerSpec: QuickSpec {
             
             var mockPresenter = MockPresenter()
             
+            var tableViewModel = RepositoryListTableViewModel()
+            
             beforeEach {
                 mockPresenter = MockPresenter()
+                tableViewModel = RepositoryListTableViewModel()
                 controller = RepositoryListViewController(nibName: nil, bundle: nil)
                 controller.presenter = mockPresenter
+                controller.tableViewModel = tableViewModel
                 _ = controller.view
                 emptyView = controller.view.subviews.flatMap { $0 as? EmptyView }.first
                 tableView = controller.view.subviews.flatMap { $0 as? UITableView }.first
@@ -99,30 +103,12 @@ class RepositoryListViewControllerSpec: QuickSpec {
                 
             })
             
-            context("presenter", { 
+            context("updates", {
                 
-//                it("has it methods called when the view is loaded") {
-//                    expect(mockPresenter.loadRepositoriesCount) == 1
-//                    expect(mockPresenter.registerTableViewCount) == 1
-//                }
-//                
-//                it("loads repositories when the controller changes to a loading first state") {
-//                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-//                    controller.currentState.value = .loadingFirst
-//                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
-//                }
-//                
-//                it("loads repositories when the controller changes to a loading more state") {
-//                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-//                    controller.currentState.value = .loadingMore
-//                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
-//                }
-//                
-//                it("loads repositories when the empty view action block is executed") {
-//                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-//                    emptyView?.actionBlock?()
-//                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
-//                }
+                it("the tableview after receiving new repositories") {
+                    controller.updateList(withRepositories: [Repository()])
+                    expect(tableView?.numberOfRows(inSection: 0)) == 1
+                }
                 
             })
             

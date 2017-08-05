@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockInteractor : RepositoryListInteractorType {
+private class MockInteractor : RepositoryListInteractorType {
     
     var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
 
@@ -44,15 +44,16 @@ class RepositoryListPresenterSpec: QuickSpec {
             
             var mockInteractor = MockInteractor()
             
+            var tableViewModel = RepositoryListTableViewModel()
+            
             var viewController = RepositoryListViewController(nibName: nil, bundle: nil)
             
-            var tableView = UITableView(frame: CGRect.zero, style: .plain)
-            
             beforeEach {
-                tableView = UITableView(frame: CGRect.zero, style: .plain)
                 presenter = RepositoryListPresenter()
                 mockInteractor = MockInteractor()
+                tableViewModel = RepositoryListTableViewModel()
                 viewController = RepositoryListViewController(nibName: nil, bundle: nil)
+                viewController.tableViewModel = tableViewModel
                 presenter.interactor = mockInteractor
                 presenter.viewController = viewController
             }
@@ -66,9 +67,13 @@ class RepositoryListPresenterSpec: QuickSpec {
                 
                 it("changes the view controller state to showingError on first load") {
                     mockInteractor.shouldFail = true
-            //        presenter.interactor = mockInteractor
                     mockInteractor.loadRepositories()
                     expect(presenter.currentState.value) == RepositoryListState.showingError
+                }
+                
+                it("updates the repository list table view") {
+                    mockInteractor.loadRepositories()
+                    expect(viewController.tableViewModel?.tableView(UITableView(), numberOfRowsInSection: 0)) == mockInteractor.fetchResults.value.1.count
                 }
                 
             })
