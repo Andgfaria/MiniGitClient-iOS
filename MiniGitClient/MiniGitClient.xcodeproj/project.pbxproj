@@ -44,6 +44,7 @@
 		65801B5B1EFF3EE3001DEB7F /* RepositoryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65801B5A1EFF3EE3001DEB7F /* RepositoryListInteractor.swift */; };
 		65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65801B5E1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift */; };
 		658B63831F32B3D60022E2C8 /* InfoTableViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658B63821F32B3D60022E2C8 /* InfoTableViewModelSpec.swift */; };
+		658B63851F365E610022E2C8 /* RepositoryListTableViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658B63841F365E610022E2C8 /* RepositoryListTableViewModelSpec.swift */; };
 		65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE80731F0DC1C200138F31 /* LoadMoreViewSpec.swift */; };
 		65CBFACB1F0154F6000773A2 /* ViewCodableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CBFACA1F0154F6000773A2 /* ViewCodableSpec.swift */; };
 		65CCC0CD1F1458B400C40590 /* PullRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CCC0CC1F1458B400C40590 /* PullRequestSpec.swift */; };
@@ -159,6 +160,7 @@
 		65801B5A1EFF3EE3001DEB7F /* RepositoryListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListInteractor.swift; sourceTree = "<group>"; };
 		65801B5E1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListInteractorSpec.swift; sourceTree = "<group>"; };
 		658B63821F32B3D60022E2C8 /* InfoTableViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoTableViewModelSpec.swift; sourceTree = "<group>"; };
+		658B63841F365E610022E2C8 /* RepositoryListTableViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListTableViewModelSpec.swift; sourceTree = "<group>"; };
 		65AE80731F0DC1C200138F31 /* LoadMoreViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreViewSpec.swift; sourceTree = "<group>"; };
 		65CBFACA1F0154F6000773A2 /* ViewCodableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCodableSpec.swift; sourceTree = "<group>"; };
 		65CCC0CC1F1458B400C40590 /* PullRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PullRequestSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -464,6 +466,7 @@
 				654C9CF71F0BFB88009DA045 /* RepositoryListViewControllerSpec.swift */,
 				654C9CF91F0C0EC3009DA045 /* RepositoryListPresenterSpec.swift */,
 				6F1432C01F28C1F100FDB096 /* RepositoryListCoordinatorSpec.swift */,
+				658B63841F365E610022E2C8 /* RepositoryListTableViewModelSpec.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				6F1432C51F28C88200FDB096 /* RepositoryListCellViewModelSpec.swift in Sources */,
 				65801B5F1EFF43CB001DEB7F /* RepositoryListInteractorSpec.swift in Sources */,
 				65AE80741F0DC1C200138F31 /* LoadMoreViewSpec.swift in Sources */,
+				658B63851F365E610022E2C8 /* RepositoryListTableViewModelSpec.swift in Sources */,
 				6FA019A01F2BA950008310D1 /* InfoLinkCellViewModelSpec.swift in Sources */,
 				6F533C491F265D170075E2DA /* RepositoryDetailPresenterSpec.swift in Sources */,
 				6F1432D01F28C9ED00FDB096 /* RepositoryDetailHeaderViewSpec.swift in Sources */,

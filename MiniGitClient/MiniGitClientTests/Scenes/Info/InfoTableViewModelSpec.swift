@@ -46,15 +46,15 @@ class InfoTableViewModelSpec: QuickSpec {
             context("as an UITableViewDataSource", { 
                 
                 it("returns 2 sections") {
-                    expect(tableViewModel.numberOfSections(in: tableView)) == 2
+                   expect(tableView.numberOfSections) == 2
                 }
                 
                 it("returns 1 row for the first section") {
-                    expect(tableViewModel.tableView(tableView, numberOfRowsInSection: 0)) == 1
+                   expect(tableView.numberOfRows(inSection: 0)) == 1
                 }
                 
                 it("returns 2 rows for the second section") {
-                    expect(tableViewModel.tableView(tableView, numberOfRowsInSection: 0)) == 1
+                    expect(tableView.numberOfRows(inSection: 1)) == 2
                 }
                 
                 it("returns basic cells for each row") {
