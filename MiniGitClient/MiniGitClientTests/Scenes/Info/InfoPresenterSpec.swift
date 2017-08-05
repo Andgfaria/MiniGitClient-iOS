@@ -51,12 +51,12 @@ class InfoPresenterSpec: QuickSpec {
             context("router") {
                 
                 it("opens the GitHub page when the first row of the second section is selected") {
-                    presenter.onSelection(ofIndex: 0, atSection: 1)
+                    presenter.onSelection(ofIndex: 0, atSection: 1, withModel: nil)
                     expect(router.didOpenGitHubPage).to(beTrue())
                 }
                 
                 it("opens the mail compose UI when the second row of the second section is selected") {
-                    presenter.onSelection(ofIndex: 1, atSection: 1)
+                    presenter.onSelection(ofIndex: 1, atSection: 1, withModel: nil)
                     expect(router.didOpenMailCompose).to(beTrue())
                 }
             

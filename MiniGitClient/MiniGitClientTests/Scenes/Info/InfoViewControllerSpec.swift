@@ -16,7 +16,7 @@ private class MockPresenter : InfoPresenterType {
     var didHandleDismissEvent = false
 
     
-    func onSelection(ofIndex index: Int, atSection section: Int) {
+    func onSelection(ofIndex index: Int, atSection section: Int, withModel model : Any?) {
         
     }
     

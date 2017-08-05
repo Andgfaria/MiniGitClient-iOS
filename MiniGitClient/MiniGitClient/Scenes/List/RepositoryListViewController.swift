@@ -27,8 +27,6 @@ class RepositoryListViewController: UIViewController {
     weak var presenter : RepositoryListPresenterType?
     
     weak var tableViewModel : RepositoryListTableViewModelType?
-
-    var currentState = Variable(RepositoryListState.loadingFirst)
     
     fileprivate var emptyView = EmptyView()
     
