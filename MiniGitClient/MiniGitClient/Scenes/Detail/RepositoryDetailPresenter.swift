@@ -9,6 +9,10 @@
 import UIKit
 import RxSwift
 
+enum RepositoryDetailState {
+    case loading, showingPullRequests, onError
+}
+
 protocol RepositoryDetailInteractorType : class {
     var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> { get set }
     func loadPullRequests(ofRepository repository : Repository)
@@ -20,6 +24,8 @@ protocol RepositoryDetailRouterType : class {
 
 
 class RepositoryDetailPresenter : NSObject {
+    
+    var currentState = Variable(RepositoryDetailState.loading)
     
     weak var viewController: RepositoryDetailViewController? {
         didSet {
@@ -53,19 +59,29 @@ class RepositoryDetailPresenter : NSObject {
 extension RepositoryDetailPresenter {
     
     fileprivate func bind() {
-        if let interactor = interactor, let viewController = viewController {
+        if let interactor = interactor {
             interactor.fetchedPullRequests
                       .asObservable()
                       .skip(1)
-                      .subscribe(onNext: { _, pullRequests in
+                      .subscribe(onNext: { [weak self] _, pullRequests in
                             if pullRequests.count > 0 {
-                                viewController.headerView.currentState.value = .loaded
+                                self?.currentState.value = .showingPullRequests
+                                self?.viewController?.show(pullRequests: pullRequests)
                             }
                             else {
-                                viewController.headerView.currentState.value = .showingRetryOption
+                                self?.currentState.value = .onError
                             }
                       })
                       .addDisposableTo(disposeBag)
+            currentState.asObservable()
+                        .subscribe(onNext: { [weak self] in
+                            if $0 == .loading {
+                                if let repository = self?.repository {
+                                    interactor.loadPullRequests(ofRepository: repository)
+                                }
+                            }
+                        })
+                        .addDisposableTo(disposeBag)
         }
     }
     

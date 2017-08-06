@@ -10,10 +10,10 @@ import UIKit
 import RxSwift
 
 protocol RepositoryDetailPresenterType : class, UITableViewDataSource {
+    var currentState : Variable<RepositoryDetailState> { get set }
     weak var viewController : RepositoryDetailViewController? { get set }
     func configureHeader(_ header : RepositoryDetailHeaderView)
     func registerTableView(_ tableView : UITableView)
-    func loadPullRequests()
     var shareItems : [Any] { get }
 }
 
@@ -51,6 +51,10 @@ extension RepositoryDetailViewController {
         tableView.tableHeaderView = headerView
     }
     
+    func show(pullRequests : [PullRequest]) {
+        tableView.reloadData()
+    }
+    
 }
 
 extension RepositoryDetailViewController {
@@ -84,18 +88,37 @@ extension RepositoryDetailViewController : ViewCodable {
     }
     
     func bindComponents() {
-        headerView.currentState
-                  .asObservable()
-                  .subscribe(onNext: { [weak self] state in
-                    if state == .loading {
-                        self?.presenter?.loadPullRequests()
-                    }
-                    else if state == .loaded {
-                        self?.tableView.reloadData()
-                        self?.setupHeader()
-                    }
-                  })
-                  .addDisposableTo(disposeBag)
+        if let presenter = presenter {
+            presenter.currentState.asObservable()
+                .map { [RepositoryDetailState.loading : RepositoryDetailHeaderState.loading,
+                        RepositoryDetailState.showingPullRequests : RepositoryDetailHeaderState.loaded,
+                        RepositoryDetailState.onError : RepositoryDetailHeaderState.showingRetryOption][$0]
+                        ?? RepositoryDetailHeaderState.showingRetryOption
+                }
+                .bind(to: headerView.currentState)
+                .addDisposableTo(disposeBag)
+            headerView.currentState
+                      .asObservable()
+                      .skip(1)
+                      .subscribe(onNext: { [weak self] in
+                            if $0 == .loading {
+                                self?.presenter?.currentState.value = .loading
+                            }
+                      })
+                      .addDisposableTo(disposeBag)
+        }
+//        headerView.currentState
+//                  .asObservable()
+//                  .subscribe(onNext: { [weak self] state in
+//                    if state == .loading {
+//                        self?.presenter?.loadPullRequests()
+//                    }
+//                    else if state == .loaded {
+//                        self?.tableView.reloadData()
+//                        self?.setupHeader()
+//                    }
+//                  })
+//                  .addDisposableTo(disposeBag)
         
     }
     
