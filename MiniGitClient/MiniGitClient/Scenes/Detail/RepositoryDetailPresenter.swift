@@ -19,11 +19,11 @@ protocol RepositoryDetailInteractorType : class {
 }
 
 protocol RepositoryDetailRouterType : class {
-    func openPullRequest(_ sender : RepositoryDetailPresenter, _ pullRequest : PullRequest)
+    func onPullRequestSelection(_ pullRequest : PullRequest)
 }
 
 
-class RepositoryDetailPresenter : NSObject {
+class RepositoryDetailPresenter : RepositoryDetailPresenterType {
     
     var currentState = Variable(RepositoryDetailState.loading)
     
@@ -87,38 +87,11 @@ extension RepositoryDetailPresenter {
     
 }
 
-extension RepositoryDetailPresenter : RepositoryDetailPresenterType {
+extension RepositoryDetailPresenter : TableViewSelectionHandler {
     
-    func registerTableView(_ tableView: UITableView) {
-        tableView.register(PullRequestTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(PullRequestTableViewCell.self))
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-    
-}
-
-extension RepositoryDetailPresenter : UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return interactor?.fetchedPullRequests.value.1.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PullRequestTableViewCell.self), for: indexPath)
-        if let cell = cell as? PullRequestTableViewCell, let pullRequests = interactor?.fetchedPullRequests.value.1 {
-            PullRequestCellViewModel.configure(cell, withPullRequest: pullRequests[indexPath.row])
-        }
-        return cell
-    }
-    
-}
-
-extension RepositoryDetailPresenter : UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        if let pullRequests = interactor?.fetchedPullRequests.value.1 {
-            router?.openPullRequest(self, pullRequests[indexPath.row])
+    func onSelection(ofIndex index: Int, atSection section: Int, withModel model: Any?) {
+        if let pullRequest = model as? PullRequest {
+            router?.onPullRequestSelection(pullRequest)
         }
     }
     

@@ -15,13 +15,16 @@ fileprivate struct RepositoryDetailScene {
     let viewController = RepositoryDetailViewController()
     let presenter : RepositoryDetailPresenter
     let interactor = RepositoryDetailInteractor()
+    let tableViewModel = RepositoryDetailTableViewModel()
     
     init(repository : Repository) {
         self.repository = repository
         presenter = RepositoryDetailPresenter(repository: self.repository)
         presenter.viewController = viewController
         presenter.interactor = interactor
+        tableViewModel.selectionHandler = presenter
         viewController.presenter = presenter
+        viewController.tableViewModel = tableViewModel
     }
     
 }
@@ -53,7 +56,7 @@ extension RepositoryDetailCoordinator : Coordinator {
 
 extension RepositoryDetailCoordinator : RepositoryDetailRouterType {
     
-    func openPullRequest(_ sender: RepositoryDetailPresenter, _ pullRequest: PullRequest) {
+    func onPullRequestSelection(_ pullRequest: PullRequest) {
         if let url = pullRequest.url, let splitViewController = splitViewController ,UIApplication.shared.canOpenURL(url) {
             let safariViewController = SFSafariViewController(url: url)
             safariViewController.modalPresentationStyle = .pageSheet

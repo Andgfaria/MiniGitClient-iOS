@@ -9,17 +9,23 @@
 import UIKit
 import RxSwift
 
-protocol RepositoryDetailPresenterType : class, UITableViewDataSource {
+protocol RepositoryDetailPresenterType : class {
     var currentState : Variable<RepositoryDetailState> { get set }
     var repository : Repository { get }
     weak var viewController : RepositoryDetailViewController? { get set }
-    func registerTableView(_ tableView : UITableView)
     var shareItems : [Any] { get }
+}
+
+protocol RepositoryDetailTableViewModelType : class, TableViewModel {
+    var selectionHandler : TableViewSelectionHandler? { get set }
+    func update(withPullRequests pullRequests : [PullRequest])
 }
 
 class RepositoryDetailViewController: UIViewController {
 
     weak var presenter : RepositoryDetailPresenterType?
+    
+    weak var tableViewModel : RepositoryDetailTableViewModelType?
     
     let tableView = UITableView(frame: CGRect.zero, style: .plain)
     
@@ -30,9 +36,9 @@ class RepositoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let presenter = presenter {
-            presenter.registerTableView(tableView)
             RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: presenter.repository)
         }
+        tableViewModel?.register(tableView: tableView)
         addShareButton()
         setup(withViews: [tableView])
     }
@@ -54,7 +60,7 @@ extension RepositoryDetailViewController {
     }
     
     func show(pullRequests : [PullRequest]) {
-        tableView.reloadData()
+        tableViewModel?.update(withPullRequests: pullRequests)
     }
     
 }
