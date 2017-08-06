@@ -11,8 +11,8 @@ import RxSwift
 
 protocol RepositoryDetailPresenterType : class {
     var currentState : Variable<RepositoryDetailState> { get set }
-    var repository : Repository { get }
-    weak var viewController : RepositoryDetailViewController? { get set }
+    var repository : Variable<Repository> { get }
+    var pullRequests : Variable<[PullRequest]> { get }
     var shareItems : [Any] { get }
 }
 
@@ -35,9 +35,6 @@ class RepositoryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let presenter = presenter {
-            RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: presenter.repository)
-        }
         tableViewModel?.register(tableView: tableView)
         addShareButton()
         setup(withViews: [tableView])
@@ -58,11 +55,7 @@ extension RepositoryDetailViewController {
         headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerView.intrinsicContentSize.height)
         tableView.tableHeaderView = headerView
     }
-    
-    func show(pullRequests : [PullRequest]) {
-        tableViewModel?.update(withPullRequests: pullRequests)
-    }
-    
+
 }
 
 extension RepositoryDetailViewController {
@@ -97,6 +90,18 @@ extension RepositoryDetailViewController : ViewCodable {
     
     func bindComponents() {
         if let presenter = presenter {
+            presenter.repository.asObservable()
+                                .subscribe(onNext: { [weak self] in
+                                    if let headerView = self?.headerView {
+                                        RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: $0)
+                                    }
+                                })
+                                .addDisposableTo(disposeBag)
+            presenter.pullRequests.asObservable()
+                                  .subscribe(onNext: { [weak self] in
+                                        self?.tableViewModel?.update(withPullRequests: $0)
+                                  })
+                                 .addDisposableTo(disposeBag)
             presenter.currentState.asObservable()
                 .map { [RepositoryDetailState.loading : RepositoryDetailHeaderState.loading,
                         RepositoryDetailState.showingPullRequests : RepositoryDetailHeaderState.loaded,

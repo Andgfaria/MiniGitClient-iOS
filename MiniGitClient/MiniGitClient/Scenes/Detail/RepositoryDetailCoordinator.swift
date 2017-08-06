@@ -20,7 +20,6 @@ fileprivate struct RepositoryDetailScene {
     init(repository : Repository) {
         self.repository = repository
         presenter = RepositoryDetailPresenter(repository: self.repository)
-        presenter.viewController = viewController
         presenter.interactor = interactor
         tableViewModel.selectionHandler = presenter
         viewController.presenter = presenter

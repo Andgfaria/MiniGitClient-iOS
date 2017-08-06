@@ -27,13 +27,9 @@ class RepositoryDetailPresenter : RepositoryDetailPresenterType {
     
     var currentState = Variable(RepositoryDetailState.loading)
     
-    weak var viewController: RepositoryDetailViewController? {
-        didSet {
-            bind()
-        }
-    }
+    var repository : Variable<Repository>
     
-    var repository : Repository
+    var pullRequests = Variable([PullRequest]())
     
     weak var interactor : RepositoryDetailInteractorType? {
         didSet {
@@ -44,14 +40,14 @@ class RepositoryDetailPresenter : RepositoryDetailPresenterType {
     weak var router : RepositoryDetailRouterType?
     
     var shareItems : [Any] {
-        guard let url = repository.url else { return [repository.name] }
-        return [repository.name,url]
+        guard let url = repository.value.url else { return [repository.value.name] }
+        return [repository.value.name,url]
     }
     
     fileprivate let disposeBag = DisposeBag()
     
     required init(repository : Repository) {
-        self.repository = repository
+        self.repository = Variable(repository)
     }
     
 }
@@ -66,7 +62,7 @@ extension RepositoryDetailPresenter {
                       .subscribe(onNext: { [weak self] _, pullRequests in
                             if pullRequests.count > 0 {
                                 self?.currentState.value = .showingPullRequests
-                                self?.viewController?.show(pullRequests: pullRequests)
+                                self?.pullRequests.value = pullRequests
                             }
                             else {
                                 self?.currentState.value = .onError
@@ -77,7 +73,7 @@ extension RepositoryDetailPresenter {
                         .subscribe(onNext: { [weak self] in
                             if $0 == .loading {
                                 if let repository = self?.repository {
-                                    interactor.loadPullRequests(ofRepository: repository)
+                                    interactor.loadPullRequests(ofRepository: repository.value)
                                 }
                             }
                         })
