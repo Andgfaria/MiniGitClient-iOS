@@ -11,8 +11,8 @@ import RxSwift
 
 protocol RepositoryDetailPresenterType : class, UITableViewDataSource {
     var currentState : Variable<RepositoryDetailState> { get set }
+    var repository : Repository { get }
     weak var viewController : RepositoryDetailViewController? { get set }
-    func configureHeader(_ header : RepositoryDetailHeaderView)
     func registerTableView(_ tableView : UITableView)
     var shareItems : [Any] { get }
 }
@@ -29,22 +29,24 @@ class RepositoryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.registerTableView(tableView)
+        if let presenter = presenter {
+            presenter.registerTableView(tableView)
+            RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: presenter.repository)
+        }
         addShareButton()
         setup(withViews: [tableView])
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupHeader()
+        adjustHeaderLayout()
     }
 
 }
 
 extension RepositoryDetailViewController {
     
-    fileprivate func setupHeader() {
-        presenter?.configureHeader(headerView)
+    fileprivate func adjustHeaderLayout() {
         headerView.adjustLayout(withWidth: tableView.bounds.size.width)
         view.layoutIfNeeded()
         headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerView.intrinsicContentSize.height)
@@ -107,19 +109,6 @@ extension RepositoryDetailViewController : ViewCodable {
                       })
                       .addDisposableTo(disposeBag)
         }
-//        headerView.currentState
-//                  .asObservable()
-//                  .subscribe(onNext: { [weak self] state in
-//                    if state == .loading {
-//                        self?.presenter?.loadPullRequests()
-//                    }
-//                    else if state == .loaded {
-//                        self?.tableView.reloadData()
-//                        self?.setupHeader()
-//                    }
-//                  })
-//                  .addDisposableTo(disposeBag)
-        
     }
     
     func setupAccessibilityIdentifiers() {

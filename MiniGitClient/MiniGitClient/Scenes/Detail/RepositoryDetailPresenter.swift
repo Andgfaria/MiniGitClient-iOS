@@ -33,7 +33,7 @@ class RepositoryDetailPresenter : NSObject {
         }
     }
     
-    fileprivate let repository : Repository
+    var repository : Repository
     
     weak var interactor : RepositoryDetailInteractorType? {
         didSet {
@@ -89,20 +89,10 @@ extension RepositoryDetailPresenter {
 
 extension RepositoryDetailPresenter : RepositoryDetailPresenterType {
     
-    func configureHeader(_ header: RepositoryDetailHeaderView) {
-        RepositoryDetailHeaderViewModel.configureHeader(header, withRepository: repository)
-    }
-    
     func registerTableView(_ tableView: UITableView) {
         tableView.register(PullRequestTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(PullRequestTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
-    }
-    
-    func loadPullRequests() {
-        if let interactor = interactor {
-            interactor.loadPullRequests(ofRepository: repository)
-        }
     }
     
 }
