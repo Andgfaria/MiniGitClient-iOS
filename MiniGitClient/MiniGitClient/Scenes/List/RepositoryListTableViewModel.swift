@@ -12,7 +12,10 @@ class RepositoryListTableViewModel : NSObject {
     
     fileprivate var repositories = [Repository]()
     
+    fileprivate weak var tableView : UITableView?
+    
     weak var selectionHandler : TableViewSelectionHandler?
+    
     
 }
 
@@ -20,6 +23,7 @@ extension RepositoryListTableViewModel : RepositoryListTableViewModelType {
     
     func updateWith(repositories: [Repository]) {
         self.repositories = repositories
+        tableView?.reloadData()
     }
     
 }
@@ -27,6 +31,7 @@ extension RepositoryListTableViewModel : RepositoryListTableViewModelType {
 extension RepositoryListTableViewModel : TableViewModel {
     
     func register(tableView: UITableView) {
+        self.tableView = tableView
         tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(RepositoryListTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self

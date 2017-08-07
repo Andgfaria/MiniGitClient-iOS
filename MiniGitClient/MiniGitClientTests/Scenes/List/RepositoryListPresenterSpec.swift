@@ -54,8 +54,9 @@ class RepositoryListPresenterSpec: QuickSpec {
                 tableViewModel = RepositoryListTableViewModel()
                 viewController = RepositoryListViewController(nibName: nil, bundle: nil)
                 viewController.tableViewModel = tableViewModel
+                viewController.presenter = presenter
                 presenter.interactor = mockInteractor
-                presenter.viewController = viewController
+                viewController.view.layoutIfNeeded()
             }
             
             context("after retrieving the repositories from the interactor", { 
@@ -72,37 +73,11 @@ class RepositoryListPresenterSpec: QuickSpec {
                 }
                 
                 it("updates the repository list table view") {
-                    mockInteractor.loadRepositories()
-                    expect(viewController.tableViewModel?.tableView(UITableView(), numberOfRowsInSection: 0)) == mockInteractor.fetchResults.value.1.count
+                    presenter.repositories.value = [Repository()]
+                    expect(viewController.tableViewModel?.tableView(UITableView(), numberOfRowsInSection: 0)) == 1
                 }
                 
             })
-            
-//            context("as a UITableViewDataSource", { 
-//                
-//                it("returns 1 section") {
-//                    presenter.registerTableView(tableView)
-//                    presenter.loadRepositories()
-//                    tableView.reloadData()
-//                    expect(tableView.numberOfSections) == 1
-//                }
-//                
-//                it("returns the number of rows as the number of repositories from the interactor") {
-//                    presenter.registerTableView(tableView)
-//                    presenter.loadRepositories()
-//                    tableView.reloadData()
-//                    expect(tableView.numberOfRows(inSection: 0)) == presenter.interactor?.fetchResults.value.1.count
-//                }
-//                
-//                it("returns a RepositoryListTableViewCelll") {
-//                    presenter.registerTableView(tableView)
-//                    presenter.loadRepositories()
-//                    tableView.reloadData()
-//                    let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RepositoryListTableViewCell
-//                    expect(cell).toNot(beNil())
-//                }
-//                
-//            })
             
         }
         

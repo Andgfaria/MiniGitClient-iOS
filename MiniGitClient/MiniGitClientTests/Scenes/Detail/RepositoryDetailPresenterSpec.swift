@@ -117,48 +117,6 @@ class RepositoryDetailPresenterSpec: QuickSpec {
             })
             
             
-//            context("as an UITableViewDataSource", { 
-//                
-//                it("returns 1 section") {
-//                    guard let tableView = tableView else { fail(); return }
-//                    presenter?.registerTableView(tableView)
-//                    presenter?.loadPullRequests()
-//                    tableView.reloadData()
-//                    expect(tableView.numberOfSections) == 1
-//                }
-//                
-//                it("returns the number of rows as the number of pull requests in the interactor") {
-//                    guard let tableView = tableView else { fail(); return }
-//                    presenter?.registerTableView(tableView)
-//                    presenter?.loadPullRequests()
-//                    tableView.reloadData()
-//                    expect(tableView.numberOfRows(inSection: 0)) == presenter?.interactor?.fetchedPullRequests.value.1.count
-//                }
-//                
-//                it("return a PullRequestTableViewCell") {
-//                    guard let tableView = tableView else { fail(); return }
-//                    presenter?.registerTableView(tableView)
-//                    presenter?.loadPullRequests()
-//                    tableView.reloadData()
-//                    let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
-//                    expect(cell).to(beAKindOf(PullRequestTableViewCell.self))
-//                }
-//                
-//            })
-//            
-//            context("as an UITableViewDelegate", { 
-//                
-//                it("call its router upon cell selection") {
-//                    guard let tableView = tableView else { fail(); return }
-//                    presenter?.registerTableView(tableView)
-//                    presenter?.loadPullRequests()
-//                    tableView.reloadData()
-//                    presenter?.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-//                    expect(mockRouter.didCallRouterMethod).to(beTrue())
-//                }
-//                
-//            })
-            
             context("returns", {
                 
                 it("the repository name and url, if available") {

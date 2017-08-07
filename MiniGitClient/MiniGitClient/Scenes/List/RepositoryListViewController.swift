@@ -12,7 +12,7 @@ import RxCocoa
 
 protocol RepositoryListPresenterType : class {
     var currentState : Variable<RepositoryListState> { get set }
-    weak var viewController : RepositoryListViewController? { get set }
+    var repositories : Variable<[Repository]> { get }
     func onInfoButtonTap()
 }
 
@@ -56,11 +56,6 @@ class RepositoryListViewController: UIViewController {
 
 
 extension RepositoryListViewController {
-    
-    func updateList(withRepositories repositories : [Repository]) {
-        tableViewModel?.updateWith(repositories: repositories)
-        tableView.reloadData()
-    }
     
     fileprivate func clearSelectionIfNeeded() {
         if view.traitCollection.horizontalSizeClass == .compact && view.traitCollection.verticalSizeClass == .regular {
@@ -110,6 +105,12 @@ extension RepositoryListViewController : ViewCodable {
             loadMoreview.loadingBlock = {
                 presenter.currentState.value = .loadingMore
             }
+            presenter.repositories
+                     .asObservable()
+                     .subscribe(onNext: { [weak self] in
+                            self?.tableViewModel?.updateWith(repositories: $0)
+                     })
+                    .addDisposableTo(disposeBag)
             presenter.currentState.asObservable().subscribe(onNext: { [weak self] in
                 if $0 == .showingRepositories {
                     self?.loadMoreview.currentState.value = .normal

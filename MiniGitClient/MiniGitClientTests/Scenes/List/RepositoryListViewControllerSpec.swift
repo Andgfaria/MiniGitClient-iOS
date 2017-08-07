@@ -17,7 +17,7 @@ fileprivate class MockPresenter : NSObject, RepositoryListPresenterType {
     
     var currentState: Variable<RepositoryListState> = Variable(RepositoryListState.loadingFirst)
     
-    weak var viewController : RepositoryListViewController?
+    var repositories = Variable([Repository]())
     
     func onInfoButtonTap() {
         didHandleInfoButtonTap = true
@@ -106,7 +106,7 @@ class RepositoryListViewControllerSpec: QuickSpec {
             context("updates", {
                 
                 it("the tableview after receiving new repositories") {
-                    controller.updateList(withRepositories: [Repository()])
+                    mockPresenter.repositories.value = [Repository()]
                     expect(tableView?.numberOfRows(inSection: 0)) == 1
                 }
                 

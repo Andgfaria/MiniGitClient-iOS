@@ -24,8 +24,8 @@ class RepositoryListPresenter : NSObject {
     
     var currentState = Variable(RepositoryListState.loadingFirst)
     
-    weak var viewController : RepositoryListViewController?
-
+    var repositories = Variable([Repository]())
+    
     var interactor : RepositoryListInteractorType? {
         didSet {
             bind()
@@ -43,22 +43,23 @@ extension RepositoryListPresenter {
     
     fileprivate func bind() {
         if let interactor = interactor {
-            interactor.fetchResults.asObservable().skip(1)
-                       .map { requestResult, repositories in
-                            if requestResult != .success {
-                                return RepositoryListState.showingError
+            interactor.fetchResults
+                      .asObservable()
+                      .skip(1)
+                      .subscribe(onNext: { [weak self] requestResult, repositories in
+                            if requestResult == .success && repositories.count > 0{
+                                self?.repositories.value = repositories
+                                self?.currentState.value = .showingRepositories
                             }
-                            return repositories.count > 0 ? RepositoryListState.showingRepositories : RepositoryListState.showingError
-                        }
-                        .bind(to: currentState)
-                        .addDisposableTo(disposeBag)
+                            else {
+                                self?.currentState.value = .showingError
+                            }
+                      })
+                      .addDisposableTo(disposeBag)
             currentState.asObservable()
                         .subscribe(onNext: { [weak self] in
                             if $0 == .loadingFirst || $0 == .loadingMore {
                                 self?.interactor?.loadRepositories()
-                            }
-                            else if $0 == .showingRepositories, let repositories = self?.interactor?.fetchResults.value.1 {
-                                self?.viewController?.updateList(withRepositories: repositories)
                             }
                         })
                         .addDisposableTo(disposeBag)

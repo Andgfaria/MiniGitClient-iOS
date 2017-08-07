@@ -16,7 +16,6 @@ fileprivate struct ListScene {
     
     init() {
         presenter.interactor = interactor
-        presenter.viewController = viewController
         viewController.presenter = presenter
         viewController.tableViewModel = tableViewModel
         tableViewModel.selectionHandler = presenter
