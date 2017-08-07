@@ -27,19 +27,12 @@ extension RepositoryListInteractor : RepositoryListInteractorType {
     
     func repositories(fromPage page : Int) -> Observable<[Repository]> {
         return repositoriesStore.swiftRepositories(forPage: page)
-                .flatMap { requestResult, repositories -> Observable<[Repository]> in
-                    if requestResult == .success {
+                .flatMap { requestResult -> Observable<[Repository]> in
+                    switch(requestResult) {
+                    case .success(let repositories):
                         return Observable.just(repositories)
-                    }
-                    else {
-                        switch requestResult {
-                        case .invalidEndpoint:
-                            return Observable.error(APIRequestError.invalidEndpoint)
-                        case .invalidJson:
-                            return Observable.error(APIRequestError.invalidJson)
-                        default:
-                            return Observable.error(APIRequestError.networkError)
-                        }
+                    case .failure(let error):
+                        return Observable.error(error)
                     }
                 }
     }

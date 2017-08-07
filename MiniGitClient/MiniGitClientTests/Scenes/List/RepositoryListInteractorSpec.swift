@@ -15,16 +15,11 @@ struct MockRepositoriesStore : RepositoriesStoreType {
     
     var shouldFail = false
     
-    func swiftRepositories(forPage page: Int) -> Observable<(APIRequestResult,[Repository])> {
+    func swiftRepositories(forPage page: Int) -> Observable<RequestResult<[Repository]>> {
         if shouldFail {
-            return Observable.just((APIRequestResult.networkError,[Repository]()))
+            return Observable.error(APIRequestError.networkError)
         }
-        else {
-            var testRepository = Repository()
-            testRepository.name = "Test"
-            testRepository.info = "Description"
-            return Observable.just((APIRequestResult.success,[testRepository]))
-        }
+        return Observable.just(RequestResult.success([Repository()]))
     }
     
 }
@@ -58,28 +53,6 @@ class RepositoryListInteractorSpec: QuickSpec {
                                             .addDisposableTo(self.disposeBag)
                     expect(didReceiveRepositories).toEventually(beTrue())
                 }
-                
-//                it("fetch repositories incrementing a page property") {
-//                    repositoryListInteractor.loadRepositories()
-//                    expect(repositoryListInteractor.fetchResults.value.0) == APIRequestResult.success
-//                    expect(repositoryListInteractor.fetchResults.value.1.count) == 1
-//                    
-//                    repositoryListInteractor.loadRepositories()
-//                    expect(repositoryListInteractor.fetchResults.value.0) == APIRequestResult.success
-//                    expect(repositoryListInteractor.fetchResults.value.1.count) == 2
-//                }
-//                
-//                it("keeps the repositories list safe after a request error") {
-//                    repositoryListInteractor.loadRepositories()
-//                    
-//                    mockRepositoryStore.shouldFail = true
-//                    repositoryListInteractor.repositoriesStore = mockRepositoryStore
-//                
-//                    repositoryListInteractor.loadRepositories()
-//                    
-//                    expect(repositoryListInteractor.fetchResults.value.0) == APIRequestResult.networkError
-//                    expect(repositoryListInteractor.fetchResults.value.1.count) == 1
-//                }
                 
             })
             

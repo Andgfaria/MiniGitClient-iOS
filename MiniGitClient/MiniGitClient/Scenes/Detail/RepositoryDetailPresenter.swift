@@ -14,8 +14,7 @@ enum RepositoryDetailState {
 }
 
 protocol RepositoryDetailInteractorType : class {
-    var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> { get set }
-    func loadPullRequests(ofRepository repository : Repository)
+    func pullRequests(ofRepository repository : Repository) -> Observable<[PullRequest]>
 }
 
 protocol RepositoryDetailRouterType : class {
@@ -55,33 +54,34 @@ class RepositoryDetailPresenter : RepositoryDetailPresenterType {
 extension RepositoryDetailPresenter {
     
     fileprivate func bind() {
-        if let interactor = interactor {
-            interactor.fetchedPullRequests
-                      .asObservable()
-                      .skip(1)
-                      .subscribe(onNext: { [weak self] _, pullRequests in
-                            if pullRequests.count > 0 {
-                                self?.currentState.value = .showingPullRequests
-                                self?.pullRequests.value = pullRequests
-                            }
-                            else {
-                                self?.currentState.value = .onError
-                            }
-                      })
-                      .addDisposableTo(disposeBag)
-            currentState.asObservable()
-                        .subscribe(onNext: { [weak self] in
-                            if $0 == .loading {
-                                if let repository = self?.repository {
-                                    interactor.loadPullRequests(ofRepository: repository.value)
-                                }
-                            }
-                        })
-                        .addDisposableTo(disposeBag)
-        }
+        currentState.asObservable()
+                    .subscribe(onNext: { [weak self] in
+                        if $0 == .loading {
+                            self?.fetchPullRequests()
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
+    }
+
+    private func fetchPullRequests() {
+        interactor?.pullRequests(ofRepository: repository.value)
+            .subscribe(onNext: { [weak self] fetchedPullRequests in
+                if fetchedPullRequests.count > 0 {
+                    self?.currentState.value = .showingPullRequests
+                    self?.pullRequests.value = fetchedPullRequests
+                }
+                else {
+                    self?.currentState.value = .onError
+                }
+                },
+                       onError: { [weak self] _ in
+                        self?.currentState.value = .onError
+            })
+            .addDisposableTo(disposeBag)
     }
     
 }
+
 
 extension RepositoryDetailPresenter : TableViewSelectionHandler {
     

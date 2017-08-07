@@ -12,7 +12,7 @@ import Alamofire
 import RxAlamofire
 
 protocol RepositoriesStoreType {
-    func swiftRepositories(forPage page : Int) -> Observable<(APIRequestResult,[Repository])>
+    func swiftRepositories(forPage page : Int) -> Observable<RequestResult<[Repository]>>
 }
 
 struct RepositoriesStore : RepositoriesStoreType {
@@ -23,20 +23,20 @@ struct RepositoriesStore : RepositoriesStoreType {
     
     private init() { }
     
-    func swiftRepositories(forPage page: Int) -> Observable<(APIRequestResult,[Repository])> {
+    func swiftRepositories(forPage page: Int) -> Observable<RequestResult<[Repository]>> {
         if let searchEndpoint = config.urlString(with: .search) {
             let parameters : DataDict = ["q" : "language:Swift", "sort" : "stars", "page" : page]
             return json(.get, searchEndpoint, parameters: parameters, encoding: URLEncoding.queryString)
                    .map { json in
                         if let jsonData = json as? DataDict, let repositoriesList = jsonData["items"] as? [DataDict] {
-                            return (APIRequestResult.success,repositoriesList.flatMap { Repository.init(json: $0) })
+                            return RequestResult.success(repositoriesList.flatMap { Repository.init(json: $0) })
                         }
                         else {
-                            return (APIRequestResult.invalidJson,[Repository]())
+                            return RequestResult.failure(APIRequestError.invalidJson)
                         }
                    }
         }
-        return Observable.just((APIRequestResult.invalidEndpoint,[Repository]()))
+        return Observable.just(RequestResult.failure(APIRequestError.invalidEndpoint))
     }
     
 }

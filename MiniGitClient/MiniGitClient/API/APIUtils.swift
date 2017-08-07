@@ -10,10 +10,10 @@ import Foundation
 
 typealias DataDict = [String : Any]
 
-enum APIRequestResult {
-    case success, networkError, invalidJson, invalidEndpoint
+enum RequestResult<T> {
+    case success(T)
+    case failure(Error)
 }
-
 
 enum APIRequestError : Error {
     case networkError, invalidJson, invalidEndpoint

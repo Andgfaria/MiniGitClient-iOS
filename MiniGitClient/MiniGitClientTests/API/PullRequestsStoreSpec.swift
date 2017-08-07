@@ -34,12 +34,12 @@ class PullRequestsStoreSpec: QuickSpec {
                     testRepository.user?.name = "Alamofire"
                     
                     PullRequestsStore.shared.pullRequests(from: testRepository)
-                                                .subscribe(onNext: { [weak self] result, fetchedPullRequests in
-                                                    if result != .success {
+                                                .subscribe(onNext: { [weak self] requestResult in
+                                                    switch requestResult {
+                                                    case .success(let pullRequests):
+                                                        self?.pullRequests = pullRequests
+                                                    case .failure:
                                                         fail()
-                                                    }
-                                                    else {
-                                                        self?.pullRequests = fetchedPullRequests
                                                     }
                                                 },
                                                 onError: { _ in

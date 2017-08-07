@@ -16,21 +16,15 @@ private class MockInteractor : RepositoryDetailInteractorType {
     
     var shouldFail = false
     
-    var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> = Variable((APIRequestResult.success,[PullRequest]()))
-    
-    func loadPullRequests(ofRepository repository : Repository) {
-        
+    func pullRequests(ofRepository repository: Repository) -> Observable<[PullRequest]> {
         if shouldFail {
-            fetchedPullRequests.value = (APIRequestResult.networkError,[PullRequest]())
+            return Observable.error(APIRequestError.networkError)
         }
-        else {
-            var pullRequests = [PullRequest]()
-            for _ in 1...10 {
-                pullRequests.append(PullRequest())
-            }
-            fetchedPullRequests.value = (APIRequestResult.success,pullRequests)
+        var pullRequests = [PullRequest]()
+        for _ in 1...10 {
+            pullRequests.append(PullRequest())
         }
-        
+        return Observable.just(pullRequests)
     }
 
 }
@@ -45,6 +39,8 @@ private class MockRouter : RepositoryDetailRouterType {
 }
 
 class RepositoryDetailPresenterSpec: QuickSpec {
+    
+    private let disposeBag = DisposeBag()
     
     override func spec() {
         
@@ -95,13 +91,13 @@ class RepositoryDetailPresenterSpec: QuickSpec {
             context("after retrieving the pull requests from the interactor", {
                 
                 it("changes the current state to loaded when successfull") {
-                    mockInteractor.loadPullRequests(ofRepository: Repository())
+                    presenter?.currentState.value = .loading
                     expect(presenter?.currentState.value) == .showingPullRequests
                 }
                 
                 it("changes the current state to showingRetryOption after a failure") {
                     mockInteractor.shouldFail = true
-                    mockInteractor.loadPullRequests(ofRepository: Repository())
+                    presenter?.currentState.value = .loading
                     expect(presenter?.currentState.value) == .onError
                 }
                 
