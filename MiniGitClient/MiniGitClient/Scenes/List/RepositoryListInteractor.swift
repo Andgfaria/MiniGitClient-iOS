@@ -11,17 +11,12 @@ import RxSwift
 
 protocol RepositoryListInteractorType : class {
     var repositoriesStore : RepositoriesStoreType { get set }
-    var fetchResults : Variable<(APIRequestResult,[Repository])> { get set }
-    func loadRepositories()
+    func repositories(fromPage page : Int) -> Observable<[Repository]>
 }
 
 class RepositoryListInteractor {
     
     var repositoriesStore: RepositoriesStoreType = RepositoriesStore.shared
-    
-    var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
-    
-    fileprivate var currentPage = 1
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -30,24 +25,23 @@ class RepositoryListInteractor {
 
 extension RepositoryListInteractor : RepositoryListInteractorType {
     
-    func loadRepositories() {
-        repositoriesStore.swiftRepositories(forPage: currentPage)
-            .subscribe(onNext: { [weak self] requestResult, repositories in
-                if requestResult != .success {
-                    self?.fetchResults.value.0 = requestResult
-                }
-                else {
-                    let newRepositories = repositories
-                    if newRepositories.count > 0, let currentRepositories = self?.fetchResults.value.1 {
-                        self?.currentPage += 1
-                        self?.fetchResults.value = (APIRequestResult.success, currentRepositories + newRepositories)
+    func repositories(fromPage page : Int) -> Observable<[Repository]> {
+        return repositoriesStore.swiftRepositories(forPage: page)
+                .flatMap { requestResult, repositories -> Observable<[Repository]> in
+                    if requestResult == .success {
+                        return Observable.just(repositories)
+                    }
+                    else {
+                        switch requestResult {
+                        case .invalidEndpoint:
+                            return Observable.error(APIRequestError.invalidEndpoint)
+                        case .invalidJson:
+                            return Observable.error(APIRequestError.invalidJson)
+                        default:
+                            return Observable.error(APIRequestError.networkError)
+                        }
                     }
                 }
-            },
-            onError : { [weak self] _ in
-                self?.fetchResults.value = (APIRequestResult.networkError,self?.fetchResults.value.1 ?? [Repository]())
-            })
-            .addDisposableTo(disposeBag)
     }
     
 }

@@ -14,24 +14,22 @@ import RxSwift
 private class MockInteractor : RepositoryListInteractorType {
     
     var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
-
-    var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     
     var shouldFail = false
     
-    func loadRepositories() {
+    func repositories(fromPage page: Int) -> Observable<[Repository]> {
         if shouldFail {
-            fetchResults.value = (APIRequestResult.networkError,[Repository]())
+            return Observable.error(APIRequestError.networkError)
         }
         else {
-            let repository = Repository()
             var repositories = [Repository]()
             for _ in 0...10 {
-                repositories.append(repository)
+                repositories.append(Repository())
             }
-            fetchResults.value = (APIRequestResult.success,repositories)
+            return Observable.just(repositories)
         }
     }
+    
 }
 
 class RepositoryListPresenterSpec: QuickSpec {
@@ -61,15 +59,31 @@ class RepositoryListPresenterSpec: QuickSpec {
             
             context("after retrieving the repositories from the interactor", { 
                 
-                it("changes the view controller state to showing repositories on success") {
-                    mockInteractor.loadRepositories()
+                it("changes the state to showing repositories on success") {
                     expect(presenter.currentState.value) == RepositoryListState.showingRepositories
                 }
                 
-                it("changes the view controller state to showingError on first load") {
+                it("changes the state to showingError on first load") {
                     mockInteractor.shouldFail = true
-                    mockInteractor.loadRepositories()
+                    presenter.repositories.value = [Repository]()
+                    presenter.currentState.value = .loadingFirst
                     expect(presenter.currentState.value) == RepositoryListState.showingError
+                }
+                
+                it("changes the state to showingRepositories after a failed second load") {
+                    mockInteractor.shouldFail = true
+                    presenter.currentState.value = .loadingMore
+                    expect(presenter.currentState.value) == RepositoryListState.showingRepositories
+                }
+                
+                it("accumulates repositories after each load") {
+                    let firstLoadCount = presenter.repositories.value.count
+                    presenter.currentState.value = .loadingMore
+                    let secondLoadCount = presenter.repositories.value.count
+                    expect(secondLoadCount).to(beGreaterThan(firstLoadCount))
+                    presenter.currentState.value = .loadingMore
+                    let thirdLoadCount = presenter.repositories.value.count
+                    expect(thirdLoadCount).to(beGreaterThan(secondLoadCount))
                 }
                 
                 it("updates the repository list table view") {

@@ -15,3 +15,6 @@ enum APIRequestResult {
 }
 
 
+enum APIRequestError : Error {
+    case networkError, invalidJson, invalidEndpoint
+}

@@ -26,6 +26,8 @@ class RepositoryListPresenter : NSObject {
     
     var repositories = Variable([Repository]())
     
+    fileprivate var currentPage = 1
+    
     var interactor : RepositoryListInteractorType? {
         didSet {
             bind()
@@ -42,28 +44,34 @@ class RepositoryListPresenter : NSObject {
 extension RepositoryListPresenter {
     
     fileprivate func bind() {
-        if let interactor = interactor {
-            interactor.fetchResults
-                      .asObservable()
-                      .skip(1)
-                      .subscribe(onNext: { [weak self] requestResult, repositories in
-                            if requestResult == .success && repositories.count > 0{
-                                self?.repositories.value = repositories
-                                self?.currentState.value = .showingRepositories
-                            }
-                            else {
-                                self?.currentState.value = .showingError
-                            }
-                      })
-                      .addDisposableTo(disposeBag)
-            currentState.asObservable()
-                        .subscribe(onNext: { [weak self] in
-                            if $0 == .loadingFirst || $0 == .loadingMore {
-                                self?.interactor?.loadRepositories()
-                            }
-                        })
-                        .addDisposableTo(disposeBag)
-        }
+        currentState.asObservable()
+            .subscribe(onNext: { [weak self] in
+                if $0 == .loadingFirst || $0 == .loadingMore {
+                    self?.fetchRepositories()
+                }
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func fetchRepositories() {
+        interactor?.repositories(fromPage: currentPage)
+                    .subscribe(onNext: { [weak self] fetchedRepositories in
+                        if fetchedRepositories.count > 0 {
+                            guard let strongSelf = self else { return }
+                            strongSelf.repositories.value = strongSelf.repositories.value + fetchedRepositories
+                            strongSelf.currentPage += 1
+                            strongSelf.currentState.value = .showingRepositories
+                        }
+                    },
+                    onError: { [weak self] _ in
+                        if let currentRepositories = self?.repositories.value, currentRepositories.count > 0 {
+                            self?.currentState.value = .showingRepositories
+                        }
+                        else {
+                            self?.currentState.value = .showingError
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
     }
     
 }
