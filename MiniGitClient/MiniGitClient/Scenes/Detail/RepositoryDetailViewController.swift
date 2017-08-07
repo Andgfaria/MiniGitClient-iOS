@@ -27,9 +27,9 @@ class RepositoryDetailViewController: UIViewController {
     
     weak var tableViewModel : RepositoryDetailTableViewModelType?
     
-    let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    fileprivate let tableView = UITableView(frame: CGRect.zero, style: .plain)
     
-    let headerView = RepositoryDetailHeaderView()
+    fileprivate let headerView = RepositoryDetailHeaderView()
     
     fileprivate let disposeBag = DisposeBag()
     
