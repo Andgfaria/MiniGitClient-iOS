@@ -8,15 +8,6 @@
 
 import Foundation
 
-enum Endpoint : String {
-    case search = "SEARCH"
-    case pullRequests = "PULLREQUESTS"
-}
-
-protocol APIConfigType {
-    func urlString(with endPoint : Endpoint) -> String?
-}
-
 struct APIConfig : APIConfigType {
     
     static let shared = APIConfig()

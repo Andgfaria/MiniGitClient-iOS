@@ -15,7 +15,7 @@ struct PullRequest {
     
     var body = ""
     
-    var user : RepositoryOwner?
+    var user : User?
     
     var url : URL?
     
@@ -25,7 +25,7 @@ struct PullRequest {
         self.title = json["title"] as? String ?? ""
         self.body = json["body"] as? String ?? ""
         if let user = json["user"] as? DataDict {
-            self.user = RepositoryOwner(json: user)
+            self.user = User(json: user)
         }
         if let url = json["url"] as? String {
             self.url = URL(string: url)

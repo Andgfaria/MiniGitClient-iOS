@@ -42,30 +42,23 @@ class EmptyView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
     
     init() {
         super.init(frame: CGRect.zero)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
     
 
 }
 
 extension EmptyView : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([activityIndicator,messageLabel,actionButton])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-    }
     
     func setupConstraints() {
         activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -97,22 +90,27 @@ extension EmptyView : ViewCodable {
     }
     
     func bindComponents() {
-        actionButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.currentState.value = .loading
-                self?.actionBlock?()
-            })
-            .addDisposableTo(disposeBag)
-        
+        actionButton.rx
+                    .tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.currentState.value = .loading
+                        self?.actionBlock?()
+                    })
+                    .addDisposableTo(disposeBag)
         currentState.asObservable()
-            .map { $0 == .loading }
-            .subscribe(onNext: { [weak self] in
-                $0 ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
-            })
-            .addDisposableTo(disposeBag)
-        
-        currentState.asObservable().map { $0 == .loading }.bind(to: messageLabel.rx.isHidden).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
+                    .map { $0 == .loading }
+                    .subscribe(onNext: { [weak self] in
+                        $0 ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: messageLabel.rx.isHidden)
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: actionButton.rx.isHidden)
+                    .addDisposableTo(disposeBag)
     }
     
 }

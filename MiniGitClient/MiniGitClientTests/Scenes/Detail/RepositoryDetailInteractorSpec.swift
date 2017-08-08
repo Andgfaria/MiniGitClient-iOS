@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate enum MockError : Error {
+private enum MockError : Error {
     case mockedNetworkError, mockedInvalidJson
 }
 
@@ -19,22 +19,22 @@ private class MockPullRequestsStore : PullRequestsStoreType {
     
     var mockedError : MockError?
     
-    func pullRequests(from repository: Repository) -> Observable<(APIRequestResult, [PullRequest])> {
+    func pullRequests(from repository: Repository) -> Observable<RequestResult<[PullRequest]>> {
         if let error = mockedError {
-            return error == .mockedNetworkError ? Observable.error(error) :  Observable.just((APIRequestResult.invalidJson,[PullRequest]()))
+            return error == .mockedNetworkError ? Observable.error(error) : Observable.just(RequestResult.failure(error))
         }
-        else {
-            var pullRequests = [PullRequest]()
-            for _ in 1...10 {
-                pullRequests.append(PullRequest())
-            }
-            return Observable.just((APIRequestResult.success,pullRequests))
+        var pullRequests = [PullRequest]()
+        for _ in 1...10 {
+            pullRequests.append(PullRequest())
         }
+        return Observable.just(RequestResult.success(pullRequests))
     }
     
 }
 
 class RepositoryDetailInteractorSpec: QuickSpec {
+    
+    private let disposeBag = DisposeBag()
     
     override func spec() {
         
@@ -53,23 +53,13 @@ class RepositoryDetailInteractorSpec: QuickSpec {
             context("can", { 
                 
                 it("hold pull requests when successfull") {
-                   interactor.loadPullRequests(ofRepository: Repository())
-                   expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.success
-                   expect(interactor.fetchedPullRequests.value.1.count) == 10
-                }
-                
-                it("holds an error after a network failure") {
-                    mockStore.mockedError = .mockedNetworkError
-                    interactor.loadPullRequests(ofRepository: Repository())
-                    expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.networkError
-                    expect(interactor.fetchedPullRequests.value.1).to(beEmpty())
-                }
-                
-                it("holds an error after others type of failure") {
-                    mockStore.mockedError = .mockedInvalidJson
-                    interactor.loadPullRequests(ofRepository: Repository())
-                    expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.invalidJson
-                    expect(interactor.fetchedPullRequests.value.1).to(beEmpty())
+                    var pullRequests : [PullRequest]?
+                    interactor.pullRequests(ofRepository: Repository())
+                              .subscribe(onNext: {
+                                    pullRequests = $0
+                              })
+                              .addDisposableTo(self.disposeBag)
+                    expect(pullRequests?.count) == 10
                 }
                 
             })

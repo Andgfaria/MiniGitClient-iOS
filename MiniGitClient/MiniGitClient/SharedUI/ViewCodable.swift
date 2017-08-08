@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 protocol ViewCodable {
+    func setup(withViews views : [UIView])
     func addViewsToHierarchy(_ views : [UIView])
     func setupConstraints()
     func setupStyles()
@@ -18,6 +19,15 @@ protocol ViewCodable {
 }
 
 extension ViewCodable {
+    
+    func setup(withViews views : [UIView]) {
+        addViewsToHierarchy(views)
+        setupConstraints()
+        setupStyles()
+        bindComponents()
+        setupAccessibilityIdentifiers()
+    }
+    
     func setupConstraints() { }
     func setupStyles()      { }
     func bindComponents()   { }

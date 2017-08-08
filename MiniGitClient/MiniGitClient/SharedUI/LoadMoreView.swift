@@ -34,30 +34,22 @@ class LoadMoreView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
     init() {
         super.init(frame: CGRect.zero)
-        setup()
+        setup(withViews: [activityIndicator,actionButton])
     }
     
 }
 
 extension LoadMoreView : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([activityIndicator,actionButton])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         activityIndicator.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -80,19 +72,27 @@ extension LoadMoreView : ViewCodable {
     }
     
     func bindComponents() {
-        actionButton.rx.tap.subscribe(onNext: { [weak self] in
-            self?.currentState.value = .loading
-        }).addDisposableTo(disposeBag)
-        currentState.asObservable().subscribe(onNext: { [weak self] in
-            if $0 == .loading {
-                self?.loadingBlock?()
-                self?.activityIndicator.startAnimating()
-            }
-            else {
-                self?.activityIndicator.stopAnimating()
-            }
-        }).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
+        actionButton.rx
+                    .tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.currentState.value = .loading
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .subscribe(onNext: { [weak self] in
+                        if $0 == .loading {
+                            self?.loadingBlock?()
+                            self?.activityIndicator.startAnimating()
+                        }
+                        else {
+                            self?.activityIndicator.stopAnimating()
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: actionButton.rx.isHidden)
+                    .addDisposableTo(disposeBag)
     }
     
     func setupAccessibilityIdentifiers() {

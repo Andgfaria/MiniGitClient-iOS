@@ -7,51 +7,34 @@
 //
 
 import UIKit
-
-protocol InfoPresenterType : class, UITableViewDataSource, UITableViewDelegate {
-    func registerTableView(_ tableView : UITableView)
-    func onDismissButtonTapped(sender : InfoViewController)
-}
+import RxSwift
+import RxCocoa
 
 class InfoViewController: UIViewController {
     
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
-    var presenter : InfoPresenterType?
+    weak var presenter : InfoPresenterType?
 
+    weak var tableViewModel : InfoTableViewModelType?
+    
+    var canClose = false
+    
+    var disposeBag: DisposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = R.string.info.title()
-        setup()
-        presenter?.registerTableView(tableView)
-    }
-
-}
-
-extension InfoViewController {
-    
-    fileprivate func setupDoneButtonIfNeeded() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            return
+        navigationItem.title = R.string.info.title()
+        if canClose {
+            addCloseComponent(toThe: .right)
         }
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTap))
+        setup(withViews: [tableView])
+        tableViewModel?.register(tableView: tableView)
     }
-    
-    func handleDoneTap() {
-        presenter?.onDismissButtonTapped(sender: self)
-    }
-    
-}
 
+}
 
 extension InfoViewController : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([tableView])
-        setupConstraints()
-        setupDoneButtonIfNeeded()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -66,3 +49,5 @@ extension InfoViewController : ViewCodable {
     }
     
 }
+
+extension InfoViewController : Closable { }

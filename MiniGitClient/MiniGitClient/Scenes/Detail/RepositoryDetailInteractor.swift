@@ -13,24 +13,20 @@ class RepositoryDetailInteractor {
     
     var store : PullRequestsStoreType = PullRequestsStore.shared
     
-    var fetchedPullRequests : Variable<(APIRequestResult,[PullRequest])> = Variable((APIRequestResult.success,[PullRequest]()))
-    
-    fileprivate let disposeBag = DisposeBag()
-    
 }
 
 extension RepositoryDetailInteractor : RepositoryDetailInteractorType {
-  
-    func loadPullRequests(ofRepository repository : Repository) {
-        store.pullRequests(from: repository)
-                         .subscribe(
-                            onNext: { [weak self] in
-                                self?.fetchedPullRequests.value = $0
-                            },
-                            onError: { [weak self] _ in
-                                self?.fetchedPullRequests.value = (APIRequestResult.networkError, [PullRequest]())
-                         })
-                         .addDisposableTo(disposeBag)
-    }
     
+    func pullRequests(ofRepository repository : Repository) -> Observable<[PullRequest]> {
+        return store.pullRequests(from: repository)
+                    .flatMap { requestResult -> Observable<[PullRequest]> in
+                        switch requestResult {
+                        case .success(let pullRequests):
+                            return Observable.just(pullRequests)
+                        case .failure(let error):
+                            return Observable.error(error)
+                    }
+            }
+    }
+  
 }

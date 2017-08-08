@@ -18,7 +18,7 @@ struct Repository  {
     
     var forksCount = 0
     
-    var owner : RepositoryOwner?
+    var user : User?
     
     var url : URL?
     
@@ -30,7 +30,7 @@ struct Repository  {
         self.starsCount = json["stargazers_count"] as? Int ?? 0
         self.forksCount = json["forks_count"] as? Int ?? 0
         if let owner = json["owner"] as? DataDict {
-            self.owner = RepositoryOwner(json: owner)
+            self.user = User(json: owner)
         }
         if let url = json["url"] as? String {
             self.url = URL(string: url)
@@ -43,7 +43,7 @@ struct Repository  {
                "Stars Count: \(starsCount)\n"  +
                "Forks Count: \(forksCount)\n"  +
                "URL: \(String(describing: url))\n" +
-               "Owner : \(String(describing: owner))"
+               "Owner : \(String(describing: user))"
     }
     
 }
@@ -56,7 +56,7 @@ extension Repository : Equatable {
                lhs.starsCount == rhs.starsCount &&
                lhs.forksCount == rhs.forksCount &&
                lhs.url == rhs.url &&
-               lhs.owner == rhs.owner
+               lhs.user == rhs.user
     }
     
 }

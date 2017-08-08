@@ -8,48 +8,24 @@
 
 import Quick
 import Nimble
+import RxSwift
 @testable import MiniGitClient
 
-private class MockPresenter : NSObject, RepositoryDetailPresenterType {
+private class MockPresenter : RepositoryDetailPresenterType {
     
-    weak var viewController : RepositoryDetailViewController?
+    var repository = Variable(Repository())
     
-    var didConfigureHeader = false
+    var pullRequests = Variable([PullRequest()])
     
-    var didRegisterTableView = false
-    
-    var didLoadPullRequests = false
+    var currentState = Variable(RepositoryDetailState.loading)
     
     var didReturnShareItems = false
-    
-    var didReturnCells = false
-    
-    func configureHeader(_ header: RepositoryDetailHeaderView) {
-        didConfigureHeader = true
-    }
-    
-    func registerTableView(_ tableView: UITableView) {
-        didRegisterTableView = true
-        tableView.dataSource = self
-    }
-    
-    func loadPullRequests() {
-        didLoadPullRequests = true
-    }
     
     var shareItems: [Any] {
         didReturnShareItems = true
         return []
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        didReturnCells = true
-        return UITableViewCell(frame: CGRect.zero)
-    }
 }
 
 
@@ -64,50 +40,45 @@ class RepositoryDetailViewControllerSpec: QuickSpec {
             
             var mockPresenter = MockPresenter()
             
+            var tableView : UITableView?
+            
+            var headerView : RepositoryDetailHeaderView?
+            
             beforeEach {
                 viewController = RepositoryDetailViewController(nibName: nil, bundle: nil)
                 mockPresenter = MockPresenter()
                 viewController.presenter = mockPresenter
                 viewController.view.layoutIfNeeded()
+                tableView = viewController.view.subviews.flatMap { $0 as? UITableView }.first
+                headerView = tableView?.tableHeaderView as? RepositoryDetailHeaderView
             }
             
             context("has", { 
                 
                 it("a table view") {
-                    expect(viewController.tableView).toNot(beNil())
+                    expect(tableView).toNot(beNil())
                 }
                 
                 it("a header view") {
-                    expect(viewController.headerView).toNot(beNil())
+                    expect(headerView).toNot(beNil())
                 }
                 
             })
             
-            context("changes", { 
+            context("changes", {
                 
-                it("to a loading state and loads pull requests") {
-                    viewController.headerView.currentState.value = .loading
-                    expect(mockPresenter.didLoadPullRequests).to(beTrue())
+                it("the header view state to loaded when the presenter retrieved the pull requests") {
+                    mockPresenter.currentState.value = .showingPullRequests
+                    expect(headerView?.currentState.value) == .loaded
                 }
                 
-                it("to a loaded state and reloads the tableview") {
-                    viewController.headerView.currentState.value = .loaded
-                    expect(mockPresenter.didReturnCells).to(beTrue())
+                it("the header view state to showingRetryOption when the presenter failed") {
+                    mockPresenter.currentState.value = .onError
+                    expect(headerView?.currentState.value) == .showingRetryOption
                 }
                 
             })
             
-            context("presenter", { 
-                
-                it("configures the header") {
-                    expect(mockPresenter.didConfigureHeader).to(beTrue())
-                }
-                
-                it("register the tableview") {
-                    expect(mockPresenter.didRegisterTableView).to(beTrue())
-                }
-                
-            })
             
             context("shares", { 
                 

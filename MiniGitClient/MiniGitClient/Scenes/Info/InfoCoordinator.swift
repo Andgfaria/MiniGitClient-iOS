@@ -16,8 +16,13 @@ fileprivate struct InfoScene {
     
     let presenter = InfoPresenter()
     
+    let tableViewModel = InfoTableViewModel()
+    
     init() {
+        tableViewModel.selectionHandler = presenter
         viewController.presenter = presenter
+        viewController.tableViewModel = tableViewModel
+        viewController.canClose = UIDevice.current.userInterfaceIdiom != .pad
     }
     
 }
@@ -51,10 +56,6 @@ extension InfoCoordinator : Coordinator {
 }
 
 extension InfoCoordinator : InfoRouterType {
-    
-    func dismissController(_ controller: UIViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
     
     func openGitHubPage() {
         if let url = URL(string: "https://github.com/Andgfaria/MiniGitClient-iOS") {

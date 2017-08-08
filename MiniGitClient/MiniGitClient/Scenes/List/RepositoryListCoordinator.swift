@@ -12,11 +12,13 @@ fileprivate struct ListScene {
     let viewController = RepositoryListViewController()
     let presenter = RepositoryListPresenter()
     let interactor = RepositoryListInteractor()
+    let tableViewModel = RepositoryListTableViewModel()
     
     init() {
         presenter.interactor = interactor
-        presenter.viewController = viewController
         viewController.presenter = presenter
+        viewController.tableViewModel = tableViewModel
+        tableViewModel.selectionHandler = presenter
     }
 }
 
@@ -49,15 +51,16 @@ extension RepositoryListCoordinator : Coordinator {
 
 extension RepositoryListCoordinator : RepositoryListRouterType {
     
-    func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository) {
+    func onRepositorySelection(_ repository: Repository) {
         guard let splitViewController = splitViewController else { return }
         repositoryDetailCoordinator = RepositoryDetailCoordinator(repository : repository, splitViewController: splitViewController)
         repositoryDetailCoordinator?.start()
     }
     
-    func presenter(_ presenter: RepositoryListPresenterType, didHandleInfoTapWithItem item: UIBarButtonItem) {
-        if let master = splitViewController?.viewControllers.first {
-            infoCoordinator = InfoCoordinator(viewController: master, senderItem: item)
+    
+    func onInfoScreenRequest() {
+        if let master = splitViewController?.viewControllers.first, let sender = scene.viewController.navigationItem.leftBarButtonItem {
+            infoCoordinator = InfoCoordinator(viewController: master, senderItem: sender)
             infoCoordinator?.start()
         }
     }

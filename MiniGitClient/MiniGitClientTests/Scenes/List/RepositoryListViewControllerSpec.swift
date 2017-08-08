@@ -8,36 +8,20 @@
 
 import Quick
 import Nimble
+import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockPresenter : NSObject, RepositoryListPresenterType {
+private class MockPresenter : NSObject, RepositoryListPresenterType {
     
-    var loadRepositoriesCount = 0
+    var didHandleInfoButtonTap = false
     
-    var registerTableViewCount = 0
+    var currentState: Variable<RepositoryListState> = Variable(RepositoryListState.loadingFirst)
     
-    weak var viewController : RepositoryListViewController?
+    var repositories = Variable([Repository]())
     
-    func loadRepositories() {
-        loadRepositoriesCount += 1
+    func onInfoButtonTap() {
+        didHandleInfoButtonTap = true
     }
-    
-    func registerTableView(_ tableView : UITableView) {
-        registerTableViewCount += 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
-    }
-    
-    func handleInfoButtonTap(barButtonItem: UIBarButtonItem) {
-        
-    }
-    
 }
 
 
@@ -57,10 +41,14 @@ class RepositoryListViewControllerSpec: QuickSpec {
             
             var mockPresenter = MockPresenter()
             
+            var tableViewModel = RepositoryListTableViewModel()
+            
             beforeEach {
                 mockPresenter = MockPresenter()
+                tableViewModel = RepositoryListTableViewModel()
                 controller = RepositoryListViewController(nibName: nil, bundle: nil)
                 controller.presenter = mockPresenter
+                controller.tableViewModel = tableViewModel
                 _ = controller.view
                 emptyView = controller.view.subviews.flatMap { $0 as? EmptyView }.first
                 tableView = controller.view.subviews.flatMap { $0 as? UITableView }.first
@@ -90,54 +78,36 @@ class RepositoryListViewControllerSpec: QuickSpec {
             context("changes", { 
                 
                 it("to a loading first state") {
-                    controller.currentState.value = .loadingFirst
+                    mockPresenter.currentState.value = .loadingFirst
                     expect(emptyView?.isHidden).to(beFalse())
                     expect(tableView?.isHidden).to(beTrue())
                 }
                 
                 it("to a loading more state") {
-                    controller.currentState.value = .loadingMore
+                    mockPresenter.currentState.value = .loadingMore
                     expect(emptyView?.isHidden).to(beTrue())
                     expect(tableView?.isHidden).to(beFalse())
                 }
                 
                 it("to a showing repositories state") {
-                    controller.currentState.value = .showingRepositories
+                    mockPresenter.currentState.value = .showingRepositories
                     expect(emptyView?.isHidden).to(beTrue())
                     expect(tableView?.isHidden).to(beFalse())
                 }
                 
                 it("to a showing error state") {
-                    controller.currentState.value = .showingError
+                    mockPresenter.currentState.value = .showingError
                     expect(emptyView?.isHidden).to(beFalse())
                     expect(tableView?.isHidden).to(beTrue())
                 }
                 
             })
             
-            context("presenter", { 
+            context("updates", {
                 
-                it("has it methods called when the view is loaded") {
-                    expect(mockPresenter.loadRepositoriesCount) == 1
-                    expect(mockPresenter.registerTableViewCount) == 1
-                }
-                
-                it("loads repositories when the controller changes to a loading first state") {
-                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-                    controller.currentState.value = .loadingFirst
-                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
-                }
-                
-                it("loads repositories when the controller changes to a loading more state") {
-                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-                    controller.currentState.value = .loadingMore
-                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
-                }
-                
-                it("loads repositories when the empty view action block is executed") {
-                    let currentLoadRepositoriesCount = mockPresenter.loadRepositoriesCount
-                    emptyView?.actionBlock?()
-                    expect(mockPresenter.loadRepositoriesCount) == currentLoadRepositoriesCount + 1
+                it("the tableview after receiving new repositories") {
+                    mockPresenter.repositories.value = [Repository()]
+                    expect(tableView?.numberOfRows(inSection: 0)) == 1
                 }
                 
             })
@@ -146,11 +116,11 @@ class RepositoryListViewControllerSpec: QuickSpec {
                 
                 it("triggers the loadingMore state") {
                     loadMoreView?.loadingBlock?()
-                    expect(controller.currentState.value) == RepositoryListState.loadingMore
+                    expect(mockPresenter.currentState.value) == RepositoryListState.loadingMore
                 }
                 
                 it("has a normal value when showing repositories") {
-                    controller.currentState.value = .showingRepositories
+                    mockPresenter.currentState.value = .showingRepositories
                     expect(loadMoreView?.currentState.value) == LoadMoreViewState.normal
                 }
                 

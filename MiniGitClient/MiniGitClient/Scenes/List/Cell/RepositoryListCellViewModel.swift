@@ -17,8 +17,8 @@ struct RepositoryListCellViewModel {
         cell.infoLabel.text = repository.info
         cell.starsCountLabel.text = "\(repository.starsCount)"
         cell.forksCountLabel.text = "\(repository.forksCount)"
-        cell.repositoryOwnerLabel.text = "\(repository.owner?.name ?? "")"
-        if let avatarURL = repository.owner?.avatarURL {
+        cell.repositoryUserLabel.text = "\(repository.user?.name ?? "")"
+        if let avatarURL = repository.user?.avatarURL {
             cell.avatarImageView.kf.setImage(with: avatarURL)
         }
     }
