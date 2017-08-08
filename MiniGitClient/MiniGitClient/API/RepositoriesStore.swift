@@ -36,7 +36,7 @@ struct RepositoriesStore : RepositoriesStoreType {
                         }
                    }
         }
-        return Observable.just(RequestResult.failure(APIRequestError.invalidEndpoint))
+        return Observable.error(APIRequestError.invalidEndpoint)
     }
     
 }

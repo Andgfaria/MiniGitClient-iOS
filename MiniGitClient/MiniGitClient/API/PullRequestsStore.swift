@@ -33,10 +33,11 @@ extension PullRequestsStore : PullRequestsStoreType {
                 return json(.get, pullRequestEndpoint)
                        .map { json in
                             guard let jsonData = json as? [DataDict] else { return RequestResult.failure(APIRequestError.invalidJson) }
-                            return RequestResult.success(jsonData.flatMap { PullRequest.init(json: $0) })                        }
+                            return RequestResult.success(jsonData.flatMap { PullRequest.init(json: $0) })
+                        }
             }
         }
-        return Observable.just(RequestResult.failure(APIRequestError.invalidEndpoint))
+        return Observable.error(APIRequestError.invalidEndpoint)
     }
     
 }
