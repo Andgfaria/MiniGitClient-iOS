@@ -9,11 +9,6 @@
 import Foundation
 import RxSwift
 
-protocol RepositoryListInteractorType : class {
-    var repositoriesStore : RepositoriesStoreType { get set }
-    func repositories(fromPage page : Int) -> Observable<[Repository]>
-}
-
 class RepositoryListInteractor {
     
     var repositoriesStore: RepositoriesStoreType = RepositoriesStore.shared

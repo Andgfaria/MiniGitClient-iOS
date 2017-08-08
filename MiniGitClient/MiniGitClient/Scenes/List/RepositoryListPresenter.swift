@@ -10,16 +10,6 @@ import Foundation
 import UIKit
 import RxSwift
 
-enum RepositoryListState {
-    case loadingFirst, showingRepositories, loadingMore, showingError
-}
-
-
-protocol RepositoryListRouterType : class {
-    func onRepositorySelection(_ repository : Repository)
-    func onInfoScreenRequest()
-}
-
 class RepositoryListPresenter : NSObject {
     
     var currentState = Variable(RepositoryListState.loadingFirst)

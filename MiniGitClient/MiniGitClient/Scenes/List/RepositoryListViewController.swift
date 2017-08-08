@@ -10,18 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol RepositoryListPresenterType : class {
-    var currentState : Variable<RepositoryListState> { get set }
-    var repositories : Variable<[Repository]> { get }
-    func onInfoButtonTap()
-}
-
-protocol RepositoryListTableViewModelType : TableViewModel, UITableViewDelegate {
-    weak var selectionHandler : TableViewSelectionHandler? { get set }
-    func updateWith(repositories : [Repository])
-    
-}
-
 class RepositoryListViewController: UIViewController {
     
     weak var presenter : RepositoryListPresenterType?

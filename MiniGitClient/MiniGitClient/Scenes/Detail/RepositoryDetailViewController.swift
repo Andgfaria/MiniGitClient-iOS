@@ -9,18 +9,6 @@
 import UIKit
 import RxSwift
 
-protocol RepositoryDetailPresenterType : class {
-    var currentState : Variable<RepositoryDetailState> { get set }
-    var repository : Variable<Repository> { get }
-    var pullRequests : Variable<[PullRequest]> { get }
-    var shareItems : [Any] { get }
-}
-
-protocol RepositoryDetailTableViewModelType : class, TableViewModel {
-    var selectionHandler : TableViewSelectionHandler? { get set }
-    func update(withPullRequests pullRequests : [PullRequest])
-}
-
 class RepositoryDetailViewController: UIViewController {
 
     weak var presenter : RepositoryDetailPresenterType?

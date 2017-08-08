@@ -9,19 +9,6 @@
 import UIKit
 import RxSwift
 
-enum RepositoryDetailState {
-    case loading, showingPullRequests, onError
-}
-
-protocol RepositoryDetailInteractorType : class {
-    func pullRequests(ofRepository repository : Repository) -> Observable<[PullRequest]>
-}
-
-protocol RepositoryDetailRouterType : class {
-    func onPullRequestSelection(_ pullRequest : PullRequest)
-}
-
-
 class RepositoryDetailPresenter : RepositoryDetailPresenterType {
     
     var currentState = Variable(RepositoryDetailState.loading)

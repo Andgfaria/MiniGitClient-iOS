@@ -8,12 +8,6 @@
 
 import UIKit
 
-protocol InfoRouterType : class {
-    func openGitHubPage()
-    func openMailCompose()
-}
-
-
 class InfoPresenter : NSObject {
     
     weak var router : InfoRouterType?

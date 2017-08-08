@@ -10,14 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol InfoPresenterType : class, TableViewSelectionHandler { }
-
-protocol InfoTableViewModelType : TableViewModel, UITableViewDelegate {
-    
-    weak var selectionHandler : TableViewSelectionHandler? { get set }
-    
-}
-
 class InfoViewController: UIViewController {
     
     fileprivate var tableView = UITableView(frame: CGRect.zero, style: .grouped)
