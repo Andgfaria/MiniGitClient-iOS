@@ -11,10 +11,6 @@ import RxSwift
 import Alamofire
 import RxAlamofire
 
-protocol PullRequestsStoreType {
-    func pullRequests(from repository : Repository) -> Observable<RequestResult<[PullRequest]>>
-}
-
 struct PullRequestsStore {
     
     static let shared = PullRequestsStore()

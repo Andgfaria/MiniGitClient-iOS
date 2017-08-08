@@ -11,10 +11,6 @@ import RxSwift
 import Alamofire
 import RxAlamofire
 
-protocol RepositoriesStoreType {
-    func swiftRepositories(forPage page : Int) -> Observable<RequestResult<[Repository]>>
-}
-
 struct RepositoriesStore : RepositoriesStoreType {
 
     static let shared = RepositoriesStore()
