@@ -31,19 +31,19 @@ class RepositoriesStoreSpec: QuickSpec {
                 it("and receives an Swift repositories list for a given page") {
                     
                     RepositoriesStore.shared.swiftRepositories(forPage: 1)
-                        .subscribe(
-                            onNext: { [weak self] requestResult in
-                                switch requestResult {
-                                case .success(let repositories):
-                                    self?.repositories = repositories
-                                case .failure:
-                                    fail()
-                                }
-                            },
-                            onError: { _ in
-                                fail()
-                            })
-                        .addDisposableTo(self.disposeBag)
+                                            .subscribe(
+                                                onNext: { [weak self] requestResult in
+                                                    switch requestResult {
+                                                    case .success(let repositories):
+                                                        self?.repositories = repositories
+                                                    case .failure:
+                                                        fail()
+                                                    }
+                                                },
+                                                onError: { _ in
+                                                    fail()
+                                            })
+                                            .addDisposableTo(self.disposeBag)
                     
                     expect(self.repositories).toEventuallyNot(beNil(), timeout: 30.0, pollInterval: 10.0)
                     

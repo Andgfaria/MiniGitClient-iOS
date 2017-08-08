@@ -30,7 +30,7 @@ class MockedCodedView : UIView, ViewCodable {
     
 }
 
-class MockedCodedViewController : UIViewController, ViewCodable {
+private class MockedCodedViewController : UIViewController, ViewCodable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -51,7 +51,6 @@ class MockedCodedViewController : UIViewController, ViewCodable {
 }
 
 class ViewCodableSpec: QuickSpec {
-    
     
     override func spec() {
         
