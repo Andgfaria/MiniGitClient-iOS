@@ -96,31 +96,37 @@ extension RepositoryListViewController : ViewCodable {
             presenter.repositories
                      .asObservable()
                      .subscribe(onNext: { [weak self] in
-                            self?.tableViewModel?.updateWith(repositories: $0)
+                        self?.tableViewModel?.updateWith(repositories: $0)
                      })
                     .addDisposableTo(disposeBag)
-            presenter.currentState.asObservable().subscribe(onNext: { [weak self] in
-                if $0 == .showingRepositories {
-                    self?.loadMoreview.currentState.value = .normal
-                }
-            }).addDisposableTo(disposeBag)
-            presenter.currentState.asObservable()
-                .map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }
-                .bind(to: emptyView.currentState)
-                .addDisposableTo(disposeBag)
-            presenter.currentState.asObservable()
-                .map { $0 == .showingRepositories || $0 == .loadingMore }
-                .bind(to: emptyView.rx.isHidden)
-                .addDisposableTo(disposeBag)
-            presenter.currentState.asObservable()
-                .map { $0 == .loadingFirst || $0 == .showingError }
-                .bind(to: tableView.rx.isHidden)
-                .addDisposableTo(disposeBag)
-            infoButton.rx.tap
-                .subscribe(onNext: { [weak self] in
-                    self?.presenter?.onInfoButtonTap()
-                })
-                .addDisposableTo(disposeBag)
+            presenter.currentState
+                     .asObservable()
+                     .subscribe(onNext: { [weak self] in
+                        if $0 == .showingRepositories {
+                            self?.loadMoreview.currentState.value = .normal
+                        }
+                     }).addDisposableTo(disposeBag)
+            presenter.currentState
+                     .asObservable()
+                     .map { $0 == .showingError ? EmptyViewState.showingError : EmptyViewState.loading }
+                     .bind(to: emptyView.currentState)
+                     .addDisposableTo(disposeBag)
+            presenter.currentState
+                     .asObservable()
+                     .map { $0 == .showingRepositories || $0 == .loadingMore }
+                     .bind(to: emptyView.rx.isHidden)
+                     .addDisposableTo(disposeBag)
+            presenter.currentState
+                     .asObservable()
+                     .map { $0 == .loadingFirst || $0 == .showingError }
+                     .bind(to: tableView.rx.isHidden)
+                     .addDisposableTo(disposeBag)
+            infoButton.rx
+                      .tap
+                      .subscribe(onNext: { [weak self] in
+                        self?.presenter?.onInfoButtonTap()
+                      })
+                     .addDisposableTo(disposeBag)
         }
 
     }

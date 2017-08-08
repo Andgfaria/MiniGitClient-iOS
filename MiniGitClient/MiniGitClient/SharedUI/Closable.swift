@@ -25,9 +25,12 @@ extension Closable where Self : UIViewController {
     
     func addCloseComponent(toThe position : CloseNavigationItemPosition) {
         let closeButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-        closeButton.rx.tap.subscribe(onNext: { [weak self] in
-            self?.close()
-        }).addDisposableTo(disposeBag)
+        closeButton.rx
+                    .tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.close()
+                    })
+                    .addDisposableTo(disposeBag)
         switch position {
         case .left:
             navigationItem.leftBarButtonItem = closeButton

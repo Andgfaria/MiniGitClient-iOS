@@ -35,12 +35,12 @@ extension RepositoryListPresenter {
     
     fileprivate func bind() {
         currentState.asObservable()
-            .subscribe(onNext: { [weak self] in
-                if $0 == .loadingFirst || $0 == .loadingMore {
-                    self?.fetchRepositories()
-                }
-            })
-            .addDisposableTo(disposeBag)
+                    .subscribe(onNext: { [weak self] in
+                        if $0 == .loadingFirst || $0 == .loadingMore {
+                            self?.fetchRepositories()
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
     }
     
     private func fetchRepositories() {
