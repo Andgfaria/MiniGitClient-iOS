@@ -1,0 +1,9 @@
+/* 
+  Detail.strings
+  MiniGitClient
+
+  Created by André Gimenez Faria on 16/07/17.
+  Copyright © 2017 AGF. All rights reserved.
+*/
+
+"retryTitle" = "Load Pull Requests";
