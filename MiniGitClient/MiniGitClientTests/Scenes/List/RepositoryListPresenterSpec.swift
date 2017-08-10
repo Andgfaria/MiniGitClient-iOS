@@ -11,27 +11,25 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockInteractor : RepositoryListInteractorType {
+private class MockInteractor : RepositoryListInteractorType {
     
     var repositoriesStore : RepositoriesStoreType = RepositoriesStore.shared
-
-    var fetchResults : Variable<(APIRequestResult,[Repository])> = Variable((APIRequestResult.success,[Repository]()))
     
     var shouldFail = false
     
-    func loadRepositories() {
+    func repositories(fromPage page: Int) -> Observable<[Repository]> {
         if shouldFail {
-            fetchResults.value = (APIRequestResult.networkError,[Repository]())
+            return Observable.error(APIRequestError.networkError)
         }
         else {
-            let repository = Repository()
             var repositories = [Repository]()
             for _ in 0...10 {
-                repositories.append(repository)
+                repositories.append(Repository())
             }
-            fetchResults.value = (APIRequestResult.success,repositories)
+            return Observable.just(repositories)
         }
     }
+    
 }
 
 class RepositoryListPresenterSpec: QuickSpec {
@@ -44,57 +42,53 @@ class RepositoryListPresenterSpec: QuickSpec {
             
             var mockInteractor = MockInteractor()
             
+            var tableViewModel = RepositoryListTableViewModel()
+            
             var viewController = RepositoryListViewController(nibName: nil, bundle: nil)
             
-            var tableView = UITableView(frame: CGRect.zero, style: .plain)
-            
             beforeEach {
-                tableView = UITableView(frame: CGRect.zero, style: .plain)
                 presenter = RepositoryListPresenter()
                 mockInteractor = MockInteractor()
+                tableViewModel = RepositoryListTableViewModel()
                 viewController = RepositoryListViewController(nibName: nil, bundle: nil)
+                viewController.tableViewModel = tableViewModel
+                viewController.presenter = presenter
                 presenter.interactor = mockInteractor
-                presenter.viewController = viewController
+                viewController.view.layoutIfNeeded()
             }
             
             context("after retrieving the repositories from the interactor", { 
                 
-                it("changes the view controller state to showing repositories on success") {
-                    presenter.loadRepositories()
-                    expect(viewController.currentState.value) == RepositoryListState.showingRepositories
+                it("changes the state to showing repositories on success") {
+                    expect(presenter.currentState.value) == RepositoryListState.showingRepositories
                 }
                 
-                it("changes the view controller state to showingError on first load") {
+                it("changes the state to showingError on first load") {
                     mockInteractor.shouldFail = true
-                    presenter.interactor = mockInteractor
-                    presenter.loadRepositories()
-                    expect(viewController.currentState.value) == RepositoryListState.showingError
+                    presenter.repositories.value = [Repository]()
+                    presenter.currentState.value = .loadingFirst
+                    expect(presenter.currentState.value) == RepositoryListState.showingError
                 }
                 
-            })
-            
-            context("as a UITableViewDataSource", { 
-                
-                it("returns 1 section") {
-                    presenter.registerTableView(tableView)
-                    presenter.loadRepositories()
-                    tableView.reloadData()
-                    expect(tableView.numberOfSections) == 1
+                it("changes the state to showingRepositories after a failed second load") {
+                    mockInteractor.shouldFail = true
+                    presenter.currentState.value = .loadingMore
+                    expect(presenter.currentState.value) == RepositoryListState.showingRepositories
                 }
                 
-                it("returns the number of rows as the number of repositories from the interactor") {
-                    presenter.registerTableView(tableView)
-                    presenter.loadRepositories()
-                    tableView.reloadData()
-                    expect(tableView.numberOfRows(inSection: 0)) == presenter.interactor?.fetchResults.value.1.count
+                it("accumulates repositories after each load") {
+                    let firstLoadCount = presenter.repositories.value.count
+                    presenter.currentState.value = .loadingMore
+                    let secondLoadCount = presenter.repositories.value.count
+                    expect(secondLoadCount).to(beGreaterThan(firstLoadCount))
+                    presenter.currentState.value = .loadingMore
+                    let thirdLoadCount = presenter.repositories.value.count
+                    expect(thirdLoadCount).to(beGreaterThan(secondLoadCount))
                 }
                 
-                it("returns a RepositoryListTableViewCelll") {
-                    presenter.registerTableView(tableView)
-                    presenter.loadRepositories()
-                    tableView.reloadData()
-                    let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RepositoryListTableViewCell
-                    expect(cell).toNot(beNil())
+                it("updates the repository list table view") {
+                    presenter.repositories.value = [Repository()]
+                    expect(viewController.tableViewModel?.tableView(UITableView(), numberOfRowsInSection: 0)) == 1
                 }
                 
             })

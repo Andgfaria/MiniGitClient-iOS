@@ -42,30 +42,23 @@ class EmptyView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
     
     init() {
         super.init(frame: CGRect.zero)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [activityIndicator,messageLabel,actionButton])
     }
     
 
 }
 
 extension EmptyView : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([activityIndicator,messageLabel,actionButton])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-    }
     
     func setupConstraints() {
         activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

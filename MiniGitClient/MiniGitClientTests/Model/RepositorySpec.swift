@@ -50,10 +50,10 @@ class RepositorySpec: QuickSpec {
                     expect(repo.url) == url
                 }
                 
-                it("a owner property") {
-                    let owner = RepositoryOwner()
-                    repo.owner = owner
-                    expect(repo.owner) == owner
+                it("an user property") {
+                    let user = User()
+                    repo.user = user
+                    expect(repo.user) == user
                 }
                 
             })
@@ -79,7 +79,7 @@ class RepositorySpec: QuickSpec {
                     expect(repo.starsCount) == validJson["stargazers_count"] as? Int
                     expect(repo.forksCount) == validJson["forks_count"] as? Int
                     expect(repo.url) == URL(string: validJson["url"] as? String ?? "")
-                    expect(repo.owner).toNot(beNil())
+                    expect(repo.user).toNot(beNil())
                 }
                 
                 it("be created from an invalid JSON dictionary and hold the default values") {
@@ -89,7 +89,7 @@ class RepositorySpec: QuickSpec {
                     expect(repo.starsCount) == 0
                     expect(repo.forksCount) == 0
                     expect(repo.url).to(beNil())
-                    expect(repo.owner).to(beNil())
+                    expect(repo.user).to(beNil())
                 }
                 
             })

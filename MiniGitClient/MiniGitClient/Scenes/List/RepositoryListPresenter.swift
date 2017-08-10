@@ -10,19 +10,14 @@ import Foundation
 import UIKit
 import RxSwift
 
-protocol RepositoryListRouterType : class {
-    func presenter(_ presenter : RepositoryListPresenterType, didSelectRepository repository : Repository)
-    func presenter(_ presenter : RepositoryListPresenterType, didHandleInfoTapWithItem item : UIBarButtonItem)
-}
-
 class RepositoryListPresenter : NSObject {
     
-    weak var viewController : RepositoryListViewController? {
-        didSet {
-            bind()
-        }
-    }
-
+    var currentState = Variable(RepositoryListState.loadingFirst)
+    
+    var repositories = Variable([Repository]())
+    
+    fileprivate var currentPage = 1
+    
     var interactor : RepositoryListInteractorType? {
         didSet {
             bind()
@@ -39,60 +34,51 @@ class RepositoryListPresenter : NSObject {
 extension RepositoryListPresenter {
     
     fileprivate func bind() {
-        if let interactor = interactor, let viewController = viewController {
-            interactor.fetchResults.asObservable().skip(1)
-                       .map { requestResult, repositories in
-                            if requestResult != .success {
-                                return RepositoryListState.showingError
-                            }
-                            return repositories.count > 0 ? RepositoryListState.showingRepositories : RepositoryListState.showingError
+        currentState.asObservable()
+            .subscribe(onNext: { [weak self] in
+                if $0 == .loadingFirst || $0 == .loadingMore {
+                    self?.fetchRepositories()
+                }
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func fetchRepositories() {
+        interactor?.repositories(fromPage: currentPage)
+                    .subscribe(onNext: { [weak self] fetchedRepositories in
+                        if fetchedRepositories.count > 0 {
+                            guard let strongSelf = self else { return }
+                            strongSelf.repositories.value = strongSelf.repositories.value + fetchedRepositories
+                            strongSelf.currentPage += 1
+                            strongSelf.currentState.value = .showingRepositories
                         }
-                        .bind(to: viewController.currentState)
-                        .addDisposableTo(disposeBag)
-        }
+                    },
+                    onError: { [weak self] _ in
+                        if let currentRepositories = self?.repositories.value, currentRepositories.count > 0 {
+                            self?.currentState.value = .showingRepositories
+                        }
+                        else {
+                            self?.currentState.value = .showingError
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
     }
     
 }
 
 extension RepositoryListPresenter : RepositoryListPresenterType {
     
-    func loadRepositories() {
-        interactor?.loadRepositories()
-    }
-    
-    func registerTableView(_ tableView: UITableView) {
-        tableView.register(RepositoryListTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(RepositoryListTableViewCell.self))
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-    
-    func handleInfoButtonTap(barButtonItem: UIBarButtonItem) {
-        router?.presenter(self, didHandleInfoTapWithItem: barButtonItem)
+    func onInfoButtonTap() {
+        router?.onInfoScreenRequest()
     }
     
 }
 
-extension RepositoryListPresenter : UITableViewDataSource  {
+extension RepositoryListPresenter : TableViewSelectionHandler {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return interactor?.fetchResults.value.1.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(RepositoryListTableViewCell.self), for: indexPath)
-        if let repositoryCell = cell as? RepositoryListTableViewCell, let repository = interactor?.fetchResults.value.1[indexPath.row] {
-            RepositoryListCellViewModel.configure(repositoryCell, with: repository)
-        }
-        return cell
-    }
-    
-}
-
-extension RepositoryListPresenter : UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let repositories = interactor?.fetchResults.value.1 {
-            router?.presenter(self, didSelectRepository: repositories[indexPath.row])
+    func onSelection(ofIndex index: Int, atSection section: Int, withModel model: Any?) {
+        if let repository = model as? Repository {
+            router?.onRepositorySelection(repository)
         }
     }
     

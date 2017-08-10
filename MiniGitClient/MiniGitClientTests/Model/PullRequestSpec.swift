@@ -42,7 +42,7 @@ class PullRequestSpec: QuickSpec {
                 }
                 
                 it("an user property") {
-                    let user = RepositoryOwner()
+                    let user = User()
                     pullRequest.user  = user
                     expect(pullRequest.user) == user
                 }

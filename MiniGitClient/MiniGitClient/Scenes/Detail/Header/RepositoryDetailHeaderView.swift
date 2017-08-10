@@ -29,17 +29,17 @@ class RepositoryDetailHeaderView: UIView {
     
     init() {
         super.init(frame: CGRect.zero)
-        setup()
+        setup(withViews: [stackView])
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setup(withViews: [stackView])
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setup(withViews: [stackView])
     }
     
 }
@@ -78,13 +78,6 @@ extension RepositoryDetailHeaderView {
 }
 
 extension RepositoryDetailHeaderView : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([stackView])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-    }
     
     func setupConstraints() {
         stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true

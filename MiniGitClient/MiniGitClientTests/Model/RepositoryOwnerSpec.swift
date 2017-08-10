@@ -1,5 +1,5 @@
 //
-//  RepositoryOwnerSpec.swift
+//  UserSpec.swift
 //  MiniGitClient
 //
 //  Created by André Gimenez Faria on 20/06/17.
@@ -10,30 +10,30 @@ import Quick
 import Nimble
 @testable import MiniGitClient
 
-class RepositoryOwnerSpec: QuickSpec {
+class UserSpec: QuickSpec {
     
     override func spec() {
         
         describe("The Repository Owner") {
             
-            var repoOwner = RepositoryOwner()
+            var repoUser = User()
             
             let url = URL(string: "https://avatars0.githubusercontent.com/u/7774181?v=3")
             
             beforeEach {
-                repoOwner = RepositoryOwner()
+                repoUser = User()
             }
             
             context("has", { 
                 
                 it("a name property") {
-                    repoOwner.name = "André"
-                    expect(repoOwner.name) == "André"
+                    repoUser.name = "André"
+                    expect(repoUser.name) == "André"
                 }
                 
                 it("an avatar url property") {
-                    repoOwner.avatarURL = url
-                    expect(repoOwner.avatarURL) == url
+                    repoUser.avatarURL = url
+                    expect(repoUser.avatarURL) == url
                 }
                 
             })
@@ -45,15 +45,15 @@ class RepositoryOwnerSpec: QuickSpec {
                 let emptyJson = DataDict()
                 
                 it("be created from a valid JSON dictionary") {
-                    repoOwner = RepositoryOwner(json: validJson)
-                    expect(repoOwner.name) == validJson["login"] as? String
-                    expect(repoOwner.avatarURL) == url
+                    repoUser = User(json: validJson)
+                    expect(repoUser.name) == validJson["login"] as? String
+                    expect(repoUser.avatarURL) == url
                 }
                 
                 it("be created from an invalid JSON holding the default values") {
-                    repoOwner = RepositoryOwner(json: emptyJson)
-                    expect(repoOwner.name).to(beEmpty())
-                    expect(repoOwner.avatarURL).to(beNil())
+                    repoUser = User(json: emptyJson)
+                    expect(repoUser.name).to(beEmpty())
+                    expect(repoUser.avatarURL).to(beNil())
                 }
                 
                 
@@ -62,16 +62,16 @@ class RepositoryOwnerSpec: QuickSpec {
             context("is", {
                 
                 it("equatable") {
-                    let secondRepoOwner = RepositoryOwner()
-                    expect(repoOwner) == secondRepoOwner
+                    let secondRepoUser = User()
+                    expect(repoUser) == secondRepoUser
                 }
                 
                 it("printable") {
-                    expect(repoOwner.description).toNot(beEmpty())
+                    expect(repoUser.description).toNot(beEmpty())
                 }
                 
                 it("debug printable") {
-                    expect(repoOwner.debugDescription).toNot(beEmpty())
+                    expect(repoUser.debugDescription).toNot(beEmpty())
                 }
                 
             })

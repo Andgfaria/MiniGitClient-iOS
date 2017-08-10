@@ -30,16 +30,16 @@ class PullRequestsStoreSpec: QuickSpec {
                 it("and receives the pull requests from a given repository") {
                     var testRepository = Repository()
                     testRepository.name = "Alamofire"
-                    testRepository.owner = RepositoryOwner()
-                    testRepository.owner?.name = "Alamofire"
+                    testRepository.user = User()
+                    testRepository.user?.name = "Alamofire"
                     
                     PullRequestsStore.shared.pullRequests(from: testRepository)
-                                                .subscribe(onNext: { [weak self] result, fetchedPullRequests in
-                                                    if result != .success {
+                                                .subscribe(onNext: { [weak self] requestResult in
+                                                    switch requestResult {
+                                                    case .success(let pullRequests):
+                                                        self?.pullRequests = pullRequests
+                                                    case .failure:
                                                         fail()
-                                                    }
-                                                    else {
-                                                        self?.pullRequests = fetchedPullRequests
                                                     }
                                                 },
                                                 onError: { _ in

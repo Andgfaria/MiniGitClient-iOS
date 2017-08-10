@@ -9,53 +9,47 @@
 import UIKit
 import RxSwift
 
-protocol RepositoryDetailPresenterType : class, UITableViewDataSource {
-    weak var viewController : RepositoryDetailViewController? { get set }
-    func configureHeader(_ header : RepositoryDetailHeaderView)
-    func registerTableView(_ tableView : UITableView)
-    func loadPullRequests()
-    var shareItems : [Any] { get }
-}
-
 class RepositoryDetailViewController: UIViewController {
 
     weak var presenter : RepositoryDetailPresenterType?
     
-    let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    weak var tableViewModel : RepositoryDetailTableViewModelType?
     
-    let headerView = RepositoryDetailHeaderView()
+    fileprivate let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    
+    fileprivate let headerView = RepositoryDetailHeaderView()
     
     fileprivate let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.registerTableView(tableView)
-        setup()
+        tableViewModel?.register(tableView: tableView)
+        addShareButton()
+        setup(withViews: [tableView])
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupHeader()
+        adjustHeaderLayout()
     }
 
 }
 
 extension RepositoryDetailViewController {
     
-    fileprivate func setupHeader() {
-        presenter?.configureHeader(headerView)
+    fileprivate func adjustHeaderLayout() {
         headerView.adjustLayout(withWidth: tableView.bounds.size.width)
         view.layoutIfNeeded()
         headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerView.intrinsicContentSize.height)
         tableView.tableHeaderView = headerView
     }
-    
+
 }
 
 extension RepositoryDetailViewController {
     
     fileprivate func addShareButton() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.share(sender:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(sender:)))
     }
     
     func share(sender : UIBarButtonItem) {
@@ -68,15 +62,6 @@ extension RepositoryDetailViewController {
 }
 
 extension RepositoryDetailViewController : ViewCodable {
-    
-    fileprivate func setup() {
-        addViewsToHierarchy([tableView])
-        setupConstraints()
-        setupStyles()
-        bindComponents()
-        addShareButton()
-        setupAccessibilityIdentifiers()
-    }
     
     func setupConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -92,24 +77,42 @@ extension RepositoryDetailViewController : ViewCodable {
     }
     
     func bindComponents() {
-        headerView.currentState
-                  .asObservable()
-                  .subscribe(onNext: { [weak self] state in
-                    if state == .loading {
-                        self?.presenter?.loadPullRequests()
-                    }
-                    else if state == .loaded {
-                        self?.tableView.reloadData()
-                        self?.setupHeader()
-                    }
-                  })
-                  .addDisposableTo(disposeBag)
-        
+        if let presenter = presenter {
+            presenter.repository.asObservable()
+                                .subscribe(onNext: { [weak self] in
+                                    if let headerView = self?.headerView {
+                                        RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: $0)
+                                    }
+                                })
+                                .addDisposableTo(disposeBag)
+            presenter.pullRequests.asObservable()
+                                  .subscribe(onNext: { [weak self] in
+                                        self?.tableViewModel?.update(withPullRequests: $0)
+                                  })
+                                 .addDisposableTo(disposeBag)
+            presenter.currentState.asObservable()
+                .map { [RepositoryDetailState.loading : RepositoryDetailHeaderState.loading,
+                        RepositoryDetailState.showingPullRequests : RepositoryDetailHeaderState.loaded,
+                        RepositoryDetailState.onError : RepositoryDetailHeaderState.showingRetryOption][$0]
+                        ?? RepositoryDetailHeaderState.showingRetryOption
+                }
+                .bind(to: headerView.currentState)
+                .addDisposableTo(disposeBag)
+            headerView.currentState
+                      .asObservable()
+                      .skip(1)
+                      .subscribe(onNext: { [weak self] in
+                            if $0 == .loading {
+                                self?.presenter?.currentState.value = .loading
+                            }
+                      })
+                      .addDisposableTo(disposeBag)
+        }
     }
     
     func setupAccessibilityIdentifiers() {
         tableView.accessibilityIdentifier = "PullRequestsTableView"
-        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "RepositoryDetailShareButton"
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "RepositoryDetailShareButton"
     }
     
 }

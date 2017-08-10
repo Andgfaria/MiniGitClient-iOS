@@ -35,7 +35,7 @@ class RepositoryListCoordinatorSpec: QuickSpec {
                 
                 it("the repository detail screen as the detail controller after a repository selection") {
                     coordinator?.start()
-                    coordinator?.presenter(RepositoryListPresenter(), didSelectRepository: Repository())
+                    coordinator?.onRepositorySelection(Repository())//presenter(RepositoryListPresenter(), didSelectRepository: Repository())
                     guard let navigationController = splitViewController.viewControllers[1] as? UINavigationController else { fail(); return }
                     expect(navigationController.viewControllers.first).to(beAKindOf(RepositoryDetailViewController.self))
                 }
