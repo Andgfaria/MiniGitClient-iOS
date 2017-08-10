@@ -72,19 +72,27 @@ extension LoadMoreView : ViewCodable {
     }
     
     func bindComponents() {
-        actionButton.rx.tap.subscribe(onNext: { [weak self] in
-            self?.currentState.value = .loading
-        }).addDisposableTo(disposeBag)
-        currentState.asObservable().subscribe(onNext: { [weak self] in
-            if $0 == .loading {
-                self?.loadingBlock?()
-                self?.activityIndicator.startAnimating()
-            }
-            else {
-                self?.activityIndicator.stopAnimating()
-            }
-        }).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
+        actionButton.rx
+                    .tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.currentState.value = .loading
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .subscribe(onNext: { [weak self] in
+                        if $0 == .loading {
+                            self?.loadingBlock?()
+                            self?.activityIndicator.startAnimating()
+                        }
+                        else {
+                            self?.activityIndicator.stopAnimating()
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: actionButton.rx.isHidden)
+                    .addDisposableTo(disposeBag)
     }
     
     func setupAccessibilityIdentifiers() {

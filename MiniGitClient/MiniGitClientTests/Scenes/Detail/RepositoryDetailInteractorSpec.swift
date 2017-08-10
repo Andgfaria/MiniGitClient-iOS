@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate enum MockError : Error {
+private enum MockError : Error {
     case mockedNetworkError, mockedInvalidJson
 }
 
@@ -60,23 +60,6 @@ class RepositoryDetailInteractorSpec: QuickSpec {
                               })
                               .addDisposableTo(self.disposeBag)
                     expect(pullRequests?.count) == 10
-//                   interactor.loadPullRequests(ofRepository: Repository())
-//                   expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.success
-//                   expect(interactor.fetchedPullRequests.value.1.count) == 10
-                }
-                
-                it("holds an error after a network failure") {
-//                    mockStore.mockedError = .mockedNetworkError
-//                    interactor.loadPullRequests(ofRepository: Repository())
-//                    expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.networkError
-//                    expect(interactor.fetchedPullRequests.value.1).to(beEmpty())
-                }
-                
-                it("holds an error after others type of failure") {
-//                    mockStore.mockedError = .mockedInvalidJson
-//                    interactor.loadPullRequests(ofRepository: Repository())
-//                    expect(interactor.fetchedPullRequests.value.0) == APIRequestResult.invalidJson
-//                    expect(interactor.fetchedPullRequests.value.1).to(beEmpty())
                 }
                 
             })

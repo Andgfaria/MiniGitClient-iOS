@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-struct MockRepositoriesStore : RepositoriesStoreType {
+private struct MockRepositoriesStore : RepositoriesStoreType {
     
     var shouldFail = false
     

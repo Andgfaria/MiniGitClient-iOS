@@ -11,7 +11,7 @@ import Nimble
 import RxSwift
 @testable import MiniGitClient
 
-fileprivate class MockPresenter : NSObject, RepositoryListPresenterType {
+private class MockPresenter : NSObject, RepositoryListPresenterType {
     
     var didHandleInfoButtonTap = false
     

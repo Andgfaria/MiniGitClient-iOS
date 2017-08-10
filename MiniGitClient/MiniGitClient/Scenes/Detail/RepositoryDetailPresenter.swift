@@ -52,19 +52,19 @@ extension RepositoryDetailPresenter {
 
     private func fetchPullRequests() {
         interactor?.pullRequests(ofRepository: repository.value)
-            .subscribe(onNext: { [weak self] fetchedPullRequests in
-                if fetchedPullRequests.count > 0 {
-                    self?.currentState.value = .showingPullRequests
-                    self?.pullRequests.value = fetchedPullRequests
-                }
-                else {
-                    self?.currentState.value = .onError
-                }
-                },
-                       onError: { [weak self] _ in
+                   .subscribe(onNext: { [weak self] fetchedPullRequests in
+                        if fetchedPullRequests.count > 0 {
+                            self?.currentState.value = .showingPullRequests
+                            self?.pullRequests.value = fetchedPullRequests
+                        }
+                        else {
+                            self?.currentState.value = .onError
+                        }
+                    },
+                    onError: { [weak self] _ in
                         self?.currentState.value = .onError
-            })
-            .addDisposableTo(disposeBag)
+                    })
+                    .addDisposableTo(disposeBag)
     }
     
 }

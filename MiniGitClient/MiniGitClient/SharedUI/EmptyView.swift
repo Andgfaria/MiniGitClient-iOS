@@ -90,22 +90,27 @@ extension EmptyView : ViewCodable {
     }
     
     func bindComponents() {
-        actionButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.currentState.value = .loading
-                self?.actionBlock?()
-            })
-            .addDisposableTo(disposeBag)
-        
+        actionButton.rx
+                    .tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.currentState.value = .loading
+                        self?.actionBlock?()
+                    })
+                    .addDisposableTo(disposeBag)
         currentState.asObservable()
-            .map { $0 == .loading }
-            .subscribe(onNext: { [weak self] in
-                $0 ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
-            })
-            .addDisposableTo(disposeBag)
-        
-        currentState.asObservable().map { $0 == .loading }.bind(to: messageLabel.rx.isHidden).addDisposableTo(disposeBag)
-        currentState.asObservable().map { $0 == .loading }.bind(to: actionButton.rx.isHidden).addDisposableTo(disposeBag)
+                    .map { $0 == .loading }
+                    .subscribe(onNext: { [weak self] in
+                        $0 ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+                    })
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: messageLabel.rx.isHidden)
+                    .addDisposableTo(disposeBag)
+        currentState.asObservable()
+                    .map { $0 == .loading }
+                    .bind(to: actionButton.rx.isHidden)
+                    .addDisposableTo(disposeBag)
     }
     
 }

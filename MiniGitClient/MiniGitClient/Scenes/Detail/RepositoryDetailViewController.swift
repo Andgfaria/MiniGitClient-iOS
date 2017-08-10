@@ -78,26 +78,30 @@ extension RepositoryDetailViewController : ViewCodable {
     
     func bindComponents() {
         if let presenter = presenter {
-            presenter.repository.asObservable()
-                                .subscribe(onNext: { [weak self] in
-                                    if let headerView = self?.headerView {
-                                        RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: $0)
-                                    }
-                                })
-                                .addDisposableTo(disposeBag)
-            presenter.pullRequests.asObservable()
-                                  .subscribe(onNext: { [weak self] in
-                                        self?.tableViewModel?.update(withPullRequests: $0)
-                                  })
-                                 .addDisposableTo(disposeBag)
-            presenter.currentState.asObservable()
-                .map { [RepositoryDetailState.loading : RepositoryDetailHeaderState.loading,
+            presenter.repository
+                     .asObservable()
+                     .subscribe(onNext: { [weak self] in
+                        if let headerView = self?.headerView {
+                            RepositoryDetailHeaderViewModel.configureHeader(headerView, withRepository: $0)
+                        }
+                     })
+                    .addDisposableTo(disposeBag)
+            presenter.pullRequests
+                     .asObservable()
+                     .subscribe(onNext: { [weak self] in
+                        self?.tableViewModel?.update(withPullRequests: $0)
+                     })
+                    .addDisposableTo(disposeBag)
+            presenter.currentState
+                     .asObservable()
+                     .map {
+                        [RepositoryDetailState.loading : RepositoryDetailHeaderState.loading,
                         RepositoryDetailState.showingPullRequests : RepositoryDetailHeaderState.loaded,
                         RepositoryDetailState.onError : RepositoryDetailHeaderState.showingRetryOption][$0]
                         ?? RepositoryDetailHeaderState.showingRetryOption
-                }
-                .bind(to: headerView.currentState)
-                .addDisposableTo(disposeBag)
+                     }
+                    .bind(to: headerView.currentState)
+                    .addDisposableTo(disposeBag)
             headerView.currentState
                       .asObservable()
                       .skip(1)

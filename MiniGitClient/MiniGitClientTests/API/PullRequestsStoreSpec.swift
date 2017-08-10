@@ -34,18 +34,18 @@ class PullRequestsStoreSpec: QuickSpec {
                     testRepository.user?.name = "Alamofire"
                     
                     PullRequestsStore.shared.pullRequests(from: testRepository)
-                                                .subscribe(onNext: { [weak self] requestResult in
-                                                    switch requestResult {
-                                                    case .success(let pullRequests):
-                                                        self?.pullRequests = pullRequests
-                                                    case .failure:
-                                                        fail()
-                                                    }
-                                                },
-                                                onError: { _ in
+                                            .subscribe(onNext: { [weak self] requestResult in
+                                                switch requestResult {
+                                                case .success(let pullRequests):
+                                                    self?.pullRequests = pullRequests
+                                                case .failure:
                                                     fail()
-                                                })
-                                                .addDisposableTo(self.disposeBag)
+                                                }
+                                            },
+                                            onError: { _ in
+                                                fail()
+                                            })
+                                            .addDisposableTo(self.disposeBag)
                     
                     expect(self.pullRequests).toNotEventually(beNil(), timeout: 30.0, pollInterval: 10.0)
                 }

@@ -12,13 +12,10 @@ import Nimble
 
 private class MockPresenter : InfoPresenterType {
     
-    
     var didHandleDismissEvent = false
 
     
-    func onSelection(ofIndex index: Int, atSection section: Int, withModel model : Any?) {
-        
-    }
+    func onSelection(ofIndex index: Int, atSection section: Int, withModel model : Any?) { }
     
     func onDismissButtonTapped(sender: InfoViewController) {
         didHandleDismissEvent = true
