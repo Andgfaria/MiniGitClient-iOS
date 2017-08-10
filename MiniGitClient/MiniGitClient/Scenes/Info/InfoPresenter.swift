@@ -10,7 +10,7 @@
  
  */
 
-import UIKit
+import Foundation
 
 class InfoPresenter : NSObject {
     

@@ -11,7 +11,6 @@
  */
 
 import Foundation
-import UIKit
 import RxSwift
 
 class RepositoryListPresenter : NSObject {

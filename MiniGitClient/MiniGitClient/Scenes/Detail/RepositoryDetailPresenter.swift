@@ -10,7 +10,7 @@
  
  */
 
-import UIKit
+import Foundation
 import RxSwift
 
 class RepositoryDetailPresenter : RepositoryDetailPresenterType {
